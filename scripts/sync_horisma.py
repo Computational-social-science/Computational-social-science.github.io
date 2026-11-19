@@ -22,8 +22,7 @@ MANUSCRIPT = 'docs/research/book/THE_SECRETS_OF_TERMS_MATTHEW_EFFECT_EN.md'
 STATE = 'data/editorial/workbench/state.json'
 POSTER = 'outputs/research-catalog/matthew-effect-credit-plate'
 PUBLIC_HOSTS = {
-    'auto.ifeng.com', 'clio.columbia.edu', 'doi.org', 'en.wikipedia.org',
-    'english.ihns.cas.cn', 'garfield.library.upenn.edu', 'github.com',
+    'doi.org', 'en.wikipedia.org', 'garfield.library.upenn.edu', 'github.com',
     'history.aip.org', 'repo.library.stonybrook.edu', 'wellcomecollection.org', 'www.jstor.org',
 }
 LOCAL_LINKS = {
@@ -36,7 +35,7 @@ POSTER_FIGURE = """<figure class="reader-figure" aria-labelledby="poster-caption
     <img src="assets/matthew-effect-poster.svg" width="420" height="594" loading="lazy"
          alt="Portraits of Robert K. Merton and Harriet Zuckerman beside a balance tipping toward Merton.">
   </a>
-  <figcaption id="poster-caption">The balance illustrates asymmetry in scientific recognition qualitatively. Its angle does not measure the researchers’ contributions or the credit they received.</figcaption>
+  <figcaption id="poster-caption">The balance illustrates the influence of prior standing on scientific recognition. The portraits identify the two researchers whose roles this chapter traces. Their respective shares of credit have not been measured.</figcaption>
 </figure>
 """
 
