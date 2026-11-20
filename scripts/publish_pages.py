@@ -27,12 +27,18 @@ EXPERIMENT_FILES = (
     *(f"{panel}.{ext}" for panel in ("english-name-usage", "legacy-workbook")
       for ext in ("svg", "png", "jpg")),
 )
-ENTITY_FIGURE_FILES = tuple(f"entity-challenge.{ext}" for ext in ("svg", "png", "jpg"))
+EVIDENCE_FIGURES = {
+    stem: tuple(f"{stem}.{ext}" for ext in ("svg", "png", "jpg"))
+    for stem in ("entity-challenge", "sentence-transfer")
+}
+EVIDENCE_FIGURE_PAGES = tuple(
+    f"matthew-matilda/{name}" for files in EVIDENCE_FIGURES.values() for name in files
+)
 PAGE_FILES = (
     "index.html", "manuscript.html", "historical-fame.html",
     "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg",
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
-    *(f"matthew-matilda/{file}" for file in ENTITY_FIGURE_FILES),
+    *EVIDENCE_FIGURE_PAGES,
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
     "matthew-matilda/method.html", "matthew-matilda/name-queries.csv", "matthew-matilda/witness-panel.csv",
     "matthew-matilda/book-access.csv", "matthew-matilda/english-subcorpora.csv", "matthew-matilda/readable-editions.csv",

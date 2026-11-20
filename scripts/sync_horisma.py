@@ -17,7 +17,7 @@ from xml.etree import ElementTree
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 import pymupdf
-from publish_pages import ENTITY_FIGURE_FILES, EXPERIMENT_FILES
+from publish_pages import EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES
 
 
 SITE = Path(__file__).resolve().parents[1]
@@ -33,6 +33,7 @@ PUBLIC_HOSTS = {
     'openlibrary.org', 'archive.org', 'bookworm-project.github.io', 'www.hathitrust.org',
     'cran.r-project.org', 'journals.plos.org', 'research.chalmers.se',
     'www.nationalacademies.org', 'www.federalreserve.gov', 'catalog.libraries.vsc.edu',
+    'merton.org', 'www.nber.org', 'link.springer.com',
 }
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
@@ -139,6 +140,23 @@ def public_source_notes(notes):
     return entries
 
 
+def evidence_figures(root, directory):
+    result = {}
+    for stem, files in EVIDENCE_FIGURES.items():
+        receipt = json.loads(source(root, f'{directory}{stem}-figure.json', 262144))
+        if not receipt['recipe']:
+            raise ValueError(f'{stem} figure receipt has no input hashes')
+        for name, expected in receipt['recipe'].items():
+            if digest(source(root, name, 12_000_000)) != expected:
+                raise ValueError(f'{stem} figure input has changed: {name}')
+        for name in files:
+            raw = source(root, directory + name, 12_000_000)
+            if digest(raw) != receipt['artifacts'][name]['sha256']:
+                raise ValueError(f'{stem} figure failed its receipt check: {name}')
+            result[f'matthew-matilda/{name}'] = raw
+    return result
+
+
 def experiment_figures(root):
     directory = 'outputs/matthew-matilda/'
     receipt = json.loads(source(root, directory + 'figure-verification.json', 262144))
@@ -178,15 +196,7 @@ def experiment_figures(root):
         writer.writerow({key: row[key] for key in columns})
     result['matthew-matilda/witness-panel.csv'] = panel_csv.getvalue().encode()
     result.update(pilot_tables(root))
-    figure = json.loads(source(root, directory + 'entity-challenge-figure.json', 262144))
-    for name, expected in figure['recipe'].items():
-        if digest(source(root, name, 12_000_000)) != expected:
-            raise ValueError(f'Name challenge figure input has changed: {name}')
-    for name in ENTITY_FIGURE_FILES:
-        raw = source(root, directory + name, 12_000_000)
-        if digest(raw) != figure['artifacts'][name]['sha256']:
-            raise ValueError(f'Name challenge figure failed its receipt check: {name}')
-        result[f'matthew-matilda/{name}'] = raw
+    result.update(evidence_figures(root, directory))
     protocol = source(root, 'docs/research/SCIENTIFIC_FAME_PROTOCOL_EN.md', 262144).decode('utf-8')
     result['matthew-matilda/method.html'] = experiment_reader(
         protocol, 'Scientific visibility and historical credit · Measurement protocol')
@@ -276,9 +286,8 @@ def public_experiment_report(report):
 
 
 def experiment_reader(body, title, *, independent=False):
-    figure_links = {f'matthew-matilda/{name}' for name in ENTITY_FIGURE_FILES}
     if independent:
-        for link in figure_links:
+        for link in EVIDENCE_FIGURE_PAGES:
             body = body.replace(f'](../../outputs/{link})', f']({link})')
     markdown = MarkdownIt('commonmark', {'html': False}).enable('table')
     tokens = markdown.parse(body)
@@ -313,7 +322,7 @@ def experiment_reader(body, title, *, independent=False):
                                     'style.css', 'reader.css', 'manuscript.html', 'matthew-matilda/method.html',
                                     'matthew-matilda/readable-editions.csv',
                                     'explorer.html', 'figures-a4.pdf', 'annual.csv', 'report.html', 'method.html',
-                                    'name-queries.csv', 'witness-panel.csv', 'name-rules.html', *figure_links})
+                                    'name-queries.csv', 'witness-panel.csv', 'name-rules.html', *EVIDENCE_FIGURE_PAGES})
     return page.encode('utf-8')
 
 
