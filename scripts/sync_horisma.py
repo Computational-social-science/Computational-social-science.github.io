@@ -22,7 +22,7 @@ MANUSCRIPT = 'docs/research/book/THE_SECRETS_OF_TERMS_MATTHEW_EFFECT_EN.md'
 STATE = 'data/editorial/workbench/state.json'
 POSTER = 'outputs/research-catalog/matthew-effect-credit-plate'
 PUBLIC_HOSTS = {
-    'doi.org', 'en.wikipedia.org', 'garfield.library.upenn.edu', 'github.com',
+    'books.google.com', 'doi.org', 'en.wikipedia.org', 'garfield.library.upenn.edu', 'github.com',
     'history.aip.org', 'repo.library.stonybrook.edu', 'wellcomecollection.org', 'www.jstor.org',
 }
 LOCAL_LINKS = {
