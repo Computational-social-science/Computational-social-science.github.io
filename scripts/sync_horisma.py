@@ -30,7 +30,7 @@ PUBLIC_HOSTS = {
     'computational-social-science.github.io', 'sociology.columbia.edu', 'www.amacad.org',
     'kops.uni-konstanz.de', 'www.jci.org', 'pmc.ncbi.nlm.nih.gov',
     'www.columbia.edu', 'www.nobelprize.org', 'rpc.cfainstitute.org', 'www.asanet.org',
-    'openlibrary.org', 'bookworm-project.github.io', 'www.hathitrust.org',
+    'openlibrary.org', 'archive.org', 'bookworm-project.github.io', 'www.hathitrust.org',
     'cran.r-project.org', 'journals.plos.org', 'research.chalmers.se',
 }
 LOCAL_LINKS = {
@@ -180,6 +180,19 @@ def experiment_figures(root):
     protocol = source(root, 'docs/research/SCIENTIFIC_FAME_PROTOCOL_EN.md', 262144).decode('utf-8')
     result['matthew-matilda/method.html'] = experiment_reader(
         protocol, 'Scientific visibility and historical credit · Measurement protocol')
+    framework = source(root, 'docs/research/HISTORICAL_FAME_VALIDATION_EN.md', 262144).decode('utf-8')
+    decision = json.loads(source(root, 'data/research/replication/fame-validation/gates.json', 262144))
+    contract = source(root, 'spec/extensions/scientific_fame_validation.json', 262144)
+    if (decision['spec']['sha256'] != digest(contract) or
+            set(decision['gates']) != set(json.loads(contract)['gates']) or len(decision['gates']) != 6):
+        raise ValueError('The six scientific decisions differ from the reviewed contract')
+    status = ['## Matthew Effect evidence', '', f"Highest supported stage: **{decision['stage']['highest_qualified']}**. "
+              + decision['operational']['scope'] + '.', '', '| Dimension | Current decision | Evidence |',
+              '|---|---|---|']
+    for key, gate in decision['gates'].items():
+        status.append(f"| {key.capitalize()} | {gate['state'].capitalize()} | {gate['reason']} |")
+    result['historical-fame.html'] = experiment_reader(
+        framework + '\n' + '\n'.join(status) + '\n', 'Validating historical fame', independent=True)
     return result
 
 
@@ -216,7 +229,12 @@ def pilot_tables(root):
                 value = values[query][year-1959] if query in values else None
                 status = 'missing_series' if value is None else 'returned_zero' if value == 0 else 'returned_positive'
                 writer.writerow((corpus, query, year, status, value))
+    readable = source(root, directory + 'readable/coverage.csv', 524288)
+    review = json.loads(source(root, directory + 'readable/summary.json', 524288))
+    if digest(readable) != review['coverage_csv_sha256']:
+        raise ValueError('The readable-edition table differs from the reviewed observations')
     return {'matthew-matilda/book-access.csv': coverage.getvalue().encode(),
+            'matthew-matilda/readable-editions.csv': readable,
             'matthew-matilda/english-subcorpora.csv': series.getvalue().encode()}
 
 
@@ -234,20 +252,28 @@ def public_experiment_report(report):
     return experiment_reader(body, 'Name histories and research credit · Replication report')
 
 
-def experiment_reader(body, title):
+def experiment_reader(body, title, *, independent=False):
     article = MarkdownIt('commonmark', {'html': False}).enable('table').render(body)
     article = article.replace('<table>', '<div class="table-wrap" tabindex="0"><table>').replace('</table>', '</table></div>')
+    assets = '' if independent else '../'
+    navigation = ('<a href="manuscript.html">Matthew Effect manuscript</a> · '
+                  '<a href="matthew-matilda/method.html">Case measurement protocol</a> · '
+                  '<a href="matthew-matilda/readable-editions.csv" download>Edition-level observations</a>'
+                  if independent else '''<a href="../manuscript.html">Working manuscript</a>
+ · <a href="report.html">Replication report</a> · <a href="method.html">Measurement protocol</a>
+ · <a href="../historical-fame.html">Scientific validation</a>
+ · <a href="explorer.html">Data explorer</a> · <a href="annual.csv" download>Annual name data</a>
+ · <a href="name-rules.html">Compare name rules</a>
+ · <a href="name-queries.csv" download>Alias queries</a> · <a href="witness-panel.csv" download>Sampled-page results</a>''')
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{escape(title)}</title>
-<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../reader.css"></head>
-<body><main class="shell reader replication-report"><nav aria-label="Research outputs"><a href="../manuscript.html">Working manuscript</a>
- · <a href="report.html">Replication report</a> · <a href="method.html">Measurement protocol</a>
- · <a href="explorer.html">Data explorer</a> · <a href="annual.csv" download>Annual name data</a>
- · <a href="name-rules.html">Compare name rules</a>
- · <a href="name-queries.csv" download>Alias queries</a> · <a href="witness-panel.csv" download>Sampled-page results</a></nav>
+<link rel="stylesheet" href="{assets}style.css"><link rel="stylesheet" href="{assets}reader.css"></head>
+<body><main class="shell reader replication-report"><nav aria-label="Research outputs">{navigation}</nav>
 <article class="reader-text">{article}</article></main></body></html>"""
-    PublicMarkup(page, local_links={'../reader.css', '../style.css', '../manuscript.html',
+    PublicMarkup(page, local_links={'../reader.css', '../style.css', '../manuscript.html', '../historical-fame.html',
+                                    'style.css', 'reader.css', 'manuscript.html', 'matthew-matilda/method.html',
+                                    'matthew-matilda/readable-editions.csv',
                                     'explorer.html', 'figures-a4.pdf', 'annual.csv', 'report.html', 'method.html',
                                     'name-queries.csv', 'witness-panel.csv', 'name-rules.html'})
     return page.encode('utf-8')

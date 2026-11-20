@@ -28,12 +28,12 @@ EXPERIMENT_FILES = (
       for ext in ("svg", "png", "jpg")),
 )
 PAGE_FILES = (
-    "index.html", "manuscript.html",
+    "index.html", "manuscript.html", "historical-fame.html",
     "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg",
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
     "matthew-matilda/method.html", "matthew-matilda/name-queries.csv", "matthew-matilda/witness-panel.csv",
-    "matthew-matilda/book-access.csv", "matthew-matilda/english-subcorpora.csv",
+    "matthew-matilda/book-access.csv", "matthew-matilda/english-subcorpora.csv", "matthew-matilda/readable-editions.csv",
 )
 STATIC = frozenset((*PAGE_FILES, ".nojekyll", "reader.css", "style.css"))
 ALLOWED = STATIC | {"README.md", "scripts/sync_horisma.py", "scripts/publish_pages.py"}

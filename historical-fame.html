@@ -1,0 +1,211 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validating historical fame</title>
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="reader.css"></head>
+<body><main class="shell reader replication-report"><nav aria-label="Research outputs"><a href="manuscript.html">Matthew Effect manuscript</a> · <a href="matthew-matilda/method.html">Case measurement protocol</a> · <a href="matthew-matilda/readable-editions.csv" download>Edition-level observations</a></nav>
+<article class="reader-text"><h1>Validating historical fame</h1>
+<p><strong>Independent methods project · HSVF 1.0.</strong> What evidence would justify saying that a historical person was widely known to a specified audience at a specified time? A frequency curve establishes a property of a corpus. The additional claim about people who read, recognized or remembered a scientist requires an independent observation of that audience. The Matthew Effect study supplies the first development case. Decisions about the invention of a term and the contributions of individual researchers continue to depend on historical witnesses.</p>
+<h2>What is being measured?</h2>
+<p>Let F(p,a,t) denote the probability that a randomly selected member of audience a at time t correctly recognizes person p under a specified prompt. Define the population, sampling method, language, distractors, response rule and chance baseline. A choice of the more familiar of two names yields a relative order within that task. It does not identify an absolute recognition probability. For a historical period without a contemporary recognition study, F can remain unidentified.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Proposed output</th>
+<th>Population and observable criterion</th>
+<th>Main rival explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public recognition</td>
+<td>Members of a named public recognize a person, ideally under a recognition task with plausible distractors</td>
+<td>Book mentions come largely from professional references inaccessible to most readers</td>
+</tr>
+<tr>
+<td>Scholarly recognition</td>
+<td>People working in a named discipline identify the person or correctly identify their work in a dated independent assessment</td>
+<td>Self-citation, compulsory textbook reading or a bibliography concentrates mentions without broad recognition</td>
+</tr>
+<tr>
+<td>Historical remembrance</td>
+<td>A later audience identifies someone active in an earlier period. State both dates and the elapsed interval</td>
+<td>Obituaries, anniversaries and school curricula concentrate attention at a particular later date</td>
+</tr>
+</tbody>
+</table></div>
+<p>Prestige concerns standing, impact concerns consequences of work, and reputation includes judgments about a person. The criteria above address recognition. A claim about esteem requires a separate response such as peer evaluation. A claim about a contribution requires evidence of the act. Combining the three recognition outcomes would require a well-fitting shared measurement model, comparison against separate factors and evidence that the scales behave comparably across the proposed groups and periods.</p>
+<p><strong>From publication to observation.</strong> Prior recognition can influence a writer's choice to name a person. Authorship, productivity, disciplinary conventions, reference lists, term popularity and publicity can independently influence that choice. An occurrence then passes through publication, survival, collection, digitization, OCR, spelling selection and identity assignment. Different mechanisms along that path can generate the same aggregate frequency. A repeated bibliography and many independent books can produce identical mention totals. A prebirth namesake and a retrospective reprint can produce an apparent early debut. Such alternatives yield different predictions about original pages, edition dates, distinct works and independent recognition behavior.</p>
+<h2>What the community has already established</h2>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Method carried forward</th>
+<th>Boundary for this study</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Michel et al.</td>
+<td>Birth cohorts, attested tracking names, prebirth checks and ambiguity exclusions make an exact-name baseline meaningful.</td>
+<td>Evaluate whether contextual evidence recovers <em>excluded ambiguous people</em> with acceptable errors. A modern Viewer query is a release-specific observation. <a href="https://doi.org/10.1126/science.1199644">Original study</a></td>
+</tr>
+<tr>
+<td>Chan, Mixon and Torgler</td>
+<td>Compare scientists' book-name trajectories by career age.</td>
+<td>Another book-frequency series tests the baseline and reproducibility. An external recognition criterion must arise independently. <a href="https://doi.org/10.1007/s11192-018-2975-4">Original study</a></td>
+</tr>
+<tr>
+<td>Tahmasebi et al. and Younes and Reips</td>
+<td>Resolve time-dependent meanings and compare alternative corpora under a fixed query.</td>
+<td>Family collisions require occurrence-level evidence. Overlapping English subcorpora test sensitivity to collection choice. <a href="https://doi.org/10.1007/s00799-015-0139-1">Historical referents</a> · <a href="https://doi.org/10.1371/journal.pone.0213554">Corpus sensitivity</a></td>
+</tr>
+<tr>
+<td>Pantheon 1.0</td>
+<td>Compare multilingual biography coverage and attention with occupation-specific external observations.</td>
+<td>Eligibility required biographies in more than 25 language editions. Its online attention window measures later remembrance and selects internationally visible figures. <a href="https://doi.org/10.1038/sdata.2015.75">Original dataset paper</a></td>
+</tr>
+<tr>
+<td>Ramirez and Hagen</td>
+<td>Participants compared familiarity within randomized pairs. A Bradley–Terry ranking supplied a criterion for evaluating online measures.</td>
+<td>Preserve the sampled audience, pairwise question, uncertain responses and year. A choice between two names measures relative familiarity. <a href="https://doi.org/10.1371/journal.pone.0200196">Study and survey design</a></td>
+</tr>
+<tr>
+<td>Cultural proximity and collective memory</td>
+<td>Compare recognition-task accuracy with language-specific online attention, recording which country and language the participant shares with the figure.</td>
+<td>An online volunteer sample measures its participants under the supplied prompts. It can validate a later memory claim where audience and time match. <a href="https://doi.org/10.1093/pnasnexus/pgag308">Recognition experiment</a></td>
+</tr>
+</tbody>
+</table></div>
+<h2>Six scientific decisions</h2>
+<p>Each decision identifies a claim, a reference, a unit and a falsifier. A formal claim must pass every applicable requirement for its stated stage. A missing denominator, unavailable criterion or undocumented split leaves the corresponding requirement open. Test execution and source retrieval are reported separately. There is no weighted success percentage.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Comparison and statistics</th>
+<th>What would defeat the claim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Entity validity</td>
+<td>Two independent streams from held-out work families: predicted hits for precision, pages drawn without a name filter for missed mentions. Adjudicate against original images. Report TP, FP and FN, person-macro F1, ambiguity-stratum precision, coverage and unresolved rate, plus paired improvement over the strongest string rule with work-clustered intervals.</td>
+<td>A high precision created by abstaining on hard names, an unobserved positive denominator, shared works across splits, or failure to separate father and son.</td>
+</tr>
+<tr>
+<td>2. Frequency fidelity</td>
+<td>On common release, year, units and scope, compare raw counts and denominators, signed bias, absolute error and annual agreement against a separately reconstructed count. Log relative error only for nonzero reference counts. Test repeated references, duplicates, absent series and OCR-empty pages.</td>
+<td>A combined Viewer expression drops a returned alias, a Google n-gram fraction is interpreted per word, or a reprint is counted as another work. A correct annual denominator certifies that denominator only.</td>
+</tr>
+<tr>
+<td>3. Construct validity</td>
+<td>Predeclare the audience and period. Compare one independent primary recognition criterion with the exact, alias and contextual measures for identical people. Assess Spearman rank association, paired difference in association, rater agreement and contrasts with different traits using multiple methods. Estimate uncertainty by resampling people and raters according to the design.</td>
+<td>A stronger relation to productivity than to the designated recognition criterion, criteria taken from model features, anachronistic judgments or no improvement on the best applicable baseline. <a href="https://doi.org/10.1037/h0046016">Multitrait–multimethod validation</a></td>
+</tr>
+<tr>
+<td>4. Temporal validity</td>
+<td>Freeze names, data vintages and eligible predictors at the event cutoff. Separate first publication, reprint, referenced event and digitization. Check pretrends, leads, plausible publishing lags, comparison people and placebo years. Age, birth cohort and calendar year are linked.</td>
+<td>Centered smoothing uses future years, later fame chooses an early tracking name, or placebo dates produce the same putative event signal. A genuine null event response is admissible.</td>
+</tr>
+<tr>
+<td>5. Robustness and uncertainty</td>
+<td>For a prespecified statement within the same audience and estimand, vary edition policy, OCR, corpus release, reference sections, missingness, alias acceptance and volume deduplication. Compare ranges and leave-one-work-out results. Estimate sampling variation and unresolved-identity bounds separately. Check interval coverage on held-out reference counts when available.</td>
+<td>A single book or a plausible missingness assignment reverses a claimed ordering. Incompatible populations require separate interpretations.</td>
+</tr>
+<tr>
+<td>6. Reproducibility and generalization</td>
+<td>Retain inputs, versions, raw responses and exclusion receipts. Ask an independent runner to reconstruct the same estimates. Test transport separately on unseen people, work families, periods and disciplines using locked rules. Show worst-group performance with its denominator.</td>
+<td>An offline replay succeeds but new people fail, aliases from one family cross splits, or a favorable collection is silently substituted after viewing its names.</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Comparative experiments and stopping rules</h2>
+<p>Compare M0, the frozen tracking string, with M1, reviewed aliases, and M2, adjudicated person mentions. M3 adds corpus calibration using separately supported inclusion weights or composition adjustment. M4 models the proposed dimensions of recognition. Evaluate models only on shared observations and with equal information available to each eligible competitor. Run M0 and M1 again on the same transcribed pages as M2 to isolate the contribution of context. Aggregate Google data support only string-level comparisons. Select the strongest baseline on development data before opening the test. A lack of improvement is a possible result.</p>
+<ol>
+<li><strong>Identity and frequency.</strong> Test father and son, initials, attested name changes, spelling/OCR variants, cross-language forms, and person versus eponym. Use separate mention- and work-level references. An enriched ambiguity challenge measures error conditional on that challenge. Maintain an unselected stream for prevalence and recall. If strata are oversampled, retain inclusion probabilities. H1 predicts an improvement on ambiguous occurrences while preserving coverage of easy and hard cases.</li>
+<li><strong>Independent recognition.</strong> Sample a defined audience and people with a range of visibility. Register a primary criterion, a different-trait criterion and a feature/criterion provenance check. Compare dependent correlations on the same people. A randomly presented item with plausible distractors estimates accuracy under that item design; a relative-familiarity questionnaire estimates a ranking. H2 predicts better agreement with the appropriate independent criterion after identity resolution. If only the name counts improve, conclude precisely that.</li>
+<li><strong>Historical time.</strong> Potential anchors are Merton's 1949 book, his 1968 article and his death in 2003. The 1968 article is a publication event and earlier naming evidence is tracked separately. For an event study, predefine the treated series and comparison people, event exposure, omitted reference year, trend and lag window. A common event with identical exposure is absorbed by year effects. For small panels report event-aligned descriptive contrasts and placebo patterns. Causal interpretation requires a credible counterfactual.</li>
+<li><strong>Corpus and missing data.</strong> Compare like estimands across versions, releases and corpus construction choices. Perturb OCR and identity decisions against original pages; bracket missing outcomes separately from sampling intervals. A shift between public and specialist audiences can be a substantive difference. A shift in an ostensibly identical population after one repeatedly printed work is removed challenges robustness.</li>
+<li><strong>Independent transport and discovery.</strong> Group splits by person, alias, collision family and work/reprint family before fitting. Lock a test period or field for extrapolation. The proposed 50/100/200 people are planning examples. Size the study from ambiguity prevalence, usable positive examples, desired paired precision and work clustering. H3 predicts that correcting errors identifies historical conclusions that withstand independent witnesses, including conclusions that remain stable. Reserve those witnesses before interpreting changes.</li>
+</ol>
+<p>Candidate design targets from the proposal include macro F1 of 0.95, precision of 0.98, and an ambiguity-stratum F1 gain of 0.05 with a paired interval above zero. Candidate construct targets include a rank association of 0.70 and an improvement of 0.10 with a paired interval above zero. Set acceptable coverage, subgroup requirements, confidence level, multiplicity and equivalence margins before the formal test. Base them on downstream loss and reference reliability. These examples have no authority to qualify the current data. When no target was predicted or no independent reference positive was observed, the relevant ratio has no defined value.</p>
+<h2>Operator design and release</h2>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Required input</th>
+<th>Returned evidence and refusal condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identify and query</td>
+<td>Versioned person register, dated aliases, competitors, birth, observation cutoff, corpus release, exact literal and settings</td>
+<td>Return separately labelled annual fractions Q and raw response identity. Keep omitted, returned zero, prebirth control and out-of-coverage dates distinct.</td>
+</tr>
+<tr>
+<td>Resolve occurrences</td>
+<td>Edition, original locator, image/text alignment, spelling and context, person/work-family IDs</td>
+<td>Return accepted target, competitor, unresolved or artefact for each span; deduplicate overlaps. A spouse relationship or an author's byline alone cannot identify all references in the document.</td>
+</tr>
+<tr>
+<td>Estimate intensity and reach</td>
+<td>Frozen eligible work frame, complete readable scope, accepted mentions, word counts, known design weights if used</td>
+<td>Return U per billion readable words and B as the proportion of distinct works with an accepted mention, with the same coverage for their decomposition. Report positive-work repetition, uncertain counts, exclusions and coverage. If only a scan detector is available, return scan observations and leave human-mention estimates open.</td>
+</tr>
+<tr>
+<td>Validate a recognition claim</td>
+<td>Audience, period, construct, candidate model, strongest baseline, independent criterion, locked evidence and six gate decisions</td>
+<td>Return the stage actually supported, uncertainty, failures, missing prerequisites and the evidence that would reopen the decision. Reuse the result only within its validated scope.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Release stages.</strong> L1 qualifies a reproducible observable on its stated release and scope. L2 requires independently qualified person measurement. L3 is the minimum for a validated claim about recognition in a named audience and period, including within-scope independent reproduction. L4 additionally qualifies declared generalization to unseen people, periods and sources. L5 requires an independently verified scientific finding enabled by the method. The runnable validation procedure can be released while a general-purpose FAME estimator remains under evaluation.</p>
+<p><strong>First criterion study.</strong> Before collecting new participants, seek an existing recognition or familiarity study with a public item list, recorded audience, observation dates, response counts and enough overlapping people. Freeze the matching and exclusion rules before inspecting correlations. Check whether sufficient overlaps, near-name controls and independent measurements survive. If suitable, lock a held-out set and measure the improvement over the strongest string baseline. An association with contemporary recognition would support that audience and period. Validating recognition in 1964 requires a credible contemporaneous reference.</p>
+<p><strong>First external roster check.</strong> The public file for the cultural-proximity study contains 41,231 response rows and 1,144 distinct normalized target-name/birth-year pairs. The paper describes a larger dataset. Matching the sociologist Robert K. Merton, the economist Robert C. Merton and Harriet Zuckerman yielded no target records in the released file. The 20 people in Ramirez and Hagen's survey also include none of the three. A person who was never asked about has no observed recognition score. Use independent item and audience data to design a later-period benchmark. Preserve the separate requirement for a period-appropriate historical benchmark. <a href="https://github.com/CenterForCollectiveLearning/culturalProximityCollectiveMemory/blob/ce0ca64d55fe1c8bc274dbb60a0a17e3028241e4/clean_game_with_languages.csv">Released item and response file</a> · <a href="https://doi.org/10.1371/journal.pone.0200196">Survey roster, Table 1</a></p>
+<h2>Matthew Effect evidence</h2>
+<p>Highest supported stage: <strong>L1</strong>. Robert K. Merton, Google Books en, 1930–2022, exact query and zero smoothing.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Current decision</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entity</td>
+<td>Partial</td>
+<td>Neither independent original-page audit supplied target positives. The second had 11 assessable English pages out of 14. Precision and recall are not estimable, and the data do not assess classifier performance.</td>
+</tr>
+<tr>
+<td>Frequency</td>
+<td>Partial</td>
+<td>Historical SOM annual English word totals reproduced. Current and historical name counts with full compatible denominators remain unvalidated.</td>
+</tr>
+<tr>
+<td>Construct</td>
+<td>Missing</td>
+<td>Independent audience-specific recognition and discriminant measures are unavailable.</td>
+</tr>
+<tr>
+<td>Temporal</td>
+<td>Partial</td>
+<td>Historical birth-window and information-cutoff controls were exercised. Controlled, held-out historical event and lag tests have no results.</td>
+</tr>
+<tr>
+<td>Robustness</td>
+<td>Partial</td>
+<td>Within-English subcorpora and alias aggregation produced material sensitivity in a methodological pilot.</td>
+</tr>
+<tr>
+<td>Reproducibility</td>
+<td>Partial</td>
+<td>Case-level source and frozen sample receipts permit replay. Independent scientists and later edition families remain untested.</td>
+</tr>
+</tbody>
+</table></div>
+</article></main></body></html>
