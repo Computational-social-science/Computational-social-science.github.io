@@ -1,0 +1,251 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scientific visibility and historical credit · Measurement protocol</title>
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../reader.css"></head>
+<body><main class="shell reader replication-report"><nav aria-label="Research outputs"><a href="../manuscript.html">Working manuscript</a>
+ · <a href="report.html">Replication report</a> · <a href="method.html">Measurement protocol</a>
+ · <a href="explorer.html">Data explorer</a> · <a href="annual.csv" download>Annual name data</a>
+ · <a href="name-rules.html">Compare name rules</a>
+ · <a href="name-queries.csv" download>Alias queries</a> · <a href="witness-panel.csv" download>Sampled-page results</a></nav>
+<article class="reader-text"><h1>Measuring scientific visibility and testing historical credit</h1>
+<p><strong>Candidate measurement protocol, version 0.2 · Matthew Effect worked example · 20 November 2026</strong></p>
+<p>Did an already visible scientist receive credit for a particular contribution made by somebody else? This question needs two independently constructed records. One identifies the contributor and the role from dated evidence. The other measures how visible each eligible person was before a later author had an opportunity to credit that role. The time ordering also allows a separate question: does receiving credit predict <em>subsequent</em> visibility?</p>
+<h2>1. Fix the claim and the population</h2>
+<p>Define historical scientific fame as the extent to which an identifiable scientist was known to a specified audience at a specified time. Unaided recall, recognition on prompting, visibility in published books and expert professional esteem represent different observations. This study directly observes written exposure in specified publishing populations. Its use as a proxy for contemporary recognition requires independent validation. Books differ in readership and print run. One book is one represented work, irrespective of how many people read or remembered it. State the audience and intended use of an estimate before selecting a source.</p>
+<p>Register the concept, sense, contribution role, eligible people, language, corpus release, observation period and information cutoff before scoring outcomes. Distinguish naming, formulation, empirical work, authorship and later application. Keep the date of the act, date of its earliest examined witness and date of retrospective testimony separately. A dated use supplies an upper bound on the date of naming. Evidence of an earlier idea can move the history of the concept without moving the first attested use of the term.</p>
+<p>For each role, keep a source-located finding, its strongest competing reading, and the observation that would change the finding. Freeze this record before extracting later attributions. A later paper about unequal recognition supplies an opportunity only if its passage addresses the relevant act. An interviewee's experience with scientific reward supplies evidence about that experience. The attribution of the <em>Matthew effect</em> requires evidence about naming, formulating or investigating that particular concept.</p>
+<h2>2. Reproduce the historical measure before adapting it</h2>
+<p>Michel et al. examined the frequency of selected written names in digitized books. Their original annual frequency used occurrences divided by words published that year. They ranked candidate tracking names by total mentions from birth through 2000 and checked ambiguity. A candidate passed the birth screen if its mean frequency across birth year ±10 was below 10⁻⁹ or at least tenfold lower than its birth-to-2000 mean. The latter window includes posthumous years for some people. The supplement's 80% comparison applies to a candidate trigram and its terminal bigram. Figure S20 shows why “Oliver Lodge” can be more suitable than “Oliver Joseph Lodge”, and why the short form “Mary Moore” is unsuitable for Mary Tyler Moore. Ranking historical cohorts using mentions through 2000 answers a retrospective question. Predicting a 1964 attribution requires a past-only name selection rule as well as past-only counts. See the main paper, Fig. 3C–F (printed p. 179), and supplement III.7A–B. <a href="https://doi.org/10.1126/science.1199644">Michel et al., article and supplement</a></p>
+<p>A calibration reconstructs the original English 1964 frequency of “evolution” from 80,039 occurrences and 2,452,549,636 words, giving 0.0000326350. The current English Viewer returns an annual fraction for the queried string relative to n-grams of its order. Its annual response lacks the individual books, hit counts and word denominators required to reconstruct a person's mentions per word. Keep the corpus edition and denominator attached to every value. Repeating a historical method on a new release and reproducing the historical result are distinct tests. <a href="https://books.google.com/ngrams/info">Google Books corpus and frequency definitions</a></p>
+<h2>3. Resolve people and register searchable spellings</h2>
+<p>Two analyses use different information sets. The historical benchmark asks whether the original tracking rule can select the published name using its own observations through 2000. The event-specific analysis freezes the identity evidence and count window at 31 December 1963. A form first documented in October 1964 is admissible for study of the published article in 1968, but needs an earlier witness for the May 1964 analysis. A later authority can identify a historical person retrospectively; using it to choose a predictor is a separate sensitivity analysis. If the birth window is incomplete by the cutoff, the screen is unevaluable. If two candidate spellings have incompatible or unknown denominators, their Viewer fractions cannot choose a winner by total mentions.</p>
+<p>Give each person a stable identity. Record birth, death where known, attested bylines and their dates, authority sources, institutions, fields, coauthors, works and plausible collisions. Preserve punctuation, casing, order and the original occurrence. A spelling can belong in a person's alias registry while an occurrence still refers to somebody else. Store a status for each occurrence: accepted for a person, assigned to another person, unresolved, or artefact. Record the evidence used to decide.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Person</th>
+<th>Directly registered forms</th>
+<th>Occurrences requiring contextual evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Robert King Merton, sociologist, born 4 July 1910, died 23 February 2003</td>
+<td>Robert K. Merton, Robert K Merton, Robert King Merton</td>
+<td>R. K. Merton and R K Merton need a matching work, collaborator or other independent identifier. Robert Merton, Merton and RKM also require disambiguation.</td>
+</tr>
+<tr>
+<td>Harriet Anne Zuckerman, sociologist, born 19 July 1937</td>
+<td>Harriet Zuckerman, Harriet A. Zuckerman, Harriet Anne Zuckerman</td>
+<td>H. Zuckerman requires a matching affiliation, field, collaborator or work. Preserve an inverted bibliographic form as printed.</td>
+</tr>
+<tr>
+<td>Robert C. Merton, economist, born 31 July 1944</td>
+<td>Robert C. Merton belongs to a separate person</td>
+<td>For Robert Merton, use work, discipline and passage context to distinguish father and son. Both may occur in one document.</td>
+</tr>
+</tbody>
+</table></div>
+<p>For a page, identify each distinct mention span, resolve the longest overlapping name once, and allow several people to occur in one work. Code section or function (byline, citation, narrative, other), with retrospective or historical discussion as a separate tag. A first-person account of an event and a citation to that account may name the same person for different reasons. For pre-event exposure, log when a spelling is first evidenced. Declare retrospective normalization separately when the evidence for a spelling postdates the cutoff.</p>
+<p>For relatives, record the relationship independently of the name evidence. Maiden, married and other professional names need a dated witness connecting the spelling to the specific scientist. Keep a spouse who publishes under the same surname eligible as a distinct referent. A record mentioning one spouse can contain zero mentions of the other. Check a suspected link against the work or the grammatical subject. Choosing the already better-known relative to resolve a shared name would build the hypothesis into the outcome.</p>
+<p>There is an unusually informative check on the initials. In her account of father and son, Zuckerman explicitly defines RKM and RCM on the same printed page. This licenses the two abbreviations <em>in that account</em>. A document-level exclusion for RCM would remove genuine RKM mentions. <a href="https://rpc.cfainstitute.org/-/media/documents/article/rf-brief/rfbr-robert-merton-science-finance.pdf">Zuckerman, CFA Institute Research Foundation, printed p. 11</a></p>
+<h2>4. Publish three series with their own denominators</h2>
+<p>The same printed string, “Robert Merton”, denotes the sociologist in Jonathan Cole's memorial and the economist in Myron Scholes's Nobel lecture. The surrounding passages identify which work and colleagues are under discussion. This gives the registry a positive test in both directions. <a href="https://www.columbia.edu/cu/univprof/jcole/RobertMerton.pdf#page=3">Cole, printed p. 39</a> · <a href="https://www.nobelprize.org/uploads/2018/06/scholes-lecture.pdf#page=2">Scholes, printed pp. 127–128</a></p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Observable</th>
+<th>Numerator and denominator in publication year t</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name-specific frequency Q(q,t)</td>
+<td>Viewer fraction for exact query q multiplied by 10⁹</td>
+<td>Matches per billion corresponding n-grams. Release, case, punctuation, smoothing and response label are part of the measure. Report returned zero, omitted series and unqueried dates separately.</td>
+</tr>
+<tr>
+<td>Entity-resolved mention intensity U(p,t)</td>
+<td>10⁹ × accepted mentions of p / readable words in a defined text frame</td>
+<td>Repeated mentions count. Tokenization, page boundaries, edition and OCR verification must be reproducible. A selected-page estimate applies to those pages.</td>
+</tr>
+<tr>
+<td>Independent-work prevalence B(p,t)</td>
+<td>Eligible distinct works containing at least one accepted mention / eligible distinct works examined</td>
+<td>Count each work once within the chosen frame and date convention. A page sample can establish a positive for a work, but an inspected-page negative is only a negative <em>in the sampled pages</em>. Full-work prevalence needs complete searchable works or a validated detection model.</td>
+</tr>
+</tbody>
+</table></div>
+<p>For the same coverage and date, ten mentions in one of ten works and one mention in each of ten works have equal mention counts. Their work prevalence is 0.1 and 1.0. Record work, edition, scan and page separately. Audit reprints, duplicate scans, citation copying and translations. Where different editions are the object of study, report edition reach separately. If the frame is pages, count the words on exactly the pages on which mentions were sought.</p>
+<p>For sampled works with known inclusion probability π, use weight w = 1/π. Let M be the weighted total mentions, W the weighted words, K the weight of works with a mention and N the eligible work weight, using the same works throughout. Then U = 10⁹ M/W and B = K/N. When K &gt; 0, U/10⁹ = B × (M/K) ÷ (W/N). Hence a change in intensity may reflect wider reach, more repetition within works already mentioning the person, or a change in book length. With K = 0, the conditional average M/K is undefined. Changing the text sections searched changes both numerator and word denominator. Source metadata and research notes about a book stay outside its text.</p>
+<p>Report observed lower and upper values by treating unresolved <em>candidate</em> mentions as zero or one for each eligible person in turn. For prevalence, count the union of affected works. These are ambiguity bounds conditional on the extracted candidates. They do not cover missed OCR names, unobserved pages, corpus selection or sampling error. For probability samples, report sample inclusion probabilities, weights and uncertainty clustered by work or source family. For targeted witnesses, report raw counts, denominators and sensitivity to removing each work. A year with no eligible readable material has an undefined estimate.</p>
+<h2>5. Separate age, period and event time</h2>
+<p>An arithmetic expression in the Viewer supplies a further empirical test. For the three registered Zuckerman aliases, the linked expression returned precisely the “Harriet Zuckerman” series in all 86 years, both with smoothing 0 and smoothing 3. The initialed spelling returns positive values when queried separately, the expanded name has no returned series, and the expression displays a space before the period. An independently queried “Harriet A . Zuckerman” returned no series. Group membership in the identity registry cannot recover missing counts from an aggregate response. <a href="https://books.google.com/ngrams/graph?content=Harriet+A.+Zuckerman%2BHarriet+Zuckerman%2BHarriet+Anne+Zuckerman&amp;year_start=1937&amp;year_end=2022&amp;corpus=en&amp;smoothing=3&amp;case_insensitive=false">Inspect the requested Viewer expression</a></p>
+<p>Keep unsmoothed, case-sensitive series for estimation. Smoothing 3 uses a centred display window and can introduce post-event information into a plotted pre-event year. Publish equal-year averages and their coverage. Calculate a pooled rate only with compatible annual counts and denominators. Keep prebirth values for error diagnosis. Birth and death years are partial years of life. Posthumous reception is a distinct outcome. For Zuckerman, the last observed corpus year is an observation boundary.</p>
+<p>Compare common calendar windows (shared publishing conditions), common ages (different calendar periods) and event-relative windows (complete years before and after a dated act). Annual age indices use publication year minus birth year. For a precisely dated event use completed age on its date. On 19 May 1964 Merton and Zuckerman were 53 and 26. On 5 January 1968 they were 57 and 30. Period, birth cohort and age are linked arithmetically. Two aligned curves cannot identify three independent effects. Show the event year, Merton's death year and the posthumous period separately.</p>
+<h2>6. Extend the portrait only when the data support it</h2>
+<p>Keep text exposure, book reach, scholarly reception and persistence as separate columns. A scholarly-reception measure needs resolved author and work identifiers, deduplicated citing works, citing publication dates and a frozen database snapshot. Use annual counts or a declared field/year denominator, and separate self-citation when the question calls for it. For persistence, fix the observable, threshold, window and minimum coverage in advance. Report years exceeding the threshold divided by observed eligible years, together with that fraction's numerator, denominator and missing years. Ending the series in 2022 right-censors persistence. A half-life requires an observed peak and enough subsequent observations under a declared fitting rule.</p>
+<p>For an exploratory composite, define a field, period, roles and inclusion mechanism independently of measured visibility. Transform each eligible component to its reference-cohort midrank percentile, z = (midrank − 0.5)/n. A monotonic log transformation leaves these ranks unchanged. With non-negative weights summing to one, F = 100 × Σ wⱼzⱼ. Publish the components, weights, cohort size, ties and rank changes across alternative weights. Withhold the index when a required component or reference distribution is missing. A visibility-ranked historical cohort cannot serve as an independent sample for estimating how common fame is. No calibrated composite or population percentile is available for the Matthew pair.</p>
+<h2>7. Test competing explanations</h2>
+<p>The proposed mechanism runs from earlier visibility to later role-specific attribution and from that attribution to subsequent visibility. Age, duration of career, field, institution, publication genre, language and access to earlier accounts can affect both exposure and outcome. Draw the eligible contributor roster from independent dated records. Selecting only people with detectable name series, available passages or high later fame can alter the association.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Explanation</th>
+<th>Discriminating observation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Earlier prominence favors the better-known person</td>
+<td>Among comparable opportunities and eligible contributors, explicit transfers favor the previously visible contributor, across source families and credible alias rules.</td>
+</tr>
+<tr>
+<td>Reference conventions concentrate mentions</td>
+<td>The gap shrinks in narrative passages after separating bylines, bibliographies, reprints and repeated mentions within one work. Work reach and mention intensity can diverge.</td>
+</tr>
+<tr>
+<td>Field, seniority or career stage accounts for the gap</td>
+<td>A contrast observed in calendar time attenuates among prespecified field peers at comparable career stages. Report how comparison eligibility changes.</td>
+</tr>
+<tr>
+<td>Credit circulates through copying</td>
+<td>Apparent agreement clusters in accounts descending from a common source. Compare independent lineages and editions separately.</td>
+</tr>
+<tr>
+<td>A gender-linked attribution penalty operates</td>
+<td>Under comparable roles and opportunities, a pattern persists across eligible contributors and source families after prespecified adjustment. The Merton–Zuckerman pair cannot separate gender from person, role and seniority.</td>
+</tr>
+</tbody>
+</table></div>
+<p>For each readable passage, classify the opportunity by role and sense before reading its allocation as accurate, omitted, transferred or unresolved. Distinguish explicit transfer from silence. Report every stage from eligible works to readable and classifiable passages. For transfer among eligible assessed opportunities, publish the count transferred, total assessed, ambiguity bounds and independent-family count. Use an independent passage review blinded to the name-frequency result, record disagreements and resolve them against originals. Historical motivation, proxy error and sampling constraints limit causal interpretation even when a descriptive comparison is reproducible.</p>
+<h2>8. Evidence required before releasing a reusable measure</h2>
+<p>The cross-disciplinary pilot draws 100 bibliographic records in each of 1959–1963 and 1969–1973. The unit assigned to a year depends on the catalog definition, which the frame receipt must identify. Maintain the original selections as the denominator for access checks. A year without a match in every complete book differs from a year for which the books could not be read. For unknown outcomes, let Y be the weighted sum of confirmed positive works among sampled works, A the weight whose outcome is unknown, and N the sampled work weight. Conditional on correct ascertainment in the known portion, the sampled-frame coverage lies in [Y/N, (Y+A)/N]. These bounds are distinct from sampling intervals and can extend from zero to one. Missing text lengths also prevent an all-frame mention-intensity estimate. Show the available-text denominator separately.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Design variable</th>
+<th>How the result could change</th>
+<th>Check and decision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Printed name, shared surname, birth year</td>
+<td>A frequent short form can belong to a relative; a legal full name can disappear from print</td>
+<td>Inspect occurrences and birth controls; compare historical and cutoff-specific name selection. Preserve unmatched variants and competing identities.</td>
+</tr>
+<tr>
+<td>Corpus version, token order, punctuation</td>
+<td>A different denominator or parser can change even the apparent amplitude</td>
+<td>Preserve individual responses. Challenge addition, spacing, and punctuation against single queries. Abstain from cross-order count reconstruction.</td>
+</tr>
+<tr>
+<td>Year, editions and publication lag</td>
+<td>A reprint or later recognition can enter a pre-event exposure</td>
+<td>Use edition-level date evidence, separate original works and document the exact year rule. Test a past-only window and exclude the event year.</td>
+</tr>
+<tr>
+<td>Text access, OCR, genre</td>
+<td>Searchable books can be systematically different; OCR can suppress true mentions</td>
+<td>Report nonresponse by year and field, preserve missing outcomes, inspect independent original pages. Report recall only with adjudicated positive opportunities.</td>
+</tr>
+<tr>
+<td>Repeated books and references</td>
+<td>One biography, frequently reprinted textbook or long bibliography can dominate a curve</td>
+<td>Verify the factorization, report U and B separately, omit individual work families, and use section-specific denominators or declare them unavailable.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Independent validation has two reading streams. Mask candidate labels, prior scores and ranks when adjudicating candidate spans for precision. Select pages for a separate exhaustive reading without a name query for recall. Missed names discovered in this second stream remain in its denominator. Preserve disagreements, abstentions, the exact work-family split and whether the original page image was inspected. Zero eligible predicted positives or zero eligible reference positives leave precision or recall respectively undefined. Both measures and their work-cluster uncertainty require actual coded observations.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Validation question</th>
+<th>Evidence to obtain and decision rule</th>
+<th>Current result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Can the observation be reproduced?</td>
+<td>Recover an original numerator and denominator in the same edition, replay saved query responses and reproduce the derived annual values.</td>
+<td>Passed for the historical denominator check and retained Viewer fractions. Current-edition word counts for the named scientists remain unavailable.</td>
+</tr>
+<tr>
+<td>Does a hit identify the intended scientist?</td>
+<td>Independently code both hits and manually searched pages, blinded to the candidate resolver. Estimate precision and recall by name form, period and collision risk using work-cluster intervals. Check missed names, abstentions and both scientists on the same page.</td>
+<td>Specific positive and negative witnesses verified. The three-name Viewer addition did not reproduce the sum of individually returned spellings. Precision and recall in an independently selected population remain unmeasured.</td>
+</tr>
+<tr>
+<td>Does intensity distinguish repetition from reach?</td>
+<td>Compare mention counts and distinct works across complete independently selected sources. Repeat after clustering editions, omitting the most prolific work and separating body text from references.</td>
+<td>Conditional page-panel demonstration. Population work coverage remains open.</td>
+</tr>
+<tr>
+<td>Does the proxy measure recognition in the intended audience?</td>
+<td>Test convergence against an independently generated recognition measure from the same audience and period. Test discrimination against near-name collisions, productivity, term popularity, bibliography length and prestige indicators. State the predicted relationships and rival explanations before examination.</td>
+<td>No independent historical audience-level criterion has been established. Scholarly citations could validate professional reception only within their own target audience.</td>
+</tr>
+<tr>
+<td>Does the interpretation travel?</td>
+<td>Hold out whole people, works and periods. Freeze all rules using the development sample, remeasure in a second independently constituted frame, and compare errors and contrasts across spellings, cohort, genre and edition.</td>
+<td>No transport test or calibrated composite. A single session of professional peers can test feasibility only.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Choose release tolerances from the intended use before exposing the validation sample. For an ordering between two people, report an ordering only if the sign survives all prespecified plausible assignments, work-family deletions and denominator definitions addressing that same estimand, and the uncertainty in a probability sample excludes a reversal. If ambiguity, missed mentions or source coverage could reverse the ordering, publish the interval or abstain. Size the independently drawn sample for the precision needed to distinguish the proposed effect, allowing clustering by work. A numerical score would require a theoretically justified combination of components, an eligible reference population and robust out-of-sample results. Precision of computation alone cannot validate that interpretation. <a href="https://doi.org/10.1037/h0046016">Campbell and Fiske, convergent and discriminant validation</a></p>
+<p>Operator release remains deferred. The research scripts and fixtures make current measurements inspectable. Promote an individual observable to a reusable operator only for a named target population and use that have passed these applicable checks. Its interface must expose the unit, denominator, covered population, version, uncertainty and reasons for abstaining. A proposed composite requires its own validation even after its components qualify.</p>
+<p>With four available components, equal weights of 0.25 would be one explicitly chosen exploratory specification. Persistence computed from mentions reuses information from mention intensity. Citation frequency and scholarly exposure may also overlap. Examine component dependence, a fixed reference distribution across years, and alternative weights before interpreting change. Cross-sectional annual percentiles can remain constant during a general rise in absolute visibility.</p>
+<h2>9. Reproduction and revision</h2>
+<p>For each run retain query text, date, release, parameters, original response and checksum, annual values, aliases, occurrence decisions, denominators, eligible work list, executable transformation and unit checks. Check an original page, replay from retained inputs, distinguish absent series from zero, verify denominator compatibility, and compare results across plausible aliases, time windows and work families. Label archival reproduction, proxy measurement, source interpretation and causal identification independently. Record which observation changed when revising a conclusion. Findings used to develop this protocol are retrospective. Freeze the sampling and coding rules before examining the next independent batch.</p>
+<h2>10. What the implementation changes</h2>
+<p><strong>English book feasibility.</strong> The two pilot windows each yielded 100 distinct selected works, 20 per year. For each randomly drawn work rank in Open Library we required an edition whose own date and language matched the year and English. The work and its candidate editions were ordered by identifier before taking the matching edition. This matters because Open Library normally boosts readable editions. Annual index counts, boundary checks and retained responses support replay; the live index provided no immutable collection version. Discipline was measured after the year-stratified draw: 94 of 200 records lacked a Library of Congress class. Design weights apply conditionally to this catalog index. <a href="https://openlibrary.org/dev/docs/api/search">Open Library Search API</a></p>
+<p>At the exact-edition Internet Archive check, five items yielded OCR with a matching scan manifest. Of the others, 55 were restricted, 132 had no exact locator at the checked provider and eight had a different or unconfirmed edition. Four scan candidates fell in the early window and one in the later window. Searching 415,174 extracted word tokens yielded zero candidate name spans, including the broader surname search. Independent visual reading of ten pages drawn without using names found zero target occurrences. The precision and recall denominators were both zero. One scanned summer-course compilation combines 1963 and 1969 material. Removing its 140,654 words leaves 274,520 raw OCR words in four date-aligned candidates, with digitizer inserts, volume boundaries and image-only material still to assess. An alternate full-view record for a 1962 draw turned out to be a 1950 edition. This pilot measures what can be recovered. The corpus-wide mention intensity, work prevalence and between-scientist ordering remain unestimated. <a href="https://computational-social-science.github.io/matthew-matilda/book-access.csv">Sampled editions and access outcomes (CSV)</a></p>
+<p><strong>Name rules on identical pages.</strong> In the separately identified historical materials, compare the expanded biographical spelling, registered spellings and mentions adjudicated in context using the same denominators. For example, two pages of the Cole memorial contain five occurrences under the registered spelling rule and seven after resolving the short form. In the 2017 manifestation of Zuckerman's book, four become six after checking initialed citations. These differences demonstrate which mentions an alias-only rule loses. This purposive panel cannot supply a population error rate. <a href="https://computational-social-science.github.io/matthew-matilda/name-rules.html">Inspect the three series and underlying counts</a></p>
+<p><strong>Corpus sensitivity.</strong> The English, US English and British English Viewer queries use the same exact spellings, years, casing and smoothing zero. In 1959–1963, the mean for “Robert K. Merton” was 72.38, 92.19 and 13.00 respectively, per billion corresponding n-grams. The three corpora overlap; agreement or disagreement tests sensitivity to corpus composition. It does not supply three independently sampled publishing populations. This adapts the within-language check of Younes and Reips. Their Italian religious-term result is sensitive to vocabulary and standardization (pp. 10–11). For people, a historically evidenced alias must replace the synonym rule used for concepts. Tahmasebi et al.'s example of historically ambiguous names (p. 172, §2.1) motivates our father–son challenge. <a href="https://computational-social-science.github.io/matthew-matilda/english-subcorpora.csv">Annual English subcorpus observations (CSV)</a> · <a href="https://doi.org/10.1371/journal.pone.0213554">Younes and Reips</a> · <a href="https://doi.org/10.1007/s00799-015-0139-1">Tahmasebi et al.</a></p>
+<h3>Which Culturomics tools can support these measurements?</h3>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Verified behavior</th>
+<th>Use in this study</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BookwormDB</td>
+<td>Its tokenizer split the punctuated middle initial into a letter and a period. The inspected SQL implementation distinguishes token counts and distinct indexed texts. No local SQL service was benchmarked.</td>
+<td>Candidate index for an owned, ordered text corpus. Test phrase length, punctuation and work-level deduplication before deploying it. <a href="https://github.com/Bookworm-project/BookwormDB">Source</a></td>
+</tr>
+<tr>
+<td>HathiTrust Bookworm</td>
+<td>The hosted interface responded. Its single-word interface and two HTTP 404 responses from the configured backend did not yield a usable name series in this run.</td>
+<td>Retest a dated endpoint for single-word corpus diagnostics. A surname-only response cannot disambiguate the Mertons. <a href="https://github.com/htrc/Hathitrust-Bookworm">HTRC project</a></td>
+</tr>
+<tr>
+<td>ngramr</td>
+<td>A case-sensitive current-English graph query agreed with its JSON transport. R was unavailable for a native package run. The short query interval omitted an initialed spelling that a longer query returned with zeros in that interval.</td>
+<td>Reuse the normalized-query contract, storing the queried year range and distinguishing omitted from returned zero. <a href="https://cran.r-project.org/package=ngramr">CRAN</a></td>
+</tr>
+<tr>
+<td>ngramr.plus</td>
+<td>The inspected version 1.0.1 uses the 2012 bulk release. Its code folds case and pools matched input forms within a period; length and shard-prefix restrictions matter. R execution remains untested.</td>
+<td>Evaluate individual compatible literals against their own raw counts before accepting a pooled quantity. It cannot establish a raw count for the July 2024 Viewer. <a href="https://github.com/browndw/ngramr.plus">Source</a></td>
+</tr>
+<tr>
+<td>google-ngram-downloader</td>
+<td>The released Python package 4.0.1 read integer match and volume counts from an official 2012 shard over HTTPS. A test shard verified the record format.</td>
+<td>Reuse for release-specific raw counts. A volume containing two variants must be deduplicated for work reach. The extracted counts do not identify which scientist was named. <a href="https://github.com/dimazest/google-ngram-downloader">Source</a></td>
+</tr>
+<tr>
+<td>HTRC Feature Reader</td>
+<td>The released Python library 2.0.7 read page, section, token and part-of-speech counts from a retained HathiTrust fixture. Page-level word bags lose order.</td>
+<td>Reuse for volume metadata, candidate pages and denominators. Verify adjacent name tokens and person identity against an ordered source. Audit shared editions when using HathiTrust and Google. <a href="https://github.com/htrc/htrc-feature-reader">Source</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Next validation decision.</strong> Assemble a dated, cross-disciplinary frame of complete, lawfully readable editions and audit its composition against the original bibliographic draw. Record exclusions and freeze a new independent sample before screening for names. Estimate the screened-works yield there before sizing a formal study. An ideal independent sample with prevalence one per thousand would need 2,995 complete works just for a 95% chance of seeing a single positive. The cost of the next sample depends first on full-text availability and then on the expected error margin. Person-level score release remains deferred.</p>
+</article></main></body></html>

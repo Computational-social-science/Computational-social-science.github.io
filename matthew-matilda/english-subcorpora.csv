@@ -1,0 +1,181 @@
+corpus,query,year,status,annual_fraction
+en,Robert K. Merton,1959,returned_positive,6.044975719987633e-08
+en,Robert K. Merton,1960,returned_positive,6.281764086679686e-08
+en,Robert K. Merton,1961,returned_positive,8.18358785181772e-08
+en,Robert K. Merton,1962,returned_positive,6.92429367177283e-08
+en,Robert K. Merton,1963,returned_positive,8.757227476507978e-08
+en,Robert K. Merton,1964,returned_positive,1.1007978883981195e-07
+en,Robert K. Merton,1965,returned_positive,1.0577436881931135e-07
+en,Robert K. Merton,1966,returned_positive,8.796023820423216e-08
+en,Robert K. Merton,1967,returned_positive,1.0432807329152638e-07
+en,Robert K. Merton,1968,returned_positive,1.246682046485148e-07
+en,Robert K. Merton,1969,returned_positive,1.0729305444101556e-07
+en,Robert K. Merton,1970,returned_positive,1.3072286719761905e-07
+en,Robert K. Merton,1971,returned_positive,1.1047971781863453e-07
+en,Robert K. Merton,1972,returned_positive,1.0210949596967112e-07
+en,Robert K. Merton,1973,returned_positive,1.1298068613996293e-07
+en,Robert Merton,1959,returned_positive,1.2274044003390827e-08
+en,Robert Merton,1960,returned_positive,1.2466568222180285e-08
+en,Robert Merton,1961,returned_positive,1.248684533550204e-08
+en,Robert Merton,1962,returned_positive,1.4475591392226761e-08
+en,Robert Merton,1963,returned_positive,1.5743127690370784e-08
+en,Robert Merton,1964,returned_positive,2.0672153766554402e-08
+en,Robert Merton,1965,returned_positive,1.9828858555115403e-08
+en,Robert Merton,1966,returned_positive,2.214471983563726e-08
+en,Robert Merton,1967,returned_positive,2.1326997057258268e-08
+en,Robert Merton,1968,returned_positive,2.525609943404561e-08
+en,Robert Merton,1969,returned_positive,3.37213279522075e-08
+en,Robert Merton,1970,returned_positive,2.853398761715198e-08
+en,Robert Merton,1971,returned_positive,3.0542917528464386e-08
+en,Robert Merton,1972,returned_positive,3.0187443655904644e-08
+en,Robert Merton,1973,returned_positive,2.8631571780124432e-08
+en,Harriet Zuckerman,1959,returned_positive,7.671277502119267e-11
+en,Harriet Zuckerman,1960,returned_positive,7.290390513503553e-11
+en,Harriet Zuckerman,1961,returned_positive,1.3951782784626943e-10
+en,Harriet Zuckerman,1962,returned_zero,0.0
+en,Harriet Zuckerman,1963,returned_positive,2.6683266707294706e-10
+en,Harriet Zuckerman,1964,returned_positive,2.4609705939759863e-10
+en,Harriet Zuckerman,1965,returned_positive,9.404992340478202e-10
+en,Harriet Zuckerman,1966,returned_positive,3.0231700476335277e-10
+en,Harriet Zuckerman,1967,returned_positive,1.9931771788606056e-09
+en,Harriet Zuckerman,1968,returned_positive,1.7620535031070972e-09
+en,Harriet Zuckerman,1969,returned_positive,1.2788528014340272e-09
+en,Harriet Zuckerman,1970,returned_positive,1.1753129580682753e-09
+en,Harriet Zuckerman,1971,returned_positive,2.349455074934781e-09
+en,Harriet Zuckerman,1972,returned_positive,2.4937454323747943e-09
+en,Harriet Zuckerman,1973,returned_positive,4.943118803169e-09
+en,Harriet A. Zuckerman,1959,returned_zero,0.0
+en,Harriet A. Zuckerman,1960,returned_zero,0.0
+en,Harriet A. Zuckerman,1961,returned_zero,0.0
+en,Harriet A. Zuckerman,1962,returned_zero,0.0
+en,Harriet A. Zuckerman,1963,returned_zero,0.0
+en,Harriet A. Zuckerman,1964,returned_positive,2.713552715860601e-10
+en,Harriet A. Zuckerman,1965,returned_positive,6.029483579084172e-10
+en,Harriet A. Zuckerman,1966,returned_zero,0.0
+en,Harriet A. Zuckerman,1967,returned_positive,2.918267849594258e-10
+en,Harriet A. Zuckerman,1968,returned_positive,7.173084348721659e-11
+en,Harriet A. Zuckerman,1969,returned_positive,4.4335973781173266e-10
+en,Harriet A. Zuckerman,1970,returned_positive,4.311914159060848e-10
+en,Harriet A. Zuckerman,1971,returned_positive,8.586506505814384e-10
+en,Harriet A. Zuckerman,1972,returned_positive,6.499190075004435e-10
+en,Harriet A. Zuckerman,1973,returned_positive,4.239425477337022e-10
+en-US,Robert K. Merton,1959,returned_positive,7.438514870727886e-08
+en-US,Robert K. Merton,1960,returned_positive,8.169609344577111e-08
+en-US,Robert K. Merton,1961,returned_positive,1.06022653767468e-07
+en-US,Robert K. Merton,1962,returned_positive,8.644526872103597e-08
+en-US,Robert K. Merton,1963,returned_positive,1.1238523711654125e-07
+en-US,Robert K. Merton,1964,returned_positive,1.3536801191094128e-07
+en-US,Robert K. Merton,1965,returned_positive,1.2694903261945e-07
+en-US,Robert K. Merton,1966,returned_positive,1.0858782673039968e-07
+en-US,Robert K. Merton,1967,returned_positive,1.357101666599192e-07
+en-US,Robert K. Merton,1968,returned_positive,1.6428234062004776e-07
+en-US,Robert K. Merton,1969,returned_positive,1.3130390641435952e-07
+en-US,Robert K. Merton,1970,returned_positive,1.6479393138979503e-07
+en-US,Robert K. Merton,1971,returned_positive,1.373098115209359e-07
+en-US,Robert K. Merton,1972,returned_positive,1.2742977162361058e-07
+en-US,Robert K. Merton,1973,returned_positive,1.4036049833521247e-07
+en-US,Robert Merton,1959,returned_positive,1.4873559273098635e-08
+en-US,Robert Merton,1960,returned_positive,1.3445728086480813e-08
+en-US,Robert Merton,1961,returned_positive,1.5453252899533254e-08
+en-US,Robert Merton,1962,returned_positive,1.6857569562489516e-08
+en-US,Robert Merton,1963,returned_positive,1.6902443888966445e-08
+en-US,Robert Merton,1964,returned_positive,2.111074515198652e-08
+en-US,Robert Merton,1965,returned_positive,2.2612441696878705e-08
+en-US,Robert Merton,1966,returned_positive,2.1579799280857515e-08
+en-US,Robert Merton,1967,returned_positive,2.5460041186420312e-08
+en-US,Robert Merton,1968,returned_positive,3.1901784325327753e-08
+en-US,Robert Merton,1969,returned_positive,3.699626205388995e-08
+en-US,Robert Merton,1970,returned_positive,3.382564628395812e-08
+en-US,Robert Merton,1971,returned_positive,3.52950664250784e-08
+en-US,Robert Merton,1972,returned_positive,3.302675466443361e-08
+en-US,Robert Merton,1973,returned_positive,3.2728276977422865e-08
+en-US,Harriet Zuckerman,1959,returned_zero,0.0
+en-US,Harriet Zuckerman,1960,returned_positive,1.0756582430326844e-10
+en-US,Harriet Zuckerman,1961,returned_positive,2.046788433185398e-10
+en-US,Harriet Zuckerman,1962,returned_zero,0.0
+en-US,Harriet Zuckerman,1963,returned_positive,3.953787852672974e-10
+en-US,Harriet Zuckerman,1964,returned_positive,2.4983129454092534e-10
+en-US,Harriet Zuckerman,1965,returned_positive,1.309141461902641e-09
+en-US,Harriet Zuckerman,1966,returned_positive,3.5767622197369064e-10
+en-US,Harriet Zuckerman,1967,returned_positive,2.7018818293811364e-09
+en-US,Harriet Zuckerman,1968,returned_positive,1.901430790596237e-09
+en-US,Harriet Zuckerman,1969,returned_positive,1.4307947049374548e-09
+en-US,Harriet Zuckerman,1970,returned_positive,1.1834044855163484e-09
+en-US,Harriet Zuckerman,1971,returned_positive,2.43078956962961e-09
+en-US,Harriet Zuckerman,1972,returned_positive,3.0290812080835394e-09
+en-US,Harriet Zuckerman,1973,returned_positive,6.392987028647212e-09
+en-US,Harriet A. Zuckerman,1959,returned_zero,0.0
+en-US,Harriet A. Zuckerman,1960,returned_zero,0.0
+en-US,Harriet A. Zuckerman,1961,returned_zero,0.0
+en-US,Harriet A. Zuckerman,1962,returned_zero,0.0
+en-US,Harriet A. Zuckerman,1963,returned_zero,0.0
+en-US,Harriet A. Zuckerman,1964,returned_positive,4.1396944205907005e-10
+en-US,Harriet A. Zuckerman,1965,returned_positive,9.161270630997365e-10
+en-US,Harriet A. Zuckerman,1966,returned_zero,0.0
+en-US,Harriet A. Zuckerman,1967,returned_positive,4.5655229596874847e-10
+en-US,Harriet A. Zuckerman,1968,returned_positive,1.1601859750687282e-10
+en-US,Harriet A. Zuckerman,1969,returned_positive,6.72778388555173e-10
+en-US,Harriet A. Zuckerman,1970,returned_positive,6.526492124514505e-10
+en-US,Harriet A. Zuckerman,1971,returned_positive,1.1726769555409078e-09
+en-US,Harriet A. Zuckerman,1972,returned_positive,8.617397906363067e-10
+en-US,Harriet A. Zuckerman,1973,returned_positive,6.317801837241177e-10
+en-GB,Robert K. Merton,1959,returned_positive,1.6569654093245845e-08
+en-GB,Robert K. Merton,1960,returned_positive,7.627459552850269e-09
+en-GB,Robert K. Merton,1961,returned_positive,5.0850954558256944e-09
+en-GB,Robert K. Merton,1962,returned_positive,1.130101345836465e-08
+en-GB,Robert K. Merton,1963,returned_positive,2.4408880250348375e-08
+en-GB,Robert K. Merton,1964,returned_positive,3.3788165154646777e-08
+en-GB,Robert K. Merton,1965,returned_positive,3.0851985854951636e-08
+en-GB,Robert K. Merton,1966,returned_positive,1.4610201937159673e-08
+en-GB,Robert K. Merton,1967,returned_positive,2.4121197483850665e-08
+en-GB,Robert K. Merton,1968,returned_positive,3.2393234761229905e-08
+en-GB,Robert K. Merton,1969,returned_positive,2.447126767890495e-08
+en-GB,Robert K. Merton,1970,returned_positive,4.4195012094405683e-08
+en-GB,Robert K. Merton,1971,returned_positive,3.3359771833829654e-08
+en-GB,Robert K. Merton,1972,returned_positive,3.0013993068678246e-08
+en-GB,Robert K. Merton,1973,returned_positive,2.95014928042292e-08
+en-GB,Robert Merton,1959,returned_positive,2.524839670670076e-09
+en-GB,Robert Merton,1960,returned_positive,3.495422173926954e-09
+en-GB,Robert Merton,1961,returned_positive,1.7490598969160942e-09
+en-GB,Robert Merton,1962,returned_zero,0.0
+en-GB,Robert Merton,1963,returned_positive,7.449861172403871e-09
+en-GB,Robert Merton,1964,returned_positive,6.7376784151917946e-09
+en-GB,Robert Merton,1965,returned_positive,7.226374165725247e-09
+en-GB,Robert Merton,1966,returned_positive,1.0700311747768865e-08
+en-GB,Robert Merton,1967,returned_positive,8.131408435474441e-09
+en-GB,Robert Merton,1968,returned_positive,1.5823300003603435e-08
+en-GB,Robert Merton,1969,returned_positive,1.050345233011285e-08
+en-GB,Robert Merton,1970,returned_positive,1.647516079117395e-08
+en-GB,Robert Merton,1971,returned_positive,1.556637663213678e-08
+en-GB,Robert Merton,1972,returned_positive,2.0122170596437172e-08
+en-GB,Robert Merton,1973,returned_positive,1.5470671854700413e-08
+en-GB,Harriet Zuckerman,1959,returned_zero,0.0
+en-GB,Harriet Zuckerman,1960,returned_zero,0.0
+en-GB,Harriet Zuckerman,1961,returned_zero,0.0
+en-GB,Harriet Zuckerman,1962,returned_zero,0.0
+en-GB,Harriet Zuckerman,1963,returned_zero,0.0
+en-GB,Harriet Zuckerman,1964,returned_zero,0.0
+en-GB,Harriet Zuckerman,1965,returned_zero,0.0
+en-GB,Harriet Zuckerman,1966,returned_zero,0.0
+en-GB,Harriet Zuckerman,1967,returned_positive,1.2509858704490284e-09
+en-GB,Harriet Zuckerman,1968,returned_positive,3.955825000900859e-09
+en-GB,Harriet Zuckerman,1969,returned_positive,1.8535504242578327e-09
+en-GB,Harriet Zuckerman,1970,returned_positive,1.900980040048239e-09
+en-GB,Harriet Zuckerman,1971,returned_positive,4.358585492525435e-09
+en-GB,Harriet Zuckerman,1972,returned_positive,4.6951731391686735e-09
+en-GB,Harriet Zuckerman,1973,returned_positive,1.9338339818375516e-09
+en-GB,Harriet A. Zuckerman,1959,missing_series,
+en-GB,Harriet A. Zuckerman,1960,missing_series,
+en-GB,Harriet A. Zuckerman,1961,missing_series,
+en-GB,Harriet A. Zuckerman,1962,missing_series,
+en-GB,Harriet A. Zuckerman,1963,missing_series,
+en-GB,Harriet A. Zuckerman,1964,missing_series,
+en-GB,Harriet A. Zuckerman,1965,missing_series,
+en-GB,Harriet A. Zuckerman,1966,missing_series,
+en-GB,Harriet A. Zuckerman,1967,missing_series,
+en-GB,Harriet A. Zuckerman,1968,missing_series,
+en-GB,Harriet A. Zuckerman,1969,missing_series,
+en-GB,Harriet A. Zuckerman,1970,missing_series,
+en-GB,Harriet A. Zuckerman,1971,missing_series,
+en-GB,Harriet A. Zuckerman,1972,missing_series,
+en-GB,Harriet A. Zuckerman,1973,missing_series,

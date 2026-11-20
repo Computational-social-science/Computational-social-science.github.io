@@ -1,8 +1,10 @@
 """Export the recorded Matthew Effect working manuscript and its public poster."""
 
 import argparse
+import csv
 from datetime import datetime
 import hashlib
+from io import StringIO
 from html import escape
 from html.parser import HTMLParser
 import json
@@ -27,6 +29,9 @@ PUBLIC_HOSTS = {
     'history.aip.org', 'repo.library.stonybrook.edu', 'wellcomecollection.org', 'www.jstor.org',
     'computational-social-science.github.io', 'sociology.columbia.edu', 'www.amacad.org',
     'kops.uni-konstanz.de', 'www.jci.org', 'pmc.ncbi.nlm.nih.gov',
+    'www.columbia.edu', 'www.nobelprize.org', 'rpc.cfainstitute.org', 'www.asanet.org',
+    'openlibrary.org', 'bookworm-project.github.io', 'www.hathitrust.org',
+    'cran.r-project.org', 'journals.plos.org', 'research.chalmers.se',
 }
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
@@ -156,7 +161,63 @@ def experiment_figures(root):
     result['matthew-matilda/annual.csv'] = annual
     report = source(root, directory + 'REPORT.md', 262144).decode('utf-8')
     result['matthew-matilda/report.html'] = public_experiment_report(report)
+    query_path = 'data/research/replication/scientist-fame/query-annual.csv'
+    queries = source(root, query_path, 1_000_000)
+    if digest(queries) != receipt['recipe'][query_path]:
+        raise ValueError('Alias observations differ from those verified in the explorer')
+    result['matthew-matilda/name-queries.csv'] = queries.replace(b'\r\n', b'\n')
+    panel = json.loads(source(root, 'data/research/replication/fame-witness-panel/panel.v1.json', 524288))
+    columns = ('year', 'person', 'state', 'words', 'declared_pages', 'unreadable_pages',
+               'u_resolved_count', 'u_candidate_count', 'u_per_billion_lower', 'u_per_billion_upper',
+               'b_qualified_works', 'b_possible_works', 'b_readable_works', 'b_coverage_lower', 'b_coverage_upper')
+    panel_csv = StringIO(newline='')
+    writer = csv.DictWriter(panel_csv, fieldnames=columns, lineterminator='\n')
+    writer.writeheader()
+    for row in panel['annual']:
+        writer.writerow({key: row[key] for key in columns})
+    result['matthew-matilda/witness-panel.csv'] = panel_csv.getvalue().encode()
+    result.update(pilot_tables(root))
+    protocol = source(root, 'docs/research/SCIENTIFIC_FAME_PROTOCOL_EN.md', 262144).decode('utf-8')
+    result['matthew-matilda/method.html'] = experiment_reader(
+        protocol, 'Scientific visibility and historical credit · Measurement protocol')
     return result
+
+
+def pilot_tables(root):
+    directory = 'data/research/replication/fame-validation/'
+    sample = source(root, directory + 'frame/sample.json', 4_000_000)
+    access = json.loads(source(root, directory + 'access/results.json', 4_000_000))
+    checked = json.loads(source(root, directory + 'results.json', 524288))
+    if digest(sample) != access['sample_sha256'] or digest(sample) != checked['book_feasibility']['original_sample_sha256']:
+        raise ValueError('The catalog sample and access audit refer to different editions')
+    coverage = StringIO(newline='')
+    writer = csv.writer(coverage, lineterminator='\n')
+    writer.writerow(('catalog_year', 'work_id', 'edition_id', 'LCC_classes', 'index_inclusion_probability',
+                     'archive_check', 'work_year_review', 'raw_scan_word_tokens', 'registered_search_candidates'))
+    for frame, row in zip(json.loads(sample)['rows'], access['rows'], strict=True):
+        if (frame['work_id'], frame['edition_id']) != (row['work_id'], row['edition_id']):
+            raise ValueError('The accessed edition does not match its catalog row')
+        writer.writerow((frame['year'], frame['work_id'], frame['edition_id'], ' '.join(frame['discipline']),
+                         frame['inclusion_probability'], row['status'],
+                         checked['edition_review']['work_year_decisions'].get(frame['edition_id']), row['word_count'],
+                         None if row['matches'] is None else sum(row['matches'].values())))
+    subcorpora = source(root, directory + 'english-subcorpora.json', 131072)
+    if digest(subcorpora) != checked['subcorpus_source_sha256']:
+        raise ValueError('The English subcorpus receipt changed')
+    series = StringIO(newline='')
+    writer = csv.writer(series, lineterminator='\n')
+    writer.writerow(('corpus', 'query', 'year', 'status', 'annual_fraction'))
+    for corpus, record in json.loads(subcorpora).items():
+        if digest(record['raw'].encode()) != record['response_sha256']:
+            raise ValueError('The raw Google response has changed')
+        values = {item['ngram']: item['timeseries'] for item in json.loads(record['raw'])}
+        for query in checked['name_frequency'][corpus]['1959-1963']:
+            for year in range(1959, 1974):
+                value = values[query][year-1959] if query in values else None
+                status = 'missing_series' if value is None else 'returned_zero' if value == 0 else 'returned_positive'
+                writer.writerow((corpus, query, year, status, value))
+    return {'matthew-matilda/book-access.csv': coverage.getvalue().encode(),
+            'matthew-matilda/english-subcorpora.csv': series.getvalue().encode()}
 
 
 def public_experiment_report(report):
@@ -170,17 +231,25 @@ def public_experiment_report(report):
     body = re.sub(r'(?:[ \t]*·[ \t]*)+(?=\n|$)', '', body)
     body = re.sub(r'(?m)^[ \t]*·[ \t]*', '', body)
     body = re.sub(r' · (?: · )+', ' · ', body)
+    return experiment_reader(body, 'Name histories and research credit · Replication report')
+
+
+def experiment_reader(body, title):
     article = MarkdownIt('commonmark', {'html': False}).enable('table').render(body)
     article = article.replace('<table>', '<div class="table-wrap" tabindex="0"><table>').replace('</table>', '</table></div>')
     page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Name histories and research credit · Replication report</title>
+<title>{escape(title)}</title>
 <link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../reader.css"></head>
 <body><main class="shell reader replication-report"><nav aria-label="Research outputs"><a href="../manuscript.html">Working manuscript</a>
- · <a href="explorer.html">Data explorer</a> · <a href="annual.csv" download>Download annual data</a></nav>
+ · <a href="report.html">Replication report</a> · <a href="method.html">Measurement protocol</a>
+ · <a href="explorer.html">Data explorer</a> · <a href="annual.csv" download>Annual name data</a>
+ · <a href="name-rules.html">Compare name rules</a>
+ · <a href="name-queries.csv" download>Alias queries</a> · <a href="witness-panel.csv" download>Sampled-page results</a></nav>
 <article class="reader-text">{article}</article></main></body></html>"""
     PublicMarkup(page, local_links={'../reader.css', '../style.css', '../manuscript.html',
-                                    'explorer.html', 'figures-a4.pdf', 'annual.csv'})
+                                    'explorer.html', 'figures-a4.pdf', 'annual.csv', 'report.html', 'method.html',
+                                    'name-queries.csv', 'witness-panel.csv', 'name-rules.html'})
     return page.encode('utf-8')
 
 

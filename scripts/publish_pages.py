@@ -23,6 +23,7 @@ PAGES_PATH = REPO_PATH + "/pages"
 SOURCE = {"branch": "main", "path": "/"}
 EXPERIMENT_FILES = (
     "explorer.html", "figures-a4.pdf", "figures-a4.html",
+    "name-rules.html", "name-rules.csv", "name-rules.svg", "name-rules.png", "name-rules.jpg",
     *(f"{panel}.{ext}" for panel in ("english-name-usage", "legacy-workbook")
       for ext in ("svg", "png", "jpg")),
 )
@@ -31,6 +32,8 @@ PAGE_FILES = (
     "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg",
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
+    "matthew-matilda/method.html", "matthew-matilda/name-queries.csv", "matthew-matilda/witness-panel.csv",
+    "matthew-matilda/book-access.csv", "matthew-matilda/english-subcorpora.csv",
 )
 STATIC = frozenset((*PAGE_FILES, ".nojekyll", "reader.css", "style.css"))
 ALLOWED = STATIC | {"README.md", "scripts/sync_horisma.py", "scripts/publish_pages.py"}
