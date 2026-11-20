@@ -17,7 +17,7 @@ from xml.etree import ElementTree
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 import pymupdf
-from publish_pages import EXPERIMENT_FILES
+from publish_pages import ENTITY_FIGURE_FILES, EXPERIMENT_FILES
 
 
 SITE = Path(__file__).resolve().parents[1]
@@ -32,6 +32,7 @@ PUBLIC_HOSTS = {
     'www.columbia.edu', 'www.nobelprize.org', 'rpc.cfainstitute.org', 'www.asanet.org',
     'openlibrary.org', 'archive.org', 'bookworm-project.github.io', 'www.hathitrust.org',
     'cran.r-project.org', 'journals.plos.org', 'research.chalmers.se',
+    'www.nationalacademies.org', 'www.federalreserve.gov', 'catalog.libraries.vsc.edu',
 }
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
@@ -177,6 +178,15 @@ def experiment_figures(root):
         writer.writerow({key: row[key] for key in columns})
     result['matthew-matilda/witness-panel.csv'] = panel_csv.getvalue().encode()
     result.update(pilot_tables(root))
+    figure = json.loads(source(root, directory + 'entity-challenge-figure.json', 262144))
+    for name, expected in figure['recipe'].items():
+        if digest(source(root, name, 12_000_000)) != expected:
+            raise ValueError(f'Name challenge figure input has changed: {name}')
+    for name in ENTITY_FIGURE_FILES:
+        raw = source(root, directory + name, 12_000_000)
+        if digest(raw) != figure['artifacts'][name]['sha256']:
+            raise ValueError(f'Name challenge figure failed its receipt check: {name}')
+        result[f'matthew-matilda/{name}'] = raw
     protocol = source(root, 'docs/research/SCIENTIFIC_FAME_PROTOCOL_EN.md', 262144).decode('utf-8')
     result['matthew-matilda/method.html'] = experiment_reader(
         protocol, 'Scientific visibility and historical credit · Measurement protocol')
@@ -186,6 +196,19 @@ def experiment_figures(root):
     if (decision['spec']['sha256'] != digest(contract) or
             set(decision['gates']) != set(json.loads(contract)['gates']) or len(decision['gates']) != 6):
         raise ValueError('The six scientific decisions differ from the reviewed contract')
+    cohorts = decision['gates']['entity']['metrics']['paired_challenges']
+    for cohort, label in (('institutions', 'Institutional sources'), ('books', 'Book excerpts')):
+        methods = cohorts[cohort]['methods']
+        cells = [f"{m['tp']} / {m['fp']} / {m['fn']} · {m['f1']:.3f}" for m in (methods[k] for k in ('M0', 'M1', 'M2'))]
+        if not any(row.startswith('| ' + label) and row.endswith(' | '.join(cells) + ' |')
+                   for row in framework.splitlines()):
+            raise ValueError(f'Published {label} table differs from its replayed gate evidence')
+    diagnostic = decision['gates']['entity']['metrics']['post_unblinding_replay']
+    for cohort, label in (('institutional', 'institutional'), ('book-transfer', 'book')):
+        m = diagnostic[cohort]
+        finding = f"{m['tp']} correct, {m['fp']} false and {m['fn']} missed (F1 {m['f1']:.3f})"
+        if f'The {label} result became {finding}' not in framework:
+            raise ValueError(f'Published {label} diagnostic differs from its replayed counts')
     status = ['## Matthew Effect evidence', '', f"Highest supported stage: **{decision['stage']['highest_qualified']}**. "
               + decision['operational']['scope'] + '.', '', '| Dimension | Current decision | Evidence |',
               '|---|---|---|']
@@ -253,7 +276,22 @@ def public_experiment_report(report):
 
 
 def experiment_reader(body, title, *, independent=False):
-    article = MarkdownIt('commonmark', {'html': False}).enable('table').render(body)
+    figure_links = {f'matthew-matilda/{name}' for name in ENTITY_FIGURE_FILES}
+    if independent:
+        for link in figure_links:
+            body = body.replace(f'](../../outputs/{link})', f']({link})')
+    markdown = MarkdownIt('commonmark', {'html': False}).enable('table')
+    tokens = markdown.parse(body)
+    if independent:
+        headings = set()
+        for index, token in enumerate(tokens):
+            if token.type == 'heading_open' and token.tag in ('h2', 'h3'):
+                ident = re.sub(r'[^a-z0-9]+', '-', tokens[index + 1].content.lower()).strip('-')
+                if not ident or ident in headings:
+                    raise ValueError('Independent methods sections need distinct linkable headings')
+                headings.add(ident)
+                token.attrSet('id', ident)
+    article = markdown.renderer.render(tokens, markdown.options, {})
     article = article.replace('<table>', '<div class="table-wrap" tabindex="0"><table>').replace('</table>', '</table></div>')
     assets = '' if independent else '../'
     navigation = ('<a href="manuscript.html">Matthew Effect manuscript</a> · '
@@ -275,7 +313,7 @@ def experiment_reader(body, title, *, independent=False):
                                     'style.css', 'reader.css', 'manuscript.html', 'matthew-matilda/method.html',
                                     'matthew-matilda/readable-editions.csv',
                                     'explorer.html', 'figures-a4.pdf', 'annual.csv', 'report.html', 'method.html',
-                                    'name-queries.csv', 'witness-panel.csv', 'name-rules.html'})
+                                    'name-queries.csv', 'witness-panel.csv', 'name-rules.html', *figure_links})
     return page.encode('utf-8')
 
 

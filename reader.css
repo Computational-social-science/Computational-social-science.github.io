@@ -22,6 +22,7 @@
 .reader-figure { width: min(100%, 23rem); margin: 1.5rem auto 1.75rem; }
 .reader-figure a { display: block; background: #fffaf0; border: 1px solid var(--rule); }
 .reader-figure img { display: block; width: 100%; height: auto; }
+.replication-report .reader-text img { display: block; max-width: 100%; height: auto; }
 .reader-figure figcaption { display: block; font: .88rem/1.52 var(--sans); }
 .reader-sources { margin-top: 2.25rem; padding-top: .65rem; border-top: 1px solid var(--rule); }
 .reader-sources li { font-size: .95rem; }
