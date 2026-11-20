@@ -147,16 +147,49 @@ def experiment_figures(root):
         if name.endswith('.html'):
             raw = raw.replace(b'\r\n', b'\n')
         if name == 'explorer.html':
-            raw = raw.replace(b'href="REPORT.md"', b'href="../manuscript.html#can-two-name-histories-identify-a-matilda-effect"')
+            raw = raw.replace(b'href="REPORT.md"', b'href="report.html"')
         result[f'matthew-matilda/{name}'] = raw
+    annual_path = 'data/research/replication/matthew-matilda/annual.csv'
+    annual = source(root, annual_path, 1_000_000)
+    if digest(annual) != receipt['recipe'][annual_path]:
+        raise ValueError('Annual frequencies do not match the illustrated data')
+    result['matthew-matilda/annual.csv'] = annual
+    report = source(root, directory + 'REPORT.md', 262144).decode('utf-8')
+    result['matthew-matilda/report.html'] = public_experiment_report(report)
     return result
+
+
+def public_experiment_report(report):
+    # This reader edition covers the paired-name experiment. Other nominations
+    # and pointers into the private working archive belong to the local report.
+    body, separator, _ = report.partition('## What the other three experiments recover')
+    if not separator or not body.startswith('# Can the name histories'):
+        raise ValueError('Review the changed experiment report structure before export')
+    body = re.sub(r'\[Annual observations\]\([^)]*\)', '[Annual observations (CSV)](annual.csv)', body)
+    body = re.sub(r'\[[^\]\n]+\]\((?:<\.\./[^>\n]+>|\.\./[^)\n]+)\)', '', body)
+    body = re.sub(r'(?:[ \t]*·[ \t]*)+(?=\n|$)', '', body)
+    body = re.sub(r'(?m)^[ \t]*·[ \t]*', '', body)
+    body = re.sub(r' · (?: · )+', ' · ', body)
+    article = MarkdownIt('commonmark', {'html': False}).enable('table').render(body)
+    article = article.replace('<table>', '<div class="table-wrap" tabindex="0"><table>').replace('</table>', '</table></div>')
+    page = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Name histories and research credit · Replication report</title>
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../reader.css"></head>
+<body><main class="shell reader replication-report"><nav aria-label="Research outputs"><a href="../manuscript.html">Working manuscript</a>
+ · <a href="explorer.html">Data explorer</a> · <a href="annual.csv" download>Download annual data</a></nav>
+<article class="reader-text">{article}</article></main></body></html>"""
+    PublicMarkup(page, local_links={'../reader.css', '../style.css', '../manuscript.html',
+                                    'explorer.html', 'figures-a4.pdf', 'annual.csv'})
+    return page.encode('utf-8')
 
 
 class PublicMarkup(HTMLParser):
     """Keep local links limited to the static portfolio, plus approved public sites."""
 
-    def __init__(self, markup):
+    def __init__(self, markup, local_links=LOCAL_LINKS):
         super().__init__()
+        self.local_links = local_links
         self.anchors = set()
         self.targets = set()
         self.feed(markup)
@@ -171,7 +204,7 @@ class PublicMarkup(HTMLParser):
                 self.anchors.add(value)
             if key not in {'href', 'src'}:
                 continue
-            if value in LOCAL_LINKS:
+            if value in self.local_links:
                 continue
             if value.startswith('#'):
                 self.targets.add(value[1:])

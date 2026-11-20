@@ -1,0 +1,114 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Name histories and research credit · Replication report</title>
+<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../reader.css"></head>
+<body><main class="shell reader replication-report"><nav aria-label="Research outputs"><a href="../manuscript.html">Working manuscript</a>
+ · <a href="explorer.html">Data explorer</a> · <a href="annual.csv" download>Download annual data</a></nav>
+<article class="reader-text"><h1>Can the name histories of Merton and Zuckerman identify a Matthew or a Matilda effect?</h1>
+<p><strong>Replication report · 20 November 2026.</strong> The 2023 working study asked whether scientists who were already prominent tend to receive credit that belongs to someone else. A narrower question can be answered with its paired experiment. Merton's name was more visible in English books on the two comparable short-name specifications around 1968. The size and even the direction of change in that disparity depend on the measure. To find out whether credit moved between people requires an observation about who did something and a second observation about whom a later source credited for that same act.</p>
+<p><a href="explorer.html">Explore both datasets</a> · <a href="figures-a4.pdf">Print both figures on A4</a> · <a href="https://computational-social-science.github.io/manuscript.html">Working manuscript and historical sources</a></p>
+<h2>What was actually drawn</h2>
+<p>The paired workbook contains three observed–fitted pairs, each with 320 rows. Both sheets have exactly the same observed Merton column. Their fitted Merton columns differ in all 320 rows (maximum absolute difference 0.0803 in workbook units). The original code plotted the supplied fits as lines and shaded observed values down to −0.01. That lower boundary is an arbitrary graphical baseline. Reading the filled region as an uncertainty interval would give it a statistical meaning absent from the code.</p>
+<p>The year labels can be recovered independently. All 320 Merton values match the dated target in the author's public workbook after conversion to single precision. Its first year is 1700. Zero-based index 268 therefore denotes 1968. A separate reconstruction using English 2019, a centred seven-year window and series-specific min–max scaling agrees within 0.000001 at 319 of 320 rows for each initialed name. The discrepancies are in 2019 (0.0282 for Merton and 0.00253 for Zuckerman). These are material when claiming exact replication. Scaling the series separately also removes their original relative levels. <a href="https://github.com/Computational-social-science/CfC-model/blob/a0b2fd9ef104af4eb016daf37c43b36755ad02fa/data.xlsx">Pinned public data</a></p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Archived fitted series</th>
+<th style="text-align:right">Pearson correlation, all 320 years</th>
+<th style="text-align:right">RMSE, all years (workbook units)</th>
+<th style="text-align:right">Pearson correlation, 1968–2019 (52 years)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sheet 1 · Merton</td>
+<td style="text-align:right">0.344</td>
+<td style="text-align:right">0.216</td>
+<td style="text-align:right">−0.553</td>
+</tr>
+<tr>
+<td>Sheet 2 · Merton</td>
+<td style="text-align:right">0.347</td>
+<td style="text-align:right">0.216</td>
+<td style="text-align:right">−0.557</td>
+</tr>
+<tr>
+<td>Sheet 2 · Zuckerman</td>
+<td style="text-align:right">0.325</td>
+<td style="text-align:right">0.179</td>
+<td style="text-align:right">−0.684</td>
+</tr>
+</tbody>
+</table></div>
+<p>Here RMSE is the square root of the mean squared fitted-minus-observed difference. Pearson correlation measures linear comovement after centring each series. Its reversal in the later segment shows why an all-period summary is insufficient. The observations share trends, smoothing and serial dependence. The 320 years are not 320 independent scientists. The public CfC script supplies an identifiable cutoff for a separate experiment, takes contemporaneous term usage as input, and has no Zuckerman target. Its archived predictions do not match either paired Merton series. The original generator, fit settings and holdout status of the three paired curves remain unresolved. Neither an observed–fit difference nor a date marker specifies how either person's recognition would have evolved under a different byline.</p>
+<h2>Repeating the measurement in current English</h2>
+<p>We fetched Google's current English corpus with selector <code>en</code>. The Viewer release notes identify the July 2024 dataset. We kept annual, unsmoothed, exact-case values for 1500–2022 and retained the source responses and hashes. Six requested name strings yield 3,138 query-years. Of these, 480 are positive, 2,135 are returned zeros and 523 are missing because Google returned no series for the Academy's recorded full name “Harriet Anne Zuckerman”. Google returned “Harriet A. Zuckerman” and “Harriet Zuckerman”, both used by Columbia. The corpus does not identify individual books or provide the raw annual counts behind these particular responses. <a href="https://books.google.com/ngrams/info">Google's corpus definitions</a> · <a href="https://www.amacad.org/person/harriet-anne-zuckerman">Name authority</a> · <a href="https://sociology.columbia.edu/content/harriet-zuckerman">Columbia</a> · <a href="annual.csv">Annual observations (CSV)</a></p>
+<p>For string q in year t, the frequency F(q,t) equals the count of q divided by the annual count of all n-grams of its order. For a window W of paired returned years, let M and Z be the arithmetic means of F(q,t) for the two selected strings. We report M − Z (multiplied by one billion when labelled per billion) and M/Z. Each year has equal weight. A zero denominator or no paired years leaves the ratio undefined. The Viewer does not expose its token order for the initialed labels, so those series are described by their exact strings. Forms are kept separate to avoid double-counting or silently switching the population of strings. References to the economist Robert C. Merton or to unrelated people are a potential source of ambiguity for short forms.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Exact name form</th>
+<th style="text-align:right">1959–1963 · Merton</th>
+<th style="text-align:right">1959–1963 · Zuckerman</th>
+<th style="text-align:right">Paired years</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expanded full name</td>
+<td style="text-align:right">0.217</td>
+<td style="text-align:right">unavailable</td>
+<td style="text-align:right">0/5</td>
+</tr>
+<tr>
+<td>Middle initial with period</td>
+<td style="text-align:right">72.384</td>
+<td style="text-align:right">0.000</td>
+<td style="text-align:right">5/5</td>
+</tr>
+<tr>
+<td>Given name and surname</td>
+<td style="text-align:right">13.489</td>
+<td style="text-align:right">0.111</td>
+<td style="text-align:right">5/5</td>
+</tr>
+</tbody>
+</table></div>
+<p>Values are mean yearly matches per billion corresponding n-grams. For the same person, the initialed and expanded Merton queries yield displayed frequencies differing about 333-fold (about 407-fold in English 2019). Initialed Zuckerman is returned with zero in all five years; the uninitialed form is positive in four. There is direct evidence that names require context: the first nonzero “Robert K. Merton” falls in 1844 and the first “Harriet A. Zuckerman” in 1932, before the births of the respective scientists. These observations identify a measurement problem. Identifying its cause for a specific hit requires a dated book page.</p>
+<div class="table-wrap" tabindex="0"><table>
+<thead>
+<tr>
+<th>Metric for the two-word forms</th>
+<th style="text-align:right">1963–1967</th>
+<th style="text-align:right">1969–1973</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mean frequency of Robert Merton per billion bigrams</td>
+<td style="text-align:right">19.94</td>
+<td style="text-align:right">30.32</td>
+</tr>
+<tr>
+<td>Mean frequency of Harriet Zuckerman per billion bigrams</td>
+<td style="text-align:right">0.75</td>
+<td style="text-align:right">2.45</td>
+</tr>
+<tr>
+<td>Absolute difference per billion bigrams</td>
+<td style="text-align:right">19.19</td>
+<td style="text-align:right">27.88</td>
+</tr>
+<tr>
+<td>Ratio of mean frequencies</td>
+<td style="text-align:right">26.60</td>
+<td style="text-align:right">12.39</td>
+</tr>
+</tbody>
+</table></div>
+<p>Both strings gained visibility. The difference widened as Merton's absolute gain was larger, while the ratio narrowed as Zuckerman's proportional gain was larger. Treating either pattern as a verdict on which scientist gained credit would make that verdict depend on the scale chosen. Around 1968, the five-year initialed ratio also falls (425.1 to 200.8). Around the 1964 printed naming report, the five-year initialed ratio is undefined before the event. The ten-year results are available alongside the five-year results. These overlapping, descriptive windows omit the focal year. Book publication lags, prior career histories, language coverage, and the absence of a parallel comparison group prevent an intervention estimate.</p>
+<h2>Which hypothesis can the case test?</h2>
+<p>Prior prominence can influence recognition; recognition can in turn increase later name frequency. Role, seniority, research topic and access to the original source can influence both visibility and attribution. A gender-linked discount and prestige-based reinforcement can coexist. One pair ties gender, seniority, individual identity and several contribution roles together. Observing more years does not break that dependence. Conversely, finding a small frequency gap would not vindicate an incorrect assignment in an actual source. Rossiter's formulation motivates testing under-recognition in acts of attribution. <a href="https://doi.org/10.1126/science.159.3810.56">Merton (1968)</a> · <a href="https://doi.org/10.1177/030631293023002004">Rossiter (1993)</a></p>
+<p>A role-sensitive test starts with the 1968 paper's acknowledgment of Zuckerman's interviews, the contemporaneous 1964 naming report, and the parties' later accounts of formulation and authorship. For each later passage, record whether its subject gives an opportunity to report the chosen role (including accounts with an unnamed actor). For eligible readable passages distinguish accurate attribution, omission, explicit assignment to someone else, and ambiguity. Attribute outcomes using the words in the passage and information available at the time. Estimate a transfer proportion as explicit transfers divided by eligible assessed passages with a prespecified treatment of ambiguity. Disclose that count, ambiguity, and unread material. Report role-specific omission separately. Link editions and shared antecedents before pooling observations. A population estimate would also need a sampling design and a missingness analysis.</p>
+<p>In the frozen OpenAlex frame of 69 citing works (1968–1979), the first six chronological entries have no verified passage. In a separate six-work access comparison, four have verified passages. Mittermeir and Knorr (1979, p. 235) explicitly attribute the name to Merton. Knorr et al. (1979, p. 56) attribute the proposal of the theoretical account. Wilson and Yankauer use the mechanism. Only the first passage gives a naming opportunity (one accurate assignment). None gives an opportunity to assess who collected the 1968 paper's interview evidence, leaving that proportion undefined. Shared authorship links the two chapters; Yankauer cites Wilson. Treating all four as four independent endorsements would overstate the evidence.</p>
+</article></main></body></html>

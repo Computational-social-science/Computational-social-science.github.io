@@ -30,6 +30,7 @@ PAGE_FILES = (
     "index.html", "manuscript.html",
     "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg",
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
+    "matthew-matilda/report.html", "matthew-matilda/annual.csv",
 )
 STATIC = frozenset((*PAGE_FILES, ".nojekyll", "reader.css", "style.css"))
 ALLOWED = STATIC | {"README.md", "scripts/sync_horisma.py", "scripts/publish_pages.py"}
