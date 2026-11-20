@@ -21,9 +21,15 @@ API = "https://api.github.com"
 REPO_PATH = f"/repos/{OWNER}/{NAME}"
 PAGES_PATH = REPO_PATH + "/pages"
 SOURCE = {"branch": "main", "path": "/"}
+EXPERIMENT_FILES = (
+    "explorer.html", "figures-a4.pdf", "figures-a4.html",
+    *(f"{panel}.{ext}" for panel in ("english-name-usage", "legacy-workbook")
+      for ext in ("svg", "png", "jpg")),
+)
 PAGE_FILES = (
     "index.html", "manuscript.html",
     "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg",
+    *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
 )
 STATIC = frozenset((*PAGE_FILES, ".nojekyll", "reader.css", "style.css"))
 ALLOWED = STATIC | {"README.md", "scripts/sync_horisma.py", "scripts/publish_pages.py"}

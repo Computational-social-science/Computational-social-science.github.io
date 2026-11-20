@@ -15,6 +15,7 @@ from xml.etree import ElementTree
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 import pymupdf
+from publish_pages import EXPERIMENT_FILES
 
 
 SITE = Path(__file__).resolve().parents[1]
@@ -24,6 +25,8 @@ POSTER = 'outputs/research-catalog/matthew-effect-credit-plate'
 PUBLIC_HOSTS = {
     'books.google.com', 'doi.org', 'en.wikipedia.org', 'garfield.library.upenn.edu', 'github.com',
     'history.aip.org', 'repo.library.stonybrook.edu', 'wellcomecollection.org', 'www.jstor.org',
+    'computational-social-science.github.io', 'sociology.columbia.edu', 'www.amacad.org',
+    'kops.uni-konstanz.de', 'www.jci.org', 'pmc.ncbi.nlm.nih.gov',
 }
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
@@ -128,6 +131,25 @@ def public_source_notes(notes):
     if not entries:
         raise ValueError('No numbered manuscript source notes')
     return entries
+
+
+def experiment_figures(root):
+    directory = 'outputs/matthew-matilda/'
+    receipt = json.loads(source(root, directory + 'figure-verification.json', 262144))
+    for name, expected in receipt['recipe'].items():
+        if digest(source(root, name, 12_000_000)) != expected:
+            raise ValueError(f'Experiment inputs have changed since the figures were produced: {name}')
+    result = {}
+    for name in EXPERIMENT_FILES:
+        raw = source(root, directory + name, 12_000_000)
+        if digest(raw) != receipt['artifacts'][name]['sha256']:
+            raise ValueError(f'Experiment figure failed its receipt check: {name}')
+        if name.endswith('.html'):
+            raw = raw.replace(b'\r\n', b'\n')
+        if name == 'explorer.html':
+            raw = raw.replace(b'href="REPORT.md"', b'href="../manuscript.html#can-two-name-histories-identify-a-matilda-effect"')
+        result[f'matthew-matilda/{name}'] = raw
+    return result
 
 
 class PublicMarkup(HTMLParser):
@@ -268,6 +290,7 @@ def main():
     revision_date = datetime.fromisoformat(revision['recorded_at']).date()
     files = {'.nojekyll': b'', 'manuscript.html': render(manuscript, revision_date)}
     files.update({f'assets/matthew-effect-poster.{ext}': raw for ext, raw in posters.items()})
+    files.update(experiment_figures(root))
     targets = {name: SITE / name for name in files}
     if any(not target.resolve().is_relative_to(SITE) for target in targets.values()):
         raise ValueError('An export target resolves outside the portfolio')

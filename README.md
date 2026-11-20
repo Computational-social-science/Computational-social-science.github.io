@@ -4,6 +4,8 @@ The GitHub Pages destination is [computational-social-science.github.io](https:/
 
 The homepage presents the Matthew Effect case. The [working manuscript](manuscript.html) includes the research narrative and source notes. The [standalone poster](assets/matthew-effect-poster.svg) and [print PDF](assets/matthew-effect-poster.pdf) use the same A4 canvas.
 
+The [name-frequency explorer](matthew-matilda/explorer.html) displays the original paired observations and fits alongside the current Google Books English name queries. Its [A4 figure sheet](matthew-matilda/figures-a4.pdf) includes both panels for printing. The exporter verifies these assets against their figure and input hashes in Horisma.
+
 ## Update an edition
 
 Run `scripts/sync_horisma.py <Horisma workspace>` with the Python environment used to generate the Horisma manuscript and poster. The exporter checks the saved manuscript against its editorial revision, checks both poster files against that edition’s receipt, and rebuilds the static files. Repeating the export with identical inputs preserves their contents.
