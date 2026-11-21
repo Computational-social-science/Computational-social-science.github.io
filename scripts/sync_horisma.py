@@ -22,8 +22,9 @@ from markdown_it.token import Token
 import pymupdf
 from publish_pages import (
     EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES, PORTRAIT_PATH as PEOPLE_PORTRAIT_PATH,
-    INTERNAL, TESTIMONY_SCORES_PAGE, WINDOW_REPLAY_PAGE, WINDOW_SENSITIVITY_PAGE,
-    WORD_BUDGET_PAGE, PeoplePortraits,
+    INTERNAL, STATUS_CUE_MAX_BYTES, STATUS_CUE_PAGE, TESTIMONY_SCORES_PAGE,
+    WINDOW_REPLAY_PAGE, WINDOW_SENSITIVITY_PAGE, WORD_BUDGET_PAGE, PeoplePortraits,
+    approved_status_cue, status_cue_rows,
 )
 
 
@@ -244,6 +245,68 @@ def word_budget_scores(root):
     return data
 
 
+def status_cue_scores(root):
+    directory = 'data/research/replication/ex04-review-scope/status-cue/'
+
+    def read(name, limit=32_768):
+        return source(root, directory + name, limit)
+
+    seal = read('seal.json')
+    frozen = json.loads(seal)['inputs']
+    if (json.loads(read('attempt.json'))['seal_sha256'] != digest(seal)
+            or frozen['model'] != 'gpt-6-luna' or not frozen['files']
+            or any(digest(source(root, path, 262_144)) != expected for path, expected in frozen['files'].items())):
+        raise ValueError('Status-cue inputs differ from the frozen attempt')
+
+    data = read(Path(STATUS_CUE_PAGE).name, STATUS_CUE_MAX_BYTES)
+    rows = status_cue_rows(data)
+    scores = json.loads(read('scores.json'))
+    assessment = read('assessment.json')
+    if scores['public_csv_sha256'] != digest(data) or scores['assessment_sha256'] != digest(assessment):
+        raise ValueError('Status-cue scores or assessment differ from the scoring receipt')
+
+    ratings = json.loads(assessment)['scores']
+    key = json.loads(read('key.json'))
+    records = [json.loads(line) for line in read('runs.jsonl', 262_144).splitlines()]
+    if len(records) != len(rows) or sorted(key.values()) != list(range(len(rows))):
+        raise ValueError('Status-cue journal or key does not cover the assigned runs')
+    labels = {index: ident for ident, index in key.items()}
+    if set(ratings) != {labels[i] for i, run in enumerate(records) if run['state'] == 'DELIVERED'}:
+        raise ValueError('Status-cue assessment does not cover exactly the delivered runs')
+    order = ('neutral', 'correct_cued', 'wrong_cued')
+    assigned = {}
+    for i, (slot, run) in enumerate(zip(frozen['assignments'], records, strict=True)):
+        if (run['replicate'], run['source_id'], run['arm'], run['prompt_sha256']) != (
+            i, slot['vignette'], slot['condition'], digest(slot['prompt'].encode()),
+        ) or run['prompt_sha256'] != slot['prompt_sha256']:
+            raise ValueError('Status-cue journal does not match the assigned prompts')
+        assigned[slot['block'], slot['condition']] = (slot, run, labels[i])
+    if [(row['block'], row['condition']) for row in rows] != sorted(
+        assigned, key=lambda item: (item[0], order.index(item[1])),
+    ):
+        raise ValueError('Status-cue CSV does not match the assigned blocks')
+
+    for row in rows:
+        slot, run, ident = assigned[row['block'], row['condition']]
+        if (any(row[field] != slot[field] for field in ('vignette', 'target_alias', 'prompt'))
+                or row['delivery'] != run['state']):
+            raise ValueError('Status-cue assignment or delivery differs from the retained run')
+        if row['delivery'] == 'TECHNICAL_FAILURE':
+            continue
+        answer = run['text']
+        audit = run['audit']
+        if (audit['model'] != frozen['model'] or audit['prompt_sha256'] != slot['prompt_sha256']
+                or audit['answer_sha256'] != digest(answer.encode()) or row['answer'] != answer):
+            raise ValueError('Status-cue answer differs from the retained audit')
+        actor = ratings[ident]['actor']
+        category = {'A': 'SOLE_FOIL', 'B': 'SOLE_FOIL', slot['target_alias']: 'SOLE_CORRECT',
+                    'BOTH': 'JOINT', 'UNRESOLVED': 'UNRESOLVED', 'ABSENT': 'ABSENT'}.get(actor)
+        if category != row['response_category']:
+            raise ValueError('Status-cue category differs from the independently assessed actor')
+    approved_status_cue(data)
+    return data
+
+
 def window_sensitivity(root, annual_path, annual):
     directory = 'data/research/replication/matthew-matilda/window-sensitivity/'
     script_path = 'scripts/research_matthew_window_sensitivity.py'
@@ -308,6 +371,7 @@ def experiment_figures(root, charts):
         raise ValueError('Annual frequencies do not match the illustrated data')
     result['matthew-matilda/annual.csv'] = annual
     result[WORD_BUDGET_PAGE] = word_budget_scores(root)
+    result[STATUS_CUE_PAGE] = status_cue_scores(root)
     result.update(window_sensitivity(root, annual_path, annual))
     report = source(root, directory + 'REPORT.md', 262144).decode('utf-8')
     result['matthew-matilda/report.html'] = public_experiment_report(report)

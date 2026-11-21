@@ -1,0 +1,145 @@
+vignette,block,condition,target_alias,delivery,response_category,answer,prompt
+interviews,B01,neutral,A,DELIVERED,SOLE_CORRECT,"Researcher A conducted interviews with prize-winning scientists, which Researcher B later drew on in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: standing unavailable
+Researcher B: standing unavailable
+
+Researcher A interviewed prize-winning scientists. Researcher B reported drawing on those interviews in a study of how scientists receive credit."
+interviews,B01,correct_cued,A,DELIVERED,SOLE_CORRECT,"The account says Researcher A, a highly regarded figure in the field, interviewed prize-winning scientists, and Researcher B later reported drawing on those interviews to study how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: high standing in the field
+Researcher B: standing unavailable
+
+Researcher A interviewed prize-winning scientists. Researcher B reported drawing on those interviews in a study of how scientists receive credit."
+interviews,B01,wrong_cued,A,DELIVERED,SOLE_CORRECT,"Researcher A interviewed prize-winning scientists, and Researcher B—who had high standing in the field—reported drawing on those interviews in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: standing unavailable
+Researcher B: high standing in the field
+
+Researcher A interviewed prize-winning scientists. Researcher B reported drawing on those interviews in a study of how scientists receive credit."
+interviews,B02,neutral,A,DELIVERED,SOLE_CORRECT,"Researcher A interviewed prize-winning scientists, and Researcher B later drew on those interviews to study how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: standing unavailable
+Researcher B: standing unavailable
+
+Researcher B reported drawing on those interviews in a study of how scientists receive credit. Researcher A interviewed prize-winning scientists."
+interviews,B02,correct_cued,A,DELIVERED,SOLE_CORRECT,"Researcher A, a highly regarded researcher in the field, interviewed prize-winning scientists; Researcher B’s standing is unavailable, though B reported using those interviews in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: high standing in the field
+Researcher B: standing unavailable
+
+Researcher B reported drawing on those interviews in a study of how scientists receive credit. Researcher A interviewed prize-winning scientists."
+interviews,B02,wrong_cued,A,DELIVERED,SOLE_CORRECT,"Researcher A interviewed prize-winning scientists, and Researcher B later drew on those interviews in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: standing unavailable
+Researcher B: high standing in the field
+
+Researcher B reported drawing on those interviews in a study of how scientists receive credit. Researcher A interviewed prize-winning scientists."
+interviews,B03,neutral,B,DELIVERED,SOLE_CORRECT,"Researcher B interviewed prize-winning scientists, and Researcher A said they drew on those interviews in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: standing unavailable
+Researcher B: standing unavailable
+
+Researcher B interviewed prize-winning scientists. Researcher A reported drawing on those interviews in a study of how scientists receive credit."
+interviews,B03,correct_cued,B,DELIVERED,SOLE_CORRECT,"Researcher B, a highly regarded field researcher, interviewed prize-winning scientists, and Researcher A later drew on those interviews to study how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: standing unavailable
+Researcher B: high standing in the field
+
+Researcher B interviewed prize-winning scientists. Researcher A reported drawing on those interviews in a study of how scientists receive credit."
+interviews,B03,wrong_cued,B,DELIVERED,SOLE_CORRECT,"Researcher B conducted the interviews with prize-winning scientists, which Researcher A drew on in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: high standing in the field
+Researcher B: standing unavailable
+
+Researcher B interviewed prize-winning scientists. Researcher A reported drawing on those interviews in a study of how scientists receive credit."
+interviews,B04,neutral,B,DELIVERED,SOLE_CORRECT,"The account describes prize-winning scientists interviewed by Researcher B, whose interviews Researcher A later drew on in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: standing unavailable
+Researcher B: standing unavailable
+
+Researcher A reported drawing on those interviews in a study of how scientists receive credit. Researcher B interviewed prize-winning scientists."
+interviews,B04,correct_cued,B,DELIVERED,SOLE_CORRECT,"Researcher B, a highly regarded researcher in the field, interviewed prize-winning scientists, and Researcher A later drew on those interviews in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: standing unavailable
+Researcher B: high standing in the field
+
+Researcher A reported drawing on those interviews in a study of how scientists receive credit. Researcher B interviewed prize-winning scientists."
+interviews,B04,wrong_cued,B,DELIVERED,SOLE_CORRECT,"The account states that Researcher B interviewed prize-winning scientists, while Researcher A—whose field standing was high—said they drew on those interviews in a study of how scientists receive credit.","In one sentence, summarize the account of the interviews with prize-winning scientists, making clear who conducted them.
+
+Researcher A: high standing in the field
+Researcher B: standing unavailable
+
+Researcher A reported drawing on those interviews in a study of how scientists receive credit. Researcher B interviewed prize-winning scientists."
+reading,B05,neutral,A,DELIVERED,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: standing unavailable
+Researcher B: standing unavailable
+
+Researcher A applied the cumulative-advantage analogy to reading development. Researcher B used the cumulative-advantage analogy to explain how scientists receive credit."
+reading,B05,correct_cued,A,DELIVERED,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: high standing in the field
+Researcher B: standing unavailable
+
+Researcher A applied the cumulative-advantage analogy to reading development. Researcher B used the cumulative-advantage analogy to explain how scientists receive credit."
+reading,B05,wrong_cued,A,DELIVERED,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: standing unavailable
+Researcher B: high standing in the field
+
+Researcher A applied the cumulative-advantage analogy to reading development. Researcher B used the cumulative-advantage analogy to explain how scientists receive credit."
+reading,B06,neutral,A,DELIVERED,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: standing unavailable
+Researcher B: standing unavailable
+
+Researcher B used the cumulative-advantage analogy to explain how scientists receive credit. Researcher A applied the cumulative-advantage analogy to reading development."
+reading,B06,correct_cued,A,DELIVERED,SOLE_CORRECT,"Researcher A, whose standing in the field is high, applied the cumulative-advantage analogy to reading development.","In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: high standing in the field
+Researcher B: standing unavailable
+
+Researcher B used the cumulative-advantage analogy to explain how scientists receive credit. Researcher A applied the cumulative-advantage analogy to reading development."
+reading,B06,wrong_cued,A,DELIVERED,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: standing unavailable
+Researcher B: high standing in the field
+
+Researcher B used the cumulative-advantage analogy to explain how scientists receive credit. Researcher A applied the cumulative-advantage analogy to reading development."
+reading,B07,neutral,B,DELIVERED,SOLE_CORRECT,Researcher B applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: standing unavailable
+Researcher B: standing unavailable
+
+Researcher B applied the cumulative-advantage analogy to reading development. Researcher A used the cumulative-advantage analogy to explain how scientists receive credit."
+reading,B07,correct_cued,B,DELIVERED,SOLE_CORRECT,Researcher B applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: standing unavailable
+Researcher B: high standing in the field
+
+Researcher B applied the cumulative-advantage analogy to reading development. Researcher A used the cumulative-advantage analogy to explain how scientists receive credit."
+reading,B07,wrong_cued,B,DELIVERED,SOLE_CORRECT,Researcher B applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: high standing in the field
+Researcher B: standing unavailable
+
+Researcher B applied the cumulative-advantage analogy to reading development. Researcher A used the cumulative-advantage analogy to explain how scientists receive credit."
+reading,B08,neutral,B,DELIVERED,SOLE_CORRECT,Researcher B applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: standing unavailable
+Researcher B: standing unavailable
+
+Researcher A used the cumulative-advantage analogy to explain how scientists receive credit. Researcher B applied the cumulative-advantage analogy to reading development."
+reading,B08,correct_cued,B,DELIVERED,SOLE_CORRECT,Researcher B applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: standing unavailable
+Researcher B: high standing in the field
+
+Researcher A used the cumulative-advantage analogy to explain how scientists receive credit. Researcher B applied the cumulative-advantage analogy to reading development."
+reading,B08,wrong_cued,B,DELIVERED,SOLE_CORRECT,Researcher B applied the cumulative-advantage analogy to reading development.,"In one sentence, summarize the account of the reading analogy, making clear who applied it to reading development.
+
+Researcher A: high standing in the field
+Researcher B: standing unavailable
+
+Researcher A used the cumulative-advantage analogy to explain how scientists receive credit. Researcher B applied the cumulative-advantage analogy to reading development."

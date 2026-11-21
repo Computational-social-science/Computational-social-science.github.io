@@ -2,7 +2,11 @@
 
 import argparse
 import base64
+from collections import defaultdict
+import csv
+from hashlib import sha256
 from html.parser import HTMLParser
+from io import StringIO
 import json
 import os
 from pathlib import Path
@@ -37,6 +41,12 @@ EVIDENCE_FIGURE_PAGES = tuple(
 )
 TESTIMONY_SCORES_PAGE = "matthew-matilda/testimony-scores.csv"
 WORD_BUDGET_PAGE = "matthew-matilda/word-budget-scores.csv"
+STATUS_CUE_PAGE = "matthew-matilda/status-cue-scores.csv"
+STATUS_CUE_FIELDS = (
+    "vignette", "block", "condition", "target_alias", "delivery", "response_category", "answer", "prompt",
+)
+STATUS_CUE_MAX_BYTES = 131_072
+STATUS_CUE_APPROVED_SHA256 = "31634709ddba26133df13affa7e32584fe1dffe914d3170cf0f55353f0fa7022"
 WINDOW_SENSITIVITY_PAGE = "matthew-matilda/window-sensitivity.csv"
 WINDOW_REPLAY_PAGE = "matthew-matilda/reproduce-windows.py"
 PAGE_FILES = (
@@ -45,7 +55,7 @@ PAGE_FILES = (
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
     *EVIDENCE_FIGURE_PAGES,
     TESTIMONY_SCORES_PAGE,
-    WORD_BUDGET_PAGE, WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
+    WORD_BUDGET_PAGE, STATUS_CUE_PAGE, WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
     "matthew-matilda/name-usage-view.html", "matthew-matilda/testimony-pairs-view.html",
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
     "matthew-matilda/method.html", "matthew-matilda/name-queries.csv", "matthew-matilda/witness-panel.csv",
@@ -66,6 +76,53 @@ TRANSIENT = {408, 429, 500, 502, 503, 504}
 
 class PublishError(RuntimeError):
     """A bounded publication step could not be verified."""
+
+
+def status_cue_rows(raw):
+    if not 0 < len(raw) <= STATUS_CUE_MAX_BYTES or INTERNAL.search(raw):
+        raise ValueError("Status-cue exhibit size or disclosure check failed.")
+    reader = csv.DictReader(StringIO(raw.decode("utf-8"), newline=""), strict=True)
+    try:
+        if tuple(reader.fieldnames or ()) != STATUS_CUE_FIELDS:
+            raise ValueError("The status-cue exhibit has an unexpected public schema.")
+        rows = list(reader)
+    except csv.Error as exc:
+        raise ValueError("The status-cue exhibit contains invalid CSV.") from exc
+    blocks = defaultdict(list)
+    for row in rows:
+        if set(row) != set(STATUS_CUE_FIELDS) or None in row.values():
+            raise ValueError("Malformed status-cue row.")
+        blocks[row["block"]].append(row)
+        delivered = row["delivery"] == "DELIVERED"
+        if delivered:
+            valid = row["response_category"] in {"SOLE_CORRECT", "SOLE_FOIL", "JOINT", "UNRESOLVED", "ABSENT"}
+            valid = valid and bool(row["answer"].strip())
+        else:
+            valid = row["delivery"] == row["response_category"] == "TECHNICAL_FAILURE" and not row["answer"]
+        if not valid or row["target_alias"] not in {"A", "B"} or not row["prompt"].strip():
+            raise ValueError("Invalid status-cue disposition or stimulus.")
+        for field, limit in (("answer", 2_000), ("prompt", 1_000)):
+            value = row[field]
+            if (len(value) > limit or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", value)
+                    or value.startswith(("\t", "\r", "\n")) or value.lstrip().startswith(("=", "+", "-", "@"))):
+                raise ValueError("Unsafe or oversized status-cue text.")
+    if set(blocks) != {f"B{number:02d}" for number in range(1, 9)} or len(rows) != 24:
+        raise ValueError("The status-cue exhibit must contain all 24 assignments.")
+    for group in blocks.values():
+        if (len(group) != 3 or {row["condition"] for row in group} != {"neutral", "correct_cued", "wrong_cued"}
+                or len({row["vignette"] for row in group}) != 1
+                or len({row["target_alias"] for row in group}) != 1):
+            raise ValueError("A status-cue block differs from the matched design.")
+    if {name: sum(row["vignette"] == name for row in rows) for name in ("interviews", "reading")} != {
+        "interviews": 12, "reading": 12,
+    }:
+        raise ValueError("The status-cue exhibit must contain both vignette families.")
+    return rows
+
+
+def approved_status_cue(raw):
+    if sha256(raw).hexdigest() != STATUS_CUE_APPROVED_SHA256:
+        raise ValueError("The status-cue exhibit differs from the disclosure-reviewed CSV.")
 
 
 class PeoplePortraits(HTMLParser):
@@ -132,8 +189,13 @@ def local_edition():
             if (path not in STATIC and not portrait) or (path, oid) in checked or set(oid) == {"0"}:
                 continue
             checked.add((path, oid))
-            if int(git("cat-file", "-s", oid).stdout) > MAX_FILE_BYTES:
+            limit = STATUS_CUE_MAX_BYTES if path == STATUS_CUE_PAGE else MAX_FILE_BYTES
+            if int(git("cat-file", "-s", oid).stdout) > limit:
                 raise PublishError(f"{path} exceeds the public file size limit.")
+            if path == STATUS_CUE_PAGE:
+                raw = git("cat-file", "blob", oid).stdout
+                status_cue_rows(raw)
+                approved_status_cue(raw)
             inspect_text = path.endswith((".html", ".svg", ".css")) or path in {
                 WORD_BUDGET_PAGE, WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
             }
