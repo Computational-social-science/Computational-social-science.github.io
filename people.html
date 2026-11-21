@@ -3,8 +3,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Who contributed to the Matthew effect?</title>
-<style>
-:root{font:16px/1.55 Georgia,serif;color:#282821;background:#fbf9f3;
+<style>:root{--portrait-paper:#FAF8F1}
+:root{font:16px/1.55 Georgia,serif;color:#282821;background:var(--portrait-paper);
   --rule:#d6ccbb;--ink:#282821;--muted:#524f46;--link:#19554d}
 *{box-sizing:border-box}
 body{margin:0}
@@ -24,7 +24,7 @@ article{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;align
   padding:1rem .1rem 1.25rem;border-top:1px solid var(--rule);scroll-margin-top:1rem}
 article.with-portrait img{width:min(100%,14rem)}
 article:target{background:#f2ecde;box-shadow:0 0 0 .35rem #f2ecde}
-article img{display:block;width:100%;height:auto;border:1px solid var(--rule);background:#f8f4ea}
+article img{display:block;width:100%;height:auto;border:1px solid var(--rule);background:var(--portrait-paper)}
 h3{font-size:1.45rem;line-height:1.23;font-weight:600;letter-spacing:-.016em}
 .identity{margin-top:.27rem;color:var(--muted)}
 .role{margin-top:.53rem}
@@ -32,7 +32,7 @@ h3{font-size:1.45rem;line-height:1.23;font-weight:600;letter-spacing:-.016em}
 @media(max-width:590px){.cards{grid-template-columns:minmax(0,1fr)}}
 @page{size:A4;margin:14mm 15mm}
 @media print{
-  :root{background:white;color:#191919;font-size:10pt}
+  :root{color:#191919;font-size:10pt;print-color-adjust:exact}
   main{padding:0}
   header,article{break-inside:avoid}
   section+section{break-before:page;padding-top:0}
