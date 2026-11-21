@@ -7,6 +7,7 @@ import hashlib
 from io import StringIO
 from html import escape
 from html.parser import HTMLParser
+from importlib.util import module_from_spec, spec_from_file_location
 import json
 from pathlib import Path
 import re
@@ -17,7 +18,10 @@ from xml.etree import ElementTree
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 import pymupdf
-from publish_pages import EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES, TESTIMONY_SCORES_PAGE, PeoplePortraits
+from publish_pages import (
+    EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES, PORTRAIT_PATH as PEOPLE_PORTRAIT_PATH,
+    TESTIMONY_SCORES_PAGE, PeoplePortraits,
+)
 
 
 SITE = Path(__file__).resolve().parents[1]
@@ -37,7 +41,7 @@ PUBLIC_HOSTS = {
     'www.nationalacademies.org', 'www.federalreserve.gov', 'catalog.libraries.vsc.edu',
     'merton.org', 'www.nber.org', 'link.springer.com', 'www.nesacs.org', 'nesacs.org',
     'www.strevens.org', 'epub.ub.uni-muenchen.de', 'www.orgsyn.org', 'www.sciencehistory.org',
-    'eusp.org',
+    'eusp.org', 'c250.columbia.edu', 'hollisarchives.lib.harvard.edu', 'digital.sciencehistory.org',
 }
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
@@ -46,6 +50,12 @@ LOCAL_LINKS = {
 MANUSCRIPT_FIGURES = {
     f'../../../outputs/matthew-matilda/{name}.svg': f'matthew-matilda/{name}.svg'
     for name in ('english-name-usage', 'testimony-pairs')
+}
+CHART_VIEWS = {
+    'matthew-matilda/english-name-usage.svg': ('matthew-matilda/name-usage-view.html',
+                                              'Explore annual name frequencies', 'name-usage'),
+    'matthew-matilda/testimony-pairs.svg': ('matthew-matilda/testimony-pairs-view.html',
+                                           'Inspect each pair of summary assessments', 'testimony-pairs'),
 }
 POSTER_FIGURE = """<figure class="reader-figure" aria-labelledby="poster-caption">
   <a href="assets/matthew-effect-poster.svg" target="_blank" rel="noopener"
@@ -145,8 +155,7 @@ def recorded_people(root):
         if name.endswith('.webp') and not (raw.startswith(b'RIFF') and raw[8:12] == b'WEBP'):
             raise ValueError(f'Expected a WebP portrait: {name}')
         files[name] = raw
-    PublicMarkup(page.decode('utf-8'), local_links=LOCAL_LINKS | paths | {'manuscript.html'},
-                 public_hosts=PUBLIC_HOSTS | {'c250.columbia.edu', 'hollisarchives.lib.harvard.edu', 'digital.sciencehistory.org'})
+    PublicMarkup(page.decode('utf-8'), local_links=LOCAL_LINKS | paths | {'manuscript.html'})
     return files
 
 
@@ -176,7 +185,7 @@ def public_source_notes(notes):
     return entries
 
 
-def testimony_scores(root, receipt):
+def testimony_scores(root, receipt, charts):
     trial = 'data/research/replication/ex04-review-scope/origin-testimony/'
 
     def bound_input(filename):
@@ -184,44 +193,17 @@ def testimony_scores(root, receipt):
         raw = source(root, path, 262144)
         if digest(raw) != receipt['recipe'].get(path):
             raise ValueError(f'Unverified testimony figure input: {filename}')
-        return json.loads(raw)
+        return raw
 
-    passages = {item['id']: item for item in bound_input('sources.json')['sources']}
-    rows = bound_input('scores.json')['items']
-    arms = ('neutral', 'source_explicit')
-    actual = {(row['source_id'], row['replicate'], row['arm']): row for row in rows}
-    expected = {(ident, replicate, arm) for ident in passages
-                for replicate in (1, 2) for arm in arms}
-    if (len(rows) != 16 or len(actual) != len(rows) or actual.keys() != expected or
-            sorted(item['role'] for item in passages.values()) != ['control', 'reception', 'reception', 'reception']):
-        raise ValueError('Unexpected paired testimony sample')
-
-    figure_pairs = {(pair['source_id'], pair['replicate']): pair for pair in receipt['pairs']}
-    score_fields = ('person_action', 'explicit_voice', 'scope', 'omission', 'unsupported', 'complete')
-    output = StringIO(newline='')
-    writer = csv.writer(output, lineterminator='\n')
-    writer.writerow(('authors', 'year', 'work', 'locator', 'source_url', 'source_role',
-                     'replicate', 'instruction', *score_fields))
-    for ident, passage in passages.items():
+    sources = bound_input('sources.json')
+    for passage in json.loads(sources)['sources']:
         link = urlsplit(passage['url'])
         if link.scheme != 'https' or link.netloc not in PUBLIC_HOSTS:
             raise ValueError('Unapproved testimony source URL')
-    for ident, replicate, arm in sorted(actual):
-        row = actual[ident, replicate, arm]
-        passage = passages[ident]
-        pair = figure_pairs[ident, replicate]
-        ratings = [row[field] for field in score_fields]
-        person_action, voice, scope, omission, unsupported, complete = ratings
-        if (row['delivered'] is not True or any(type(value) is not bool for value in ratings)
-                or complete != (person_action and voice and scope and not omission and not unsupported)
-                or pair['role'] != passage['role'] or pair[arm] != complete):
-            raise ValueError('A testimony score does not reproduce the paired figure')
-        writer.writerow((passage['author'], passage['year'], passage['title'], passage['page'],
-                         passage['url'], passage['role'], replicate, arm, *map(int, ratings)))
-    return output.getvalue().encode('utf-8')
+    return charts.testimony_csv(bound_input('scores.json'), sources, receipt['pairs'])
 
 
-def evidence_figures(root, directory):
+def evidence_figures(root, directory, charts):
     result = {}
     for stem, files in EVIDENCE_FIGURES.items():
         receipt = json.loads(source(root, f'{directory}{stem}-figure.json', 262144))
@@ -236,11 +218,11 @@ def evidence_figures(root, directory):
                 raise ValueError(f'{stem} figure failed its receipt check: {name}')
             result[f'matthew-matilda/{name}'] = raw
         if stem == 'testimony-pairs':
-            result[TESTIMONY_SCORES_PAGE] = testimony_scores(root, receipt)
+            result[TESTIMONY_SCORES_PAGE] = testimony_scores(root, receipt, charts)
     return result
 
 
-def experiment_figures(root):
+def experiment_figures(root, charts):
     directory = 'outputs/matthew-matilda/'
     receipt = json.loads(source(root, directory + 'figure-verification.json', 262144))
     for name, expected in receipt['recipe'].items():
@@ -279,7 +261,11 @@ def experiment_figures(root):
         writer.writerow({key: row[key] for key in columns})
     result['matthew-matilda/witness-panel.csv'] = panel_csv.getvalue().encode()
     result.update(pilot_tables(root))
-    result.update(evidence_figures(root, directory))
+    result.update(evidence_figures(root, directory, charts))
+    interactive = charts.render_charts(annual, result[TESTIMONY_SCORES_PAGE])
+    if {f'matthew-matilda/{name}' for name in interactive} != {view[0] for view in CHART_VIEWS.values()}:
+        raise ValueError('Unexpected interactive manuscript outputs')
+    result.update({f'matthew-matilda/{name}': raw for name, raw in interactive.items()})
     protocol = source(root, 'docs/research/SCIENTIFIC_FAME_PROTOCOL_EN.md', 262144).decode('utf-8')
     result['matthew-matilda/method.html'] = experiment_reader(
         protocol, 'Scientific visibility and historical credit · Measurement protocol')
@@ -467,15 +453,77 @@ def manuscript_caption(tokens, index, kind):
         return f'{kind.lower()}-{match[1]}-caption', inline.children
 
 
-def render_manuscript_article(markdown, tokens):
+def render_person_card(markdown, tokens, index, portraits):
+    heading = tokens[index]
+    if heading.type != 'heading_open' or heading.tag != 'h4':
+        return None
+    blocks = tokens[index + 3:index + 15]
+    if len(blocks) < 3 or blocks[0].type != 'paragraph_open':
+        return None
+    images = blocks[1].children or []
+    prefix = '../../../outputs/people/'
+    if (len(images) != 1 or images[0].type != 'image'
+            or not (images[0].attrGet('src') or '').startswith(prefix)):
+        return None
+    image = images[0]
+    path = image.attrGet('src').removeprefix(prefix)
+    title = tokens[index + 1].content
+    if not PEOPLE_PORTRAIT_PATH.fullmatch(path) or path not in portraits:
+        raise ValueError(f'Scientist card portrait fails the people edition receipt: {title}')
+    ident = Path(path).stem
+    heading_id = heading.attrGet('id')
+    if ident == heading_id:
+        heading_id = f'{ident}-name'
+    paragraphs = ('paragraph_open', 'inline', 'paragraph_close')
+    if tuple(token.type for token in blocks) != paragraphs * 4 or not image.content.strip():
+        raise ValueError(f'Scientist card must have a portrait and three field paragraphs: {ident}')
+    fields = []
+    for position, label in zip((4, 7, 10), ('Identity', 'Contribution', 'Sources'), strict=True):
+        content = blocks[position].content
+        prefix = f'**{label}.** '
+        if not content.startswith(prefix) or not content[len(prefix):].strip():
+            raise ValueError(f'Scientist card is missing {label.lower()}: {ident}')
+        raw = content[len(prefix):]
+        if label == 'Sources' and not any(t.type == 'link_open' for t in blocks[position].children):
+            raise ValueError(f'Scientist card requires a source link: {ident}')
+        fields.append(f'<div class="scientist-field"><dt>{label}</dt>'
+                      f'<dd>{markdown.renderInline(raw)}</dd></div>')
+    image.attrSet('src', path)
+    image.attrSet('loading', 'lazy')
+    image_markup = markdown.renderer.renderInline(images, markdown.options, {})
+    html = (f'<article class="scientist-card" id="{ident}" aria-labelledby="{heading_id}">'
+            f'<h4 id="{heading_id}">{escape(title)}</h4>{image_markup}'
+            f'<dl>{"".join(fields)}</dl></article>\n')
+    return html, index + 15
+
+
+def render_manuscript_article(markdown, tokens, portraits):
     article = []
+    targets = set()
+    for index, token in enumerate(tokens):
+        if token.type == 'paragraph_open':
+            caption = manuscript_caption(tokens, index, 'Figure') or manuscript_caption(tokens, index, 'Table')
+            if caption:
+                targets.add(caption[0].removesuffix('-caption'))
     def append_markup(content):
         html = Token('html_block', '', 0)
         html.content = content
         article.append(html)
 
     index = 0
+    cards_open = False
     while index < len(tokens):
+        card = render_person_card(markdown, tokens, index, portraits)
+        if card:
+            if not cards_open:
+                append_markup('<div class="scientist-cards">\n')
+                cards_open = True
+            markup, index = card
+            append_markup(markup)
+            continue
+        if cards_open:
+            append_markup('</div>\n')
+            cards_open = False
         current = tokens[index]
         if current.type == 'paragraph_open':
             inline = tokens[index + 1]
@@ -501,8 +549,18 @@ def render_manuscript_article(markdown, tokens):
                                              for ext in ('svg', 'png', 'jpg'))
                         downloads = (f'<div class="figure-downloads" role="group" aria-label="Download figure">'
                                      f'{formats}</div>')
-                    append_markup(f'<figure class="reader-figure research-figure" aria-labelledby="{ident}">'
-                                  f'<a class="research-figure-image" href="{public_path}" '
+                    chart = CHART_VIEWS.get(public_path)
+                    interactive = ''
+                    static_class = 'research-figure-image'
+                    if chart:
+                        view_path, view_title, view_kind = chart
+                        interactive = (f'<iframe class="manuscript-chart {view_kind}" src="{view_path}"'
+                                       f' title="{view_title}" loading="lazy" sandbox="allow-scripts"'
+                                       f' aria-describedby="{ident}"></iframe>')
+                        static_class += ' print-chart'
+                    target = ident.removesuffix('-caption')
+                    append_markup(f'<figure class="reader-figure research-figure" id="{target}" aria-labelledby="{ident}">'
+                                  f'{interactive}<a class="{static_class}" href="{public_path}" '
                                   f'aria-label="Open full-size image" aria-describedby="{ident}">{image_markup}</a>'
                                   f'<figcaption id="{ident}">{description}</figcaption>'
                                   f'{downloads}</figure>\n')
@@ -512,8 +570,9 @@ def render_manuscript_article(markdown, tokens):
         if caption and index + 3 < len(tokens) and tokens[index + 3].type == 'table_open':
             ident, caption_tokens = caption
             label = markdown.renderer.renderInline(caption_tokens, markdown.options, {})
+            target = ident.removesuffix('-caption')
             append_markup(f'<div class="table-wrap manuscript-table" tabindex="0" role="region" '
-                          f'aria-labelledby="{ident}"><table><caption id="{ident}">{label}</caption>\n')
+                          f'id="{target}" aria-labelledby="{ident}"><table><caption id="{ident}">{label}</caption>\n')
             index += 4
             continue
         if current.type == 'table_open':
@@ -522,12 +581,48 @@ def render_manuscript_article(markdown, tokens):
         elif current.type == 'table_close':
             append_markup('</table></div>\n')
         else:
+            if current.type == 'inline' and index and tokens[index - 1].type == 'paragraph_open':
+                link_figure_mentions(current, targets)
             article.append(current)
         index += 1
+    if cards_open:
+        append_markup('</div>\n')
     return markdown.renderer.render(article, markdown.options, {})
 
 
-def render(manuscript, revision_date):
+def link_figure_mentions(inline, targets):
+    result = []
+    nested = 0
+    for child in inline.children or []:
+        if child.type != 'text' or nested:
+            result.append(child)
+            nested += child.nesting
+            continue
+        cursor = 0
+        for match in re.finditer(r'\b(Figure|Table) ([1-9]\d*)\b', child.content):
+            label = match[0]
+            anchor = f'{match[1].lower()}-{match[2]}'
+            if anchor in targets:
+                before = Token('text', '', 0, content=child.content[cursor:match.start()])
+                link = Token('link_open', 'a', 1)
+                link.attrSet('href', f'#{anchor}')
+                result.extend((before, link, Token('text', '', 0, content=label), Token('link_close', 'a', -1)))
+                cursor = match.end()
+        result.append(Token('text', '', 0, content=child.content[cursor:]))
+    inline.children = result
+
+
+def horisma_module(root, module_name):
+    helper = (root / f'src/horisma_p0/{module_name}.py').resolve(strict=True)
+    if not helper.is_relative_to(root):
+        raise ValueError('A manuscript renderer is outside Horisma')
+    spec = spec_from_file_location(f'horisma_{module_name}', helper)
+    module = module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def render(manuscript, revision_date, portraits=frozenset(), *, horisma_root=None):
     empty, metadata, body = manuscript.decode('utf-8').split('---\n', 2)
     if empty or 'title: "The Secrets of Terms"' not in metadata or 'subtitle: "The Matthew Effect"' not in metadata:
         raise ValueError('Unexpected manuscript title or front matter')
@@ -541,6 +636,8 @@ def render(manuscript, revision_date):
 
     body = re.sub(r'\[([1-9]\d*(?:\s*,\s*[1-9]\d*)*)\](?!\()', cite, body)
     markdown = MarkdownIt('commonmark', {'html': False}).enable('table')
+    if horisma_root is not None:
+        horisma_module(horisma_root, 'manuscript_math').install_mathml(markdown, horisma_root)
     tokens = markdown.parse(body)
     navigation = []
     figure_position = len(tokens)
@@ -560,7 +657,7 @@ def render(manuscript, revision_date):
     figure = Token('html_block', '', 0)
     figure.content = POSTER_FIGURE
     tokens.insert(figure_position, figure)
-    article = render_manuscript_article(markdown, tokens)
+    article = render_manuscript_article(markdown, tokens, portraits)
     sources = ''.join(
         f'<li id="source-{number}" value="{number}">{markdown.renderInline(text)}</li>\n'
         for number, text in notes.items()
@@ -576,7 +673,7 @@ def render(manuscript, revision_date):
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="reader.css">
 </head>
-<body>
+<body class="manuscript-edition">
   <a class="skip-link" href="#manuscript">Skip to the manuscript</a>
   <header class="masthead">
     <div class="shell masthead-inner">
@@ -619,11 +716,12 @@ def render(manuscript, revision_date):
 """
     figure_downloads = {f'{path.removesuffix(".svg")}.{ext}'
                         for path in MANUSCRIPT_FIGURES.values() for ext in ('svg', 'png', 'jpg')}
-    PublicMarkup(markup, local_links=LOCAL_LINKS | figure_downloads)
+    PublicMarkup(markup, local_links=LOCAL_LINKS | figure_downloads | portraits |
+                 {item[0] for item in CHART_VIEWS.values()})
     if re.search(r'<code>(?:passage:|evt-)|127\.0\.0\.1|localhost|file://|(?<![\w:])[A-Z]:[/\\]|scientific_acceptance|\bdata/(?:editorial|intake)\b',
                  markup, re.IGNORECASE):
         raise ValueError('Internal material appears in the public manuscript')
-    return markup.encode('utf-8')
+    return ('\n'.join(line.rstrip() for line in markup.splitlines()) + '\n').encode('utf-8')
 
 
 def main():
@@ -634,11 +732,14 @@ def main():
     manuscript, revision, state = recorded_manuscript(root)
     posters, receipt = recorded_poster(root, digest(manuscript))
     revision_date = datetime.fromisoformat(revision['recorded_at']).date()
-    files = {'.nojekyll': b'', 'manuscript.html': render(manuscript, revision_date)}
+    people = recorded_people(root)
+    portraits = {name for name in people if PEOPLE_PORTRAIT_PATH.fullmatch(name)}
+    files = {'.nojekyll': b'', 'manuscript.html': render(manuscript, revision_date, portraits, horisma_root=root)}
     files.update({f'assets/matthew-effect-poster.{ext}': raw for ext, raw in posters.items()})
-    files.update(experiment_figures(root))
-    files.update(recorded_portraits(root))
-    files.update(recorded_people(root))
+    files.update(experiment_figures(root, horisma_module(root, 'manuscript_charts')))
+    if f'../../../{PORTRAIT_PLATE}.jpg'.encode() in manuscript:
+        files.update(recorded_portraits(root))
+    files.update(people)
     targets = {name: SITE / name for name in files}
     if any(not target.resolve().is_relative_to(SITE) for target in targets.values()):
         raise ValueError('An export target resolves outside the portfolio')

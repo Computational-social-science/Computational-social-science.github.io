@@ -2,7 +2,7 @@
 
 The GitHub Pages destination is [computational-social-science.github.io](https://computational-social-science.github.io/). The site uses the root of the `main` branch in `Computational-social-science/computational-social-science.github.io`.
 
-The homepage presents the Matthew Effect case. The [working manuscript](manuscript.html) includes the research narrative and source notes. The [standalone poster](assets/matthew-effect-poster.svg) and [print PDF](assets/matthew-effect-poster.pdf) use the same A4 canvas.
+The homepage presents the Matthew Effect case. The [working manuscript](manuscript.html) includes the research narrative, [individual scientist cards](manuscript.html#robert-k-merton), [annual name frequencies](manuscript.html#figure-1), [paired summary scores](manuscript.html#figure-2) and source notes. Printed pages retain the figures and captions. Mathematical expressions are typeset locally from the chapter’s LaTeX. The [standalone poster](assets/matthew-effect-poster.svg) and [print PDF](assets/matthew-effect-poster.pdf) use the same A4 canvas.
 
 The [name-frequency explorer](matthew-matilda/explorer.html) displays the original paired observations and fits alongside the current Google Books English name queries. Its [A4 figure sheet](matthew-matilda/figures-a4.pdf) includes both panels for printing. The exporter verifies these assets against their figure and input hashes in Horisma.
 

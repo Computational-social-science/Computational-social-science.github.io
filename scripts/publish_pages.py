@@ -42,6 +42,7 @@ PAGE_FILES = (
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
     *EVIDENCE_FIGURE_PAGES,
     TESTIMONY_SCORES_PAGE,
+    "matthew-matilda/name-usage-view.html", "matthew-matilda/testimony-pairs-view.html",
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
     "matthew-matilda/method.html", "matthew-matilda/name-queries.csv", "matthew-matilda/witness-panel.csv",
     "matthew-matilda/book-access.csv", "matthew-matilda/english-subcorpora.csv", "matthew-matilda/readable-editions.csv",

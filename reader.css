@@ -20,6 +20,16 @@
 .reader-text h3 { margin: 1.35em 0 .5em; font-size: 1.2em; line-height: 1.24; }
 .reader-text li { margin: .55em 0; max-width: 66ch; }
 .reader-text ol { padding-inline-start: 1.45rem; }
+.manuscript-edition .reader-text { max-width: 46rem; }
+.manuscript-edition .reader-text :is(p,li) { max-width: none; }
+.manuscript-edition .reader-text strong { font-weight: 700; }
+.manuscript-edition math { font-family: "STIX Two Math", "Cambria Math", math; }
+.manuscript-edition :is(.math-display,.math-block) {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-block: .55em 1em;
+}
+.manuscript-edition math[display="block"] { margin-block: .45em; }
 .table-wrap { max-width: 100%; overflow-x: auto; margin-block: 1.4rem; }
 .table-wrap table { width: 100%; min-width: 32rem; border-collapse: collapse; font: .9rem/1.5 var(--sans); }
 .table-wrap th, .table-wrap td { padding: .65rem .7rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule); }
@@ -33,13 +43,62 @@
 .reader-figure { width: min(100%, 23rem); margin: 1.5rem auto 1.75rem; }
 .reader-figure a { display: block; background: #fffaf0; border: 1px solid var(--rule); }
 .reader-figure img { display: block; width: 100%; height: auto; }
+.reader-text :is(.research-figure,.manuscript-table) { scroll-margin-top: 1rem; }
+.reader-text :is(.research-figure,.manuscript-table):target { outline: 2px solid var(--accent); outline-offset: 4px; }
 .replication-report .reader-text img { display: block; max-width: 100%; height: auto; }
 .reader-figure figcaption { display: block; font: .88rem/1.52 var(--sans); }
 .research-figure { width: 100%; max-width: 49rem; margin: 1.65rem 0 2rem; }
 .research-figure .research-figure-image { background: #fff; }
+.manuscript-chart {
+  display: block;
+  width: 100%;
+  height: 34rem;
+  border: 1px solid var(--rule);
+  background: #faf8f1;
+}
+.manuscript-chart.testimony-pairs { height: 28rem; }
+.research-figure .print-chart { display: none; }
 .research-figure figcaption { border-bottom: 0; padding-bottom: .25rem; }
 .reader-text .figure-downloads { margin: .25rem 0 0; color: var(--muted); font: .78rem/1.4 var(--sans); }
 .figure-downloads a { display: inline; background: none; border: 0; }
+.scientist-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: 1rem;
+  max-width: 49rem;
+  margin-block: 1.4rem 1.6rem;
+}
+.scientist-card {
+  --portrait-paper: #faf8f1;
+  min-width: 0;
+  padding: clamp(.9rem, 2.4vw, 1.35rem);
+  border: 1px solid var(--rule);
+  border-top: 2px solid #877558;
+  background: var(--portrait-paper);
+  scroll-margin-top: 1rem;
+}
+.scientist-card:target { outline: 2px solid var(--accent); outline-offset: 3px; }
+.scientist-card h4 {
+  margin: 0 0 .9rem;
+  color: var(--ink);
+  font: 650 clamp(1.16rem, 2vw, 1.43rem)/1.16 var(--serif);
+}
+.scientist-card img {
+  display: block;
+  width: min(100%, 9rem);
+  height: auto;
+  aspect-ratio: 404 / 488;
+  object-fit: contain;
+  margin: 0 auto 1rem;
+}
+.scientist-card dl { display: grid; gap: .6rem; margin: 0; }
+.scientist-field dt {
+  margin-bottom: .11rem;
+  color: var(--accent);
+  font: 650 .73rem/1.4 var(--sans);
+}
+.scientist-field dd { font: .96rem/1.52 var(--serif); }
+.scientist-field:last-child dd { font: .78rem/1.5 var(--sans); }
 .reader-sources { margin-top: 2.25rem; padding-top: .65rem; border-top: 1px solid var(--rule); }
 .reader-sources li { font-size: .95rem; }
 .reader-sources li:target { background: #edeee4; }
@@ -49,16 +108,67 @@
   .reader-contents { position: static; max-height: none; overflow: visible; padding: 1.25rem 0 .65rem; border-bottom: 1px solid var(--rule); }
 }
 
+@media (max-width: 24rem) {
+  .manuscript-edition .math-display { font-size: .94em; }
+  .manuscript-chart.name-usage { height: 38rem; }
+}
+
 @page { size: A4; margin: 15mm; }
+@page manuscript { size: 210mm 297mm; margin: 19mm 21mm 20mm; }
 @media print {
   .shell.reader { width: 100%; padding-block: 0; }
   .reader-grid { display: block; }
   .reader-contents, .reader-assets, .figure-downloads { display: none; }
   .reader-figure { width: min(100%, 14rem); break-inside: avoid; }
   .research-figure { width: 100%; }
+  .research-figure .manuscript-chart { display: none; }
+  .research-figure .print-chart { display: block; }
+  .scientist-cards { display: block; }
+  .scientist-card {
+    display: grid;
+    grid-template-columns: 23mm minmax(0, 1fr);
+    column-gap: 5mm;
+    break-inside: avoid;
+    margin-bottom: 4mm;
+    padding: 4mm;
+    print-color-adjust: exact;
+  }
+  .scientist-card:target { outline: none; }
+  .scientist-card h4 { grid-column: 1 / -1; font-size: 13pt; margin-bottom: 2mm; }
+  .scientist-card img { width: 100%; margin: 0; }
+  .scientist-card dl { gap: 2mm; }
+  .scientist-field dd { font-size: 9.5pt; }
+  .scientist-field:last-child dd { font-size: 8pt; }
   .reader-text :is(h2, h3), .manuscript-table caption { break-after: avoid; }
   .manuscript-table { overflow: visible; container-type: normal; }
   .manuscript-table table { min-width: 0; }
   .manuscript-table caption { position: static; max-width: none; }
   .manuscript-table tr { break-inside: avoid; }
+  .manuscript-edition { page: manuscript; background: white; }
+  .manuscript-edition > :is(.masthead,.site-footer,.skip-link),
+  .manuscript-edition .reader-figure[aria-labelledby="poster-caption"] { display: none; }
+  .manuscript-edition .reader-heading { padding-bottom: 5mm; }
+  .manuscript-edition .reader-heading h1 { font-size: 29pt; line-height: 1.06; letter-spacing: -.035em; }
+  .manuscript-edition .reader-heading .subtitle { margin-top: 2mm; font-size: 13.5pt; }
+  .manuscript-edition :is(.project-name,.reader-edition) { font-size: 9pt; }
+  .manuscript-edition .reader-edition { margin-top: 3mm; }
+  .manuscript-edition .reader-text {
+    max-width: none;
+    padding-top: 5mm;
+    font: 11.25pt/1.42 var(--serif);
+  }
+  .manuscript-edition .reader-text :is(p,li,dd) { orphans: 3; widows: 3; }
+  .manuscript-edition .reader-text :is(h2,h3,h4,caption) { break-after: avoid; }
+  .manuscript-edition :is(.math-display,.math-block,math[display="block"]) {
+    overflow: visible;
+    break-inside: avoid;
+  }
+  .manuscript-edition .reader-text h2 { max-width: none; font-size: 17pt; }
+  .manuscript-edition .reader-text h3 { font-size: 13pt; }
+  .manuscript-edition .reader-figure figcaption,
+  .manuscript-edition .manuscript-table :is(table,caption) { font: 9.5pt/1.38 var(--sans); }
+  .manuscript-edition .manuscript-table :is(th,td) { padding: 2.25mm; }
+  .manuscript-edition .manuscript-table { break-inside: avoid; }
+  .manuscript-edition .reader-text :is(.research-figure,.manuscript-table):target { outline: none; }
+  .manuscript-edition .reader-sources li { font-size: 10pt; }
 }
