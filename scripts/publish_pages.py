@@ -35,11 +35,13 @@ EVIDENCE_FIGURES = {
 EVIDENCE_FIGURE_PAGES = tuple(
     f"matthew-matilda/{name}" for files in EVIDENCE_FIGURES.values() for name in files
 )
+TESTIMONY_SCORES_PAGE = "matthew-matilda/testimony-scores.csv"
 PAGE_FILES = (
     "index.html", "manuscript.html", "historical-fame.html", "people.html",
     "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg", "assets/fieser-portraits.jpg",
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
     *EVIDENCE_FIGURE_PAGES,
+    TESTIMONY_SCORES_PAGE,
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
     "matthew-matilda/method.html", "matthew-matilda/name-queries.csv", "matthew-matilda/witness-panel.csv",
     "matthew-matilda/book-access.csv", "matthew-matilda/english-subcorpora.csv", "matthew-matilda/readable-editions.csv",

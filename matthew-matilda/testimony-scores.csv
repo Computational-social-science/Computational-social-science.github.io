@@ -1,0 +1,17 @@
+authors,year,work,locator,source_url,source_role,replicate,instruction,person_action,explicit_voice,scope,omission,unsupported,complete
+Jefferson Pooley,2025,The Matthew Effect in AI Summary,printed p. 3 (PDF p. 4),https://doi.org/10.31235/osf.io/qaewz_v1,reception,1,neutral,1,1,1,0,0,1
+Jefferson Pooley,2025,The Matthew Effect in AI Summary,printed p. 3 (PDF p. 4),https://doi.org/10.31235/osf.io/qaewz_v1,reception,1,source_explicit,1,1,1,0,0,1
+Jefferson Pooley,2025,The Matthew Effect in AI Summary,printed p. 3 (PDF p. 4),https://doi.org/10.31235/osf.io/qaewz_v1,reception,2,neutral,1,1,1,0,0,1
+Jefferson Pooley,2025,The Matthew Effect in AI Summary,printed p. 3 (PDF p. 4),https://doi.org/10.31235/osf.io/qaewz_v1,reception,2,source_explicit,1,1,1,0,0,1
+Rudolf Farys and Tobias Wolbring,2021,Matthew effects in science and the serial diffusion of ideas: Testing old ideas with new methods,"printed p. 505, n. 1 (PDF p. 1)",https://doi.org/10.1162/qss_a_00129,reception,1,neutral,0,1,0,1,1,0
+Rudolf Farys and Tobias Wolbring,2021,Matthew effects in science and the serial diffusion of ideas: Testing old ideas with new methods,"printed p. 505, n. 1 (PDF p. 1)",https://doi.org/10.1162/qss_a_00129,reception,1,source_explicit,1,1,0,0,1,0
+Rudolf Farys and Tobias Wolbring,2021,Matthew effects in science and the serial diffusion of ideas: Testing old ideas with new methods,"printed p. 505, n. 1 (PDF p. 1)",https://doi.org/10.1162/qss_a_00129,reception,2,neutral,1,1,0,0,1,0
+Rudolf Farys and Tobias Wolbring,2021,Matthew effects in science and the serial diffusion of ideas: Testing old ideas with new methods,"printed p. 505, n. 1 (PDF p. 1)",https://doi.org/10.1162/qss_a_00129,reception,2,source_explicit,1,1,0,0,1,0
+Michael Strevens,2006,The Role of the Matthew Effect in Science,author manuscript p. 2 (PDF p. 2),https://www.strevens.org/research/scistruc/Matthew.pdf,reception,1,neutral,1,1,0,0,1,0
+Michael Strevens,2006,The Role of the Matthew Effect in Science,author manuscript p. 2 (PDF p. 2),https://www.strevens.org/research/scistruc/Matthew.pdf,reception,1,source_explicit,1,1,1,0,0,1
+Michael Strevens,2006,The Role of the Matthew Effect in Science,author manuscript p. 2 (PDF p. 2),https://www.strevens.org/research/scistruc/Matthew.pdf,reception,2,neutral,1,1,1,0,0,1
+Michael Strevens,2006,The Role of the Matthew Effect in Science,author manuscript p. 2 (PDF p. 2),https://www.strevens.org/research/scistruc/Matthew.pdf,reception,2,source_explicit,0,1,0,1,1,0
+Robert K. Merton,1968,The Matthew Effect in Science,printed p. 56 (first PDF page),https://doi.org/10.1126/science.159.3810.56,control,1,neutral,1,0,1,0,0,0
+Robert K. Merton,1968,The Matthew Effect in Science,printed p. 56 (first PDF page),https://doi.org/10.1126/science.159.3810.56,control,1,source_explicit,1,1,1,0,0,1
+Robert K. Merton,1968,The Matthew Effect in Science,printed p. 56 (first PDF page),https://doi.org/10.1126/science.159.3810.56,control,2,neutral,1,1,1,0,0,1
+Robert K. Merton,1968,The Matthew Effect in Science,printed p. 56 (first PDF page),https://doi.org/10.1126/science.159.3810.56,control,2,source_explicit,1,1,1,0,0,1

@@ -17,7 +17,7 @@ from xml.etree import ElementTree
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 import pymupdf
-from publish_pages import EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES, PeoplePortraits
+from publish_pages import EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES, TESTIMONY_SCORES_PAGE, PeoplePortraits
 
 
 SITE = Path(__file__).resolve().parents[1]
@@ -37,6 +37,7 @@ PUBLIC_HOSTS = {
     'www.nationalacademies.org', 'www.federalreserve.gov', 'catalog.libraries.vsc.edu',
     'merton.org', 'www.nber.org', 'link.springer.com', 'www.nesacs.org', 'nesacs.org',
     'www.strevens.org', 'epub.ub.uni-muenchen.de', 'www.orgsyn.org', 'www.sciencehistory.org',
+    'eusp.org',
 }
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
@@ -175,6 +176,51 @@ def public_source_notes(notes):
     return entries
 
 
+def testimony_scores(root, receipt):
+    trial = 'data/research/replication/ex04-review-scope/origin-testimony/'
+
+    def bound_input(filename):
+        path = trial + filename
+        raw = source(root, path, 262144)
+        if digest(raw) != receipt['recipe'].get(path):
+            raise ValueError(f'Unverified testimony figure input: {filename}')
+        return json.loads(raw)
+
+    passages = {item['id']: item for item in bound_input('sources.json')['sources']}
+    rows = bound_input('scores.json')['items']
+    arms = ('neutral', 'source_explicit')
+    actual = {(row['source_id'], row['replicate'], row['arm']): row for row in rows}
+    expected = {(ident, replicate, arm) for ident in passages
+                for replicate in (1, 2) for arm in arms}
+    if (len(rows) != 16 or len(actual) != len(rows) or actual.keys() != expected or
+            sorted(item['role'] for item in passages.values()) != ['control', 'reception', 'reception', 'reception']):
+        raise ValueError('Unexpected paired testimony sample')
+
+    figure_pairs = {(pair['source_id'], pair['replicate']): pair for pair in receipt['pairs']}
+    score_fields = ('person_action', 'explicit_voice', 'scope', 'omission', 'unsupported', 'complete')
+    output = StringIO(newline='')
+    writer = csv.writer(output, lineterminator='\n')
+    writer.writerow(('authors', 'year', 'work', 'locator', 'source_url', 'source_role',
+                     'replicate', 'instruction', *score_fields))
+    for ident, passage in passages.items():
+        link = urlsplit(passage['url'])
+        if link.scheme != 'https' or link.netloc not in PUBLIC_HOSTS:
+            raise ValueError('Unapproved testimony source URL')
+    for ident, replicate, arm in sorted(actual):
+        row = actual[ident, replicate, arm]
+        passage = passages[ident]
+        pair = figure_pairs[ident, replicate]
+        ratings = [row[field] for field in score_fields]
+        person_action, voice, scope, omission, unsupported, complete = ratings
+        if (row['delivered'] is not True or any(type(value) is not bool for value in ratings)
+                or complete != (person_action and voice and scope and not omission and not unsupported)
+                or pair['role'] != passage['role'] or pair[arm] != complete):
+            raise ValueError('A testimony score does not reproduce the paired figure')
+        writer.writerow((passage['author'], passage['year'], passage['title'], passage['page'],
+                         passage['url'], passage['role'], replicate, arm, *map(int, ratings)))
+    return output.getvalue().encode('utf-8')
+
+
 def evidence_figures(root, directory):
     result = {}
     for stem, files in EVIDENCE_FIGURES.items():
@@ -189,6 +235,8 @@ def evidence_figures(root, directory):
             if digest(raw) != receipt['artifacts'][name]['sha256']:
                 raise ValueError(f'{stem} figure failed its receipt check: {name}')
             result[f'matthew-matilda/{name}'] = raw
+        if stem == 'testimony-pairs':
+            result[TESTIMONY_SCORES_PAGE] = testimony_scores(root, receipt)
     return result
 
 
