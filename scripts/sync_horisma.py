@@ -33,7 +33,8 @@ PUBLIC_HOSTS = {
     'openlibrary.org', 'archive.org', 'bookworm-project.github.io', 'www.hathitrust.org',
     'cran.r-project.org', 'journals.plos.org', 'research.chalmers.se',
     'www.nationalacademies.org', 'www.federalreserve.gov', 'catalog.libraries.vsc.edu',
-    'merton.org', 'www.nber.org', 'link.springer.com',
+    'merton.org', 'www.nber.org', 'link.springer.com', 'www.nesacs.org', 'nesacs.org',
+    'www.strevens.org', 'epub.ub.uni-muenchen.de',
 }
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
