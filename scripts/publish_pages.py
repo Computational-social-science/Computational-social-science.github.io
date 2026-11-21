@@ -2,7 +2,7 @@
 
 import argparse
 import base64
-from collections import defaultdict
+from collections import Counter, defaultdict
 import csv
 from hashlib import sha256
 from html.parser import HTMLParser
@@ -47,6 +47,14 @@ STATUS_CUE_FIELDS = (
 )
 STATUS_CUE_MAX_BYTES = 131_072
 STATUS_CUE_APPROVED_SHA256 = "31634709ddba26133df13affa7e32584fe1dffe914d3170cf0f55353f0fa7022"
+CONTEXT_CUE_PAGE = "matthew-matilda/context-cue-scores.csv"
+CONTEXT_CUE_VIEW_PAGE = "matthew-matilda/context-cue-comparison.html"
+CONTEXT_CUE_MAX_BYTES = 131_072
+CONTEXT_CUE_APPROVED_SHA256 = "eb5fea4bc5eceda5a73f4511421abfa8f9b7072d6f5f649fff3a26aeb0b88d6d"
+CONTEXT_CUE_FIELDS = (
+    "slot_id", "block", "vignette", "evidence", "cue", "marked_actor", "gold_actor", "delivery",
+    "action_status", "attribution", "endorsed_actors", "explicit_uncertainty", "response_category", "answer", "prompt",
+)
 WINDOW_SENSITIVITY_PAGE = "matthew-matilda/window-sensitivity.csv"
 WINDOW_REPLAY_PAGE = "matthew-matilda/reproduce-windows.py"
 PAGE_FILES = (
@@ -55,14 +63,16 @@ PAGE_FILES = (
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
     *EVIDENCE_FIGURE_PAGES,
     TESTIMONY_SCORES_PAGE,
-    WORD_BUDGET_PAGE, STATUS_CUE_PAGE, WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
+    WORD_BUDGET_PAGE, STATUS_CUE_PAGE, CONTEXT_CUE_PAGE, CONTEXT_CUE_VIEW_PAGE,
+    WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
     "matthew-matilda/name-usage-view.html", "matthew-matilda/testimony-pairs-view.html",
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
     "matthew-matilda/method.html", "matthew-matilda/name-queries.csv", "matthew-matilda/witness-panel.csv",
     "matthew-matilda/book-access.csv", "matthew-matilda/english-subcorpora.csv", "matthew-matilda/readable-editions.csv",
 )
 STATIC = frozenset((*PAGE_FILES, ".nojekyll", "reader.css", "style.css"))
-ALLOWED = STATIC | {"README.md", "scripts/sync_horisma.py", "scripts/publish_pages.py"}
+ALLOWED = STATIC | {"README.md", "scripts/sync_horisma.py", "scripts/publish_pages.py",
+                   "scripts/context_cue_view.py"}
 INTERNAL = re.compile(
     rb"localhost|127\.0\.0\.1|file://|(?<![\w:])[a-z]:[/\\]|"
     rb"data/(?:editorial|intake)/|ops/state/|<code>(?:passage:|evt-)|scientific_acceptance",
@@ -123,6 +133,99 @@ def status_cue_rows(raw):
 def approved_status_cue(raw):
     if sha256(raw).hexdigest() != STATUS_CUE_APPROVED_SHA256:
         raise ValueError("The status-cue exhibit differs from the disclosure-reviewed CSV.")
+
+
+def context_cue_rows(raw):
+    if not 0 < len(raw) <= CONTEXT_CUE_MAX_BYTES or INTERNAL.search(raw):
+        raise ValueError("Context-cue exhibit size or disclosure check failed.")
+    try:
+        reader = csv.DictReader(StringIO(raw.decode("utf-8"), newline=""), strict=True)
+        if tuple(reader.fieldnames or ()) != CONTEXT_CUE_FIELDS:
+            raise ValueError("The context-cue exhibit has an unexpected public schema.")
+        rows = list(reader)
+    except (csv.Error, UnicodeDecodeError) as exc:
+        raise ValueError("The context-cue exhibit contains invalid CSV.") from exc
+    evidence = {"DIRECT", "INDIRECT", "INDETERMINATE"}
+    markers = {"NEUTRAL": "", "A_MARKED": "A", "B_MARKED": "B"}
+    aliases = {"A", "B"}
+    vignettes = {"interviews", "reading"}
+    if len(rows) != 72:
+        raise ValueError("The context-cue exhibit must contain all 72 assigned outputs.")
+    slots = set()
+    blocks = defaultdict(list)
+    for row in rows:
+        if set(row) != set(CONTEXT_CUE_FIELDS) or None in row.values():
+            raise ValueError("Malformed context-cue row.")
+        if (row["evidence"] not in evidence or row["vignette"] not in vignettes
+                or row["cue"] not in markers or row["marked_actor"] != markers[row["cue"]]
+                or row["gold_actor"] not in (
+                    {"UNDETERMINED"} if row["evidence"] == "INDETERMINATE" else aliases
+                )):
+            raise ValueError("Invalid context-cue assignment identity.")
+        if row["slot_id"] in slots:
+            raise ValueError("Duplicate context-cue assignment.")
+        slots.add(row["slot_id"])
+        if not row["prompt"].strip():
+            raise ValueError("Context-cue assignments require a stimulus.")
+        if row["delivery"] == "TECHNICAL_FAILURE":
+            if row["response_category"] != "TECHNICAL_FAILURE" or any(
+                row[key] for key in ("answer", "action_status", "attribution", "endorsed_actors", "explicit_uncertainty")
+            ):
+                raise ValueError("Technical failures require blank response and grading fields.")
+        elif row["delivery"] == "DELIVERED":
+            if not row["answer"].strip() or row["response_category"] != context_cue_category(row):
+                raise ValueError("Invalid context-cue answer or response category.")
+        else:
+            raise ValueError("Invalid context-cue delivery state.")
+        for field, limit in (("answer", 2_000), ("prompt", 2_000)):
+            value = row[field]
+            if (len(value) > limit or re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", value)
+                    or value.startswith(("\t", "\r", "\n")) or value.lstrip().startswith(("=", "+", "-", "@"))):
+                raise ValueError("Unsafe or oversized context-cue text.")
+        blocks[row["block"]].append(row)
+    if set(blocks) != {f"B{index:02d}" for index in range(1, 9)}:
+        raise ValueError("Unexpected context-cue blocks.")
+    design = {(level, cue) for level in evidence for cue in markers}
+    balance = Counter()
+    for block, group in blocks.items():
+        names = {row["vignette"] for row in group}
+        gold = {row["gold_actor"] for row in group if row["evidence"] != "INDETERMINATE"}
+        if (len(group) != 9 or {(row["evidence"], row["cue"]) for row in group} != design
+                or len(names) != 1 or len(gold) != 1 or {row["slot_id"] for row in group} != {
+                    f"C{block[1:]}-{position:02d}" for position in range(1, 10)
+                }):
+            raise ValueError("Context-cue rows do not cover the matched block design.")
+        balance[next(iter(names)), next(iter(gold))] += 1
+    if balance != {(name, alias): 2 for name in vignettes for alias in aliases}:
+        raise ValueError("Context-cue blocks do not balance vignette and resolved alias.")
+    return rows
+
+
+def context_cue_category(row):
+    action = row["action_status"]
+    attribution = row["attribution"]
+    actors = row["endorsed_actors"]
+    uncertainty = row["explicit_uncertainty"]
+    if (action not in {"IN_SCOPE", "OMITTED", "OTHER_ACTION"}
+            or attribution not in {"NONE", "ALTERNATIVES", "CATEGORICAL", "TENTATIVE"}
+            or actors not in {"", "A", "B", "A+B"} or uncertainty not in {"0", "1"}
+            or bool(actors) != (attribution in {"CATEGORICAL", "TENTATIVE"})
+            or (attribution != "NONE" or uncertainty == "1") and action != "IN_SCOPE"
+            or attribution == "ALTERNATIVES" and uncertainty != "1"):
+        raise ValueError("Invalid context-cue grading fields.")
+    if actors == "A+B":
+        return "JOINT"
+    if actors:
+        gold = row["gold_actor"]
+        if gold == "UNDETERMINED":
+            return "SOLE_UNSUPPORTED"
+        return "SOLE_CORRECT" if actors == gold else "SOLE_FOIL"
+    return "EXPLICIT_UNCERTAINTY" if uncertainty == "1" else "UNASSIGNED"
+
+
+def approved_context_cue(raw):
+    if not CONTEXT_CUE_APPROVED_SHA256 or sha256(raw).hexdigest() != CONTEXT_CUE_APPROVED_SHA256:
+        raise ValueError("The context-cue exhibit has not passed its reviewed exact-byte hash gate.")
 
 
 class PeoplePortraits(HTMLParser):
@@ -189,15 +292,20 @@ def local_edition():
             if (path not in STATIC and not portrait) or (path, oid) in checked or set(oid) == {"0"}:
                 continue
             checked.add((path, oid))
-            limit = STATUS_CUE_MAX_BYTES if path == STATUS_CUE_PAGE else MAX_FILE_BYTES
+            limit = (CONTEXT_CUE_MAX_BYTES if path == CONTEXT_CUE_PAGE else
+                     STATUS_CUE_MAX_BYTES if path == STATUS_CUE_PAGE else MAX_FILE_BYTES)
             if int(git("cat-file", "-s", oid).stdout) > limit:
                 raise PublishError(f"{path} exceeds the public file size limit.")
             if path == STATUS_CUE_PAGE:
                 raw = git("cat-file", "blob", oid).stdout
                 status_cue_rows(raw)
                 approved_status_cue(raw)
-            inspect_text = path.endswith((".html", ".svg", ".css")) or path in {
-                WORD_BUDGET_PAGE, WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
+            if path == CONTEXT_CUE_PAGE:
+                raw = git("cat-file", "blob", oid).stdout
+                context_cue_rows(raw)
+                approved_context_cue(raw)
+            inspect_text = path.endswith((".html", ".svg", ".css", ".py")) or path in {
+                WORD_BUDGET_PAGE, CONTEXT_CUE_PAGE, WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
             }
             if inspect_text and INTERNAL.search(git("cat-file", "blob", oid).stdout):
                 raise PublishError(f"{path} has a private workspace reference in Git history.")

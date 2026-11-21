@@ -1,0 +1,577 @@
+slot_id,block,vignette,evidence,cue,marked_actor,gold_actor,delivery,action_status,attribution,endorsed_actors,explicit_uncertainty,response_category,answer,prompt
+C01-01,B01,interviews,INDIRECT,NEUTRAL,,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A conducted the interviews with prize-winning scientists.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C01-02,B01,interviews,DIRECT,NEUTRAL,,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A conducted the interviews with prize-winning scientists; the evidence does not specify either researcher’s standing.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Interview log: Researcher A conducted the interviews with prize-winning scientists during the morning fieldwork shift.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C01-03,B01,interviews,INDETERMINATE,A_MARKED,A,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The evidence does not establish who conducted the interviews: either researcher could have been the one on fieldwork that day.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C01-04,B01,interviews,INDETERMINATE,B_MARKED,B,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,"The interviewers cannot be identified from the evidence: it says one fieldwork researcher conducted the interviews, but doesn’t establish whether they were Researcher A or Researcher B.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C01-05,B01,interviews,INDIRECT,A_MARKED,A,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A conducted the interviews; the evidence identifies A as the sole researcher on the morning shift.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C01-06,B01,interviews,DIRECT,A_MARKED,A,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,1,SOLE_CORRECT,Researcher A conducted the interviews with the prize-winning scientists; the evidence does not establish Researcher B’s role in conducting them.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Interview log: Researcher A conducted the interviews with prize-winning scientists during the morning fieldwork shift.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C01-07,B01,interviews,INDETERMINATE,NEUTRAL,,UNDETERMINED,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,The evidence does not identify which researcher conducted the interviews: it only establishes that one of the researchers on fieldwork that day did so.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C01-08,B01,interviews,INDIRECT,B_MARKED,B,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,"Researcher A conducted the interviews, according to the interview log and staff diary.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C01-09,B01,interviews,DIRECT,B_MARKED,B,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,1,SOLE_CORRECT,"Researcher A conducted the interviews; the evidence establishes this from the interview log and staff diary, but does not establish that Researcher B conducted them.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Interview log: Researcher A conducted the interviews with prize-winning scientists during the morning fieldwork shift.
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C02-01,B02,interviews,DIRECT,A_MARKED,A,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A conducted the interviews with prize-winning scientists; Researcher B’s later report does not establish that B conducted them.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: Researcher A conducted the interviews with prize-winning scientists during the morning fieldwork shift."
+C02-02,B02,interviews,INDETERMINATE,NEUTRAL,,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The interviews were conducted by Researcher A or Researcher B; the evidence does not identify which one.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists."
+C02-03,B02,interviews,INDIRECT,B_MARKED,B,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A conducted the interviews with the prize-winning scientists.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists."
+C02-04,B02,interviews,DIRECT,B_MARKED,B,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A conducted the interviews with prize-winning scientists; Researcher B’s later report does not establish that B interviewed them.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: Researcher A conducted the interviews with prize-winning scientists during the morning fieldwork shift."
+C02-05,B02,interviews,INDIRECT,NEUTRAL,,A,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The morning fieldwork researcher conducted the interviews; the evidence does not establish whether that was Researcher A or Researcher B.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists."
+C02-06,B02,interviews,DIRECT,NEUTRAL,,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,The evidence indicates that Researcher A conducted the interviews with prize-winning scientists; Researcher B’s later report does not establish that they conducted them.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: Researcher A conducted the interviews with prize-winning scientists during the morning fieldwork shift."
+C02-07,B02,interviews,INDETERMINATE,B_MARKED,B,UNDETERMINED,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,"The evidence does not establish who conducted the interviews: it identifies Researcher A on the morning shift and Researcher B on the afternoon shift, but the log does not specify which shift the interviews occurred during.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists."
+C02-08,B02,interviews,INDETERMINATE,A_MARKED,A,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The interviews were conducted by either Researcher A or Researcher B; the evidence does not establish which one.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists."
+C02-09,B02,interviews,INDIRECT,A_MARKED,A,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,"The interviews were conducted by Researcher A, the sole researcher on the morning fieldwork shift.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Staff diary: Researcher A was the sole researcher on the morning fieldwork shift. Researcher B was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists."
+C03-01,B03,interviews,INDETERMINATE,B_MARKED,B,UNDETERMINED,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,"The evidence does not establish who conducted the interviews: Researcher B was on the morning shift, while Researcher A later reported on them, but neither fact identifies the interviewer.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C03-02,B03,interviews,INDETERMINATE,A_MARKED,A,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,"The interviewer cannot be identified from the evidence: it was one of the fieldwork researchers, and the log does not establish whether that was Researcher A or Researcher B.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C03-03,B03,interviews,INDIRECT,B_MARKED,B,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,Researcher B conducted the interviews; Researcher A later reported on them.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C03-04,B03,interviews,INDETERMINATE,NEUTRAL,,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The evidence does not establish who conducted the interviews: either Researcher A or Researcher B could have done so.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C03-05,B03,interviews,INDIRECT,A_MARKED,A,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,Researcher B conducted the interviews; Researcher A later reported on them.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C03-06,B03,interviews,INDIRECT,NEUTRAL,,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,Researcher B conducted the interviews; the evidence identifies B as the sole researcher on the morning fieldwork shift.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C03-07,B03,interviews,DIRECT,NEUTRAL,,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,Researcher B conducted the interviews with prize-winning scientists; the evidence does not specify either researcher’s standing.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Interview log: Researcher B conducted the interviews with prize-winning scientists during the morning fieldwork shift.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C03-08,B03,interviews,DIRECT,B_MARKED,B,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B conducted the interviews with prize-winning scientists; the log names B, and the diary places B alone on the morning shift.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Interview log: Researcher B conducted the interviews with prize-winning scientists during the morning fieldwork shift.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C03-09,B03,interviews,DIRECT,A_MARKED,A,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,1,SOLE_CORRECT,Researcher B conducted the interviews with the prize-winning scientists; the evidence does not establish Researcher A’s involvement in conducting them.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Interview log: Researcher B conducted the interviews with prize-winning scientists during the morning fieldwork shift.
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition."
+C04-01,B04,interviews,INDETERMINATE,A_MARKED,A,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The evidence does not establish who conducted the interviews: it could have been Researcher A or Researcher B.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists."
+C04-02,B04,interviews,DIRECT,B_MARKED,B,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,Researcher B conducted the interviews with prize-winning scientists.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: Researcher B conducted the interviews with prize-winning scientists during the morning fieldwork shift."
+C04-03,B04,interviews,DIRECT,NEUTRAL,,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,Researcher B conducted the interviews with prize-winning scientists; Researcher A later reported on them in a study of scientific recognition.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: Researcher B conducted the interviews with prize-winning scientists during the morning fieldwork shift."
+C04-04,B04,interviews,INDETERMINATE,B_MARKED,B,UNDETERMINED,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,"The evidence does not establish who conducted the interviews: Researcher B was on the morning shift, while Researcher A was on the afternoon shift, and the log does not say which shift the interviews took place during.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists."
+C04-05,B04,interviews,INDIRECT,A_MARKED,A,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,1,SOLE_CORRECT,Researcher B conducted the interviews with prize-winning scientists; the evidence does not establish Researcher A’s involvement.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists."
+C04-06,B04,interviews,INDIRECT,B_MARKED,B,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,Researcher B conducted the interviews with prize-winning scientists.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists."
+C04-07,B04,interviews,INDIRECT,NEUTRAL,,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B conducted the interviews, since the log assigns them to the morning fieldwork shift, where B was the sole researcher.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: The researcher on the morning fieldwork shift conducted the interviews with prize-winning scientists."
+C04-08,B04,interviews,INDETERMINATE,NEUTRAL,,UNDETERMINED,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_UNSUPPORTED,"Researcher B conducted the interviews, since the log places them on the morning shift and the diary identifies them as the sole researcher on that shift.","In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: One of the researchers on fieldwork that day conducted the interviews with prize-winning scientists."
+C04-09,B04,interviews,DIRECT,A_MARKED,A,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,The available evidence indicates that Researcher B conducted the interviews with prize-winning scientists.,"In one sentence, state who conducted the interviews with prize-winning scientists, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Staff diary: Researcher B was the sole researcher on the morning fieldwork shift. Researcher A was on the afternoon fieldwork shift and later reported on the interviews in a study of scientific recognition.
+
+Interview log: Researcher B conducted the interviews with prize-winning scientists during the morning fieldwork shift."
+C05-01,B05,reading,INDETERMINATE,NEUTRAL,,UNDETERMINED,DELIVERED,IN_SCOPE,TENTATIVE,A,0,SOLE_UNSUPPORTED,"Researcher A appears to have applied the cumulative-advantage analogy to reading development, by elimination from the two talks described.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C05-02,B05,reading,INDIRECT,B_MARKED,B,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,"Researcher A applied the cumulative-advantage analogy to reading development, since they were the sole speaker at the literacy roundtable.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C05-03,B05,reading,INDETERMINATE,A_MARKED,A,UNDETERMINED,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,The evidence does not establish who applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C05-04,B05,reading,DIRECT,A_MARKED,A,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,"The evidence supports Researcher A: the minutes attribute the reading-development analogy to them, and the session report confirms they alone spoke at the literacy roundtable.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Meeting minutes: In the literacy roundtable talk, Researcher A applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C05-05,B05,reading,INDIRECT,A_MARKED,A,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development; the evidence identifies them as the literacy roundtable speaker.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C05-06,B05,reading,DIRECT,B_MARKED,B,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Meeting minutes: In the literacy roundtable talk, Researcher A applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C05-07,B05,reading,INDETERMINATE,B_MARKED,B,UNDETERMINED,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,"The evidence does not identify who applied the analogy to reading development: it only says this happened in one of the two talks, while Researcher B’s colloquium talk concerned the analogy in science.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C05-08,B05,reading,INDIRECT,NEUTRAL,,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C05-09,B05,reading,DIRECT,NEUTRAL,,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,The evidence indicates that Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Meeting minutes: In the literacy roundtable talk, Researcher A applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C06-01,B06,reading,INDETERMINATE,NEUTRAL,,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The evidence does not establish whether Researcher A or Researcher B applied the analogy to reading development; it only says that one of the two speakers did.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development."
+C06-02,B06,reading,INDIRECT,A_MARKED,A,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development."
+C06-03,B06,reading,INDETERMINATE,A_MARKED,A,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,"The evidence does not identify who applied the analogy to reading development: it could have been either researcher, since the minutes do not specify which talk.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development."
+C06-04,B06,reading,DIRECT,NEUTRAL,,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,"Researcher A applied the cumulative-advantage analogy to reading development, according to the meeting minutes.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, Researcher A applied the cumulative-advantage analogy to reading development."
+C06-05,B06,reading,DIRECT,A_MARKED,A,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,The meeting minutes attribute the application of the cumulative-advantage analogy to reading development to Researcher A.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, Researcher A applied the cumulative-advantage analogy to reading development."
+C06-06,B06,reading,INDIRECT,NEUTRAL,,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,Researcher A applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development."
+C06-07,B06,reading,INDETERMINATE,B_MARKED,B,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The evidence does not establish whether Researcher A or Researcher B applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development."
+C06-08,B06,reading,DIRECT,B_MARKED,B,A,DELIVERED,IN_SCOPE,CATEGORICAL,A,0,SOLE_CORRECT,The evidence identifies Researcher A as applying the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, Researcher A applied the cumulative-advantage analogy to reading development."
+C06-09,B06,reading,INDIRECT,B_MARKED,B,A,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,"The evidence does not identify who applied the analogy to reading development: the minutes name no speaker, and Researcher B’s documented discussion concerned science.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Program and session report: Researcher A was the sole speaker at the literacy roundtable. Researcher B was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development."
+C07-01,B07,reading,INDETERMINATE,B_MARKED,B,UNDETERMINED,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,"The evidence does not establish who applied the cumulative-advantage analogy to reading development: Researcher B spoke at the literacy roundtable, but the minutes do not identify which talk used the analogy.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C07-02,B07,reading,DIRECT,B_MARKED,B,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B applied the cumulative-advantage analogy to reading development, according to the meeting minutes.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Meeting minutes: In the literacy roundtable talk, Researcher B applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C07-03,B07,reading,DIRECT,A_MARKED,A,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B applied the cumulative-advantage analogy to reading development, according to the meeting minutes.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Meeting minutes: In the literacy roundtable talk, Researcher B applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C07-04,B07,reading,INDIRECT,A_MARKED,A,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,Researcher B applied the cumulative-advantage analogy to reading development; the evidence does not establish their standing in the field.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C07-05,B07,reading,DIRECT,NEUTRAL,,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,The evidence indicates that Researcher B applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Meeting minutes: In the literacy roundtable talk, Researcher B applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C07-06,B07,reading,INDETERMINATE,NEUTRAL,,UNDETERMINED,DELIVERED,IN_SCOPE,TENTATIVE,B,1,SOLE_UNSUPPORTED,"The evidence points to Researcher B, the literacy roundtable speaker, but does not conclusively identify them as the person who applied the analogy to reading development.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C07-07,B07,reading,INDIRECT,NEUTRAL,,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B applied the cumulative-advantage analogy to reading development, since they were the literacy roundtable’s sole speaker.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C07-08,B07,reading,INDETERMINATE,A_MARKED,A,UNDETERMINED,DELIVERED,IN_SCOPE,NONE,,1,EXPLICIT_UNCERTAINTY,The evidence does not establish who applied the cumulative-advantage analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C07-09,B07,reading,INDIRECT,B_MARKED,B,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B applied the cumulative-advantage analogy to reading development, since they were the literacy roundtable’s sole speaker.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development.
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science."
+C08-01,B08,reading,DIRECT,NEUTRAL,,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B applied the cumulative-advantage analogy to reading development, according to the meeting minutes.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, Researcher B applied the cumulative-advantage analogy to reading development."
+C08-02,B08,reading,INDETERMINATE,NEUTRAL,,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The evidence does not identify who applied the analogy to reading development; it could have been either Researcher A or Researcher B.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development."
+C08-03,B08,reading,INDETERMINATE,A_MARKED,A,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The evidence does not identify who applied the analogy to reading development: it could have been Researcher A or Researcher B.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development."
+C08-04,B08,reading,INDIRECT,B_MARKED,B,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B applied the cumulative-advantage analogy to reading development, according to the minutes and the report identifying B as the roundtable’s sole speaker.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development."
+C08-05,B08,reading,INDIRECT,A_MARKED,A,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,The evidence supports Researcher B: the literacy roundtable speaker applied the analogy to reading development.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development."
+C08-06,B08,reading,DIRECT,A_MARKED,A,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B applied the cumulative-advantage analogy to reading development, according to the meeting minutes.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: high standing in the field
+Researcher B: standing unspecified
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, Researcher B applied the cumulative-advantage analogy to reading development."
+C08-07,B08,reading,INDETERMINATE,B_MARKED,B,UNDETERMINED,DELIVERED,IN_SCOPE,ALTERNATIVES,,1,EXPLICIT_UNCERTAINTY,The evidence does not establish who applied the analogy to reading development: either Researcher A or Researcher B could have done so.,"In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In one of the two talks, the speaker applied the cumulative-advantage analogy to reading development."
+C08-08,B08,reading,INDIRECT,NEUTRAL,,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B applied the cumulative-advantage analogy to reading development, according to the minutes and the report identifying B as the roundtable’s sole speaker.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: standing unspecified
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, the speaker applied the cumulative-advantage analogy to reading development."
+C08-09,B08,reading,DIRECT,B_MARKED,B,B,DELIVERED,IN_SCOPE,CATEGORICAL,B,0,SOLE_CORRECT,"Researcher B, who had high standing in the field, applied the cumulative-advantage analogy to reading development.","In one sentence, state who applied the cumulative-advantage analogy to reading development, insofar as the evidence allows.
+
+Researcher A: standing unspecified
+Researcher B: high standing in the field
+
+Program and session report: Researcher B was the sole speaker at the literacy roundtable. Researcher A was the sole speaker at the research colloquium, where they discussed the cumulative-advantage analogy in science.
+
+Meeting minutes: In the literacy roundtable talk, Researcher B applied the cumulative-advantage analogy to reading development."

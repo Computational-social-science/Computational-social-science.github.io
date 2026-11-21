@@ -20,11 +20,13 @@ from xml.etree import ElementTree
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 import pymupdf
+from context_cue_view import render_context_cue
 from publish_pages import (
     EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES, PORTRAIT_PATH as PEOPLE_PORTRAIT_PATH,
-    INTERNAL, STATUS_CUE_MAX_BYTES, STATUS_CUE_PAGE, TESTIMONY_SCORES_PAGE,
+    CONTEXT_CUE_MAX_BYTES, CONTEXT_CUE_PAGE, CONTEXT_CUE_VIEW_PAGE, INTERNAL, STATUS_CUE_MAX_BYTES, STATUS_CUE_PAGE,
+    TESTIMONY_SCORES_PAGE,
     WINDOW_REPLAY_PAGE, WINDOW_SENSITIVITY_PAGE, WORD_BUDGET_PAGE, PeoplePortraits,
-    approved_status_cue, status_cue_rows,
+    approved_context_cue, approved_status_cue, context_cue_rows, status_cue_rows,
 )
 
 
@@ -50,6 +52,7 @@ PUBLIC_HOSTS = {
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
     'assets/matthew-effect-poster.pdf', 'assets/matthew-effect-poster.svg', PORTRAIT_PATH,
+    CONTEXT_CUE_PAGE, CONTEXT_CUE_VIEW_PAGE,
 }
 MANUSCRIPT_FIGURES = {
     f'../../../outputs/matthew-matilda/{name}.svg': f'matthew-matilda/{name}.svg'
@@ -307,6 +310,72 @@ def status_cue_scores(root):
     return data
 
 
+def context_cue_scores(root):
+    directory = 'data/research/replication/ex04-review-scope/context-cue/'
+
+    def read(name, limit=131_072):
+        return source(root, directory + name, limit)
+
+    data = read(Path(CONTEXT_CUE_PAGE).name, CONTEXT_CUE_MAX_BYTES)
+    rows = context_cue_rows(data)
+    approved_context_cue(data)
+    assessment = read('assessment.json')
+    receipt = json.loads(read('scores.json'))
+    if receipt['public_csv_sha256'] != digest(data) or receipt['assessment_sha256'] != digest(assessment):
+        raise ValueError('Context-cue CSV or assessment does not match its scoring receipt')
+    seal = read('seal.json')
+    frozen = json.loads(seal)['inputs']
+    if (json.loads(read('attempt.json'))['seal_sha256'] != digest(seal)
+            or frozen['model'] != 'gpt-6-luna' or not frozen['files']
+            or any(digest(source(root, path, 262_144)) != expected for path, expected in frozen['files'].items())):
+        raise ValueError('Context-cue inputs differ from the frozen attempt')
+    records = [json.loads(line) for line in read('runs.jsonl', 262_144).splitlines()]
+    by_id = {run['source_id']: run for run in records}
+    delivered = {ident for ident, run in by_id.items() if run['state'] == 'DELIVERED'}
+    mask_key = json.loads(read('mask-key.json'))
+    ratings = json.loads(assessment)
+    if (len(records) != len(rows) or set(by_id) != {r['slot_id'] for r in rows}
+            or len(mask_key) != len(delivered) or set(mask_key.values()) != delivered
+            or set(ratings['scores']) != set(mask_key)
+            or ratings['packet_sha256'] != digest(read('masked.json'))):
+        raise ValueError('Context-cue journal or grading does not cover the assigned and delivered slots')
+    labels = {ident: label for label, ident in mask_key.items()}
+    threads, ambient = set(), set()
+    for row, slot in zip(rows, frozen['slots'], strict=True):
+        run = by_id[row['slot_id']]
+        prompt_hash = digest(row['prompt'].encode())
+        if (any(row[field] != slot[field] for field in (
+                'slot_id', 'block', 'vignette', 'evidence', 'cue', 'marked_actor', 'gold_actor', 'prompt',
+             )) or row['delivery'] != run['state'] or run['arm'] != slot['cue']
+                or run['replicate'] != slot['position']
+                or prompt_hash != slot['prompt_sha256'] or prompt_hash != run['prompt_sha256']):
+            raise ValueError('Context-cue assignment or delivery differs from the retained run')
+        thread = run.get('run', {}).get('thread_id')
+        if thread:
+            if thread in threads:
+                raise ValueError('A context-cue native thread was reused')
+            threads.add(thread)
+        if row['delivery'] == 'TECHNICAL_FAILURE':
+            if not run.get('error'):
+                raise ValueError('A context-cue technical failure lacks a retained reason')
+            continue
+        audit = run['audit']
+        if (not thread or row['answer'] != run['text'] or audit['model'] != frozen['model']
+                or audit['prompt_sha256'] != prompt_hash or audit['answer_sha256'] != digest(row['answer'].encode())
+                or any("call" in kind or ("tool" in kind and kind != "additional_tools")
+                       for kind in audit['response_item_types'])):
+            raise ValueError('Context-cue answer or native verification differs from the retained audit')
+        ambient.add(audit['ambient_sha256'])
+        grade = ratings['scores'][labels[row['slot_id']]]
+        if (row['action_status'] != grade['action_status'] or row['attribution'] != grade['attribution']
+                or row['endorsed_actors'] != '+'.join(sorted(grade['endorsed_actors']))
+                or row['explicit_uncertainty'] != str(int(grade['explicit_uncertainty']))):
+            raise ValueError('Context-cue grading fields differ from the independent assessment')
+    if len(ambient) > 1:
+        raise ValueError('Context-cue sessions have inconsistent native ambient instructions')
+    return data
+
+
 def window_sensitivity(root, annual_path, annual):
     directory = 'data/research/replication/matthew-matilda/window-sensitivity/'
     script_path = 'scripts/research_matthew_window_sensitivity.py'
@@ -372,6 +441,14 @@ def experiment_figures(root, charts):
     result['matthew-matilda/annual.csv'] = annual
     result[WORD_BUDGET_PAGE] = word_budget_scores(root)
     result[STATUS_CUE_PAGE] = status_cue_scores(root)
+    context_data = context_cue_scores(root)
+    result[CONTEXT_CUE_PAGE] = context_data
+    context_view = render_context_cue(context_data).encode('utf-8')
+    PublicMarkup(context_view.decode('utf-8'), local_links={
+        '../style.css', '../reader.css', 'context-cue-scores.csv',
+        '../manuscript.html#when-can-context-identify-the-researcher',
+    })
+    result[CONTEXT_CUE_VIEW_PAGE] = context_view
     result.update(window_sensitivity(root, annual_path, annual))
     report = source(root, directory + 'REPORT.md', 262144).decode('utf-8')
     result['matthew-matilda/report.html'] = public_experiment_report(report)
