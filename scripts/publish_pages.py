@@ -2,6 +2,7 @@
 
 import argparse
 import base64
+from html.parser import HTMLParser
 import json
 import os
 from pathlib import Path
@@ -29,14 +30,14 @@ EXPERIMENT_FILES = (
 )
 EVIDENCE_FIGURES = {
     stem: tuple(f"{stem}.{ext}" for ext in ("svg", "png", "jpg"))
-    for stem in ("entity-challenge", "sentence-transfer")
+    for stem in ("entity-challenge", "sentence-transfer", "testimony-pairs")
 }
 EVIDENCE_FIGURE_PAGES = tuple(
     f"matthew-matilda/{name}" for files in EVIDENCE_FIGURES.values() for name in files
 )
 PAGE_FILES = (
-    "index.html", "manuscript.html", "historical-fame.html",
-    "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg",
+    "index.html", "manuscript.html", "historical-fame.html", "people.html",
+    "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg", "assets/fieser-portraits.jpg",
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
     *EVIDENCE_FIGURE_PAGES,
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
@@ -51,11 +52,29 @@ INTERNAL = re.compile(
     re.IGNORECASE,
 )
 MAX_FILE_BYTES = 12 * 1024 * 1024
+PORTRAIT_PATH = re.compile(r"assets/people/(?=[^/]{1,80}\.webp$)[a-z0-9]+(?:-[a-z0-9]+)*\.webp")
+MAX_PORTRAITS = 60
 TRANSIENT = {408, 429, 500, 502, 503, 504}
 
 
 class PublishError(RuntimeError):
     """A bounded publication step could not be verified."""
+
+
+class PeoplePortraits(HTMLParser):
+    def __init__(self, markup):
+        super().__init__()
+        self.paths = set()
+        self.feed(markup)
+        if not 1 <= len(self.paths) <= MAX_PORTRAITS:
+            raise PublishError("The people directory exceeds its portrait bounds or has no portraits.")
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "img":
+            path = dict(attrs).get("src", "")
+            if not PORTRAIT_PATH.fullmatch(path):
+                raise PublishError(f"Invalid portrait image in the people directory: {path}")
+            self.paths.add(path)
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -88,7 +107,8 @@ def local_edition():
         raise PublishError("Commit the reviewed portfolio files and leave a clean working tree.")
     head = git("rev-parse", "HEAD").stdout.decode("ascii").strip()
     paths = git("ls-tree", "-r", "--name-only", "-z", head).stdout.decode("utf-8").split("\0")[:-1]
-    if not STATIC <= set(paths) <= ALLOWED:
+    declared_portraits = PeoplePortraits(git("show", f"{head}:people.html").stdout.decode("utf-8")).paths
+    if not STATIC | declared_portraits <= set(paths) <= ALLOWED | declared_portraits:
         raise PublishError("The committed tree differs from the public portfolio file list.")
     # A push includes previous revisions. Validate the paths and file modes of those revisions too.
     history = git("log", "--format=", "--raw", "--no-abbrev", "--no-renames", "--root", "-m", head)
@@ -98,10 +118,11 @@ def local_edition():
             continue
         values, _, path = line.partition("\t")
         old_mode, mode, old_blob, blob, _change = values.lstrip(":").split()
-        if path not in ALLOWED or {old_mode, mode} - {"000000", "100644", "100755"}:
+        portrait = PORTRAIT_PATH.fullmatch(path)
+        if (path not in ALLOWED and not portrait) or {old_mode, mode} - {"000000", "100644", "100755"}:
             raise PublishError("Git history contains a path or file mode outside the public portfolio.")
         for oid in (old_blob, blob):
-            if path not in STATIC or (path, oid) in checked or set(oid) == {"0"}:
+            if (path not in STATIC and not portrait) or (path, oid) in checked or set(oid) == {"0"}:
                 continue
             checked.add((path, oid))
             if int(git("cat-file", "-s", oid).stdout) > MAX_FILE_BYTES:
@@ -213,7 +234,8 @@ def verify_pages_config(pages):
 
 
 def verify_live(head, token, timeout):
-    files = {"": "index.html", **{path: path for path in (*PAGE_FILES, "style.css", "reader.css")}}
+    portraits = PeoplePortraits(git("show", f"{head}:people.html").stdout.decode("utf-8")).paths
+    files = {"": "index.html", **{path: path for path in (*PAGE_FILES, "style.css", "reader.css", *sorted(portraits))}}
     expected = {path: git("show", f"{head}:{file}").stdout for path, file in files.items()}
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:

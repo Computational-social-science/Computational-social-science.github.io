@@ -17,13 +17,15 @@ from xml.etree import ElementTree
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 import pymupdf
-from publish_pages import EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES
+from publish_pages import EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES, PeoplePortraits
 
 
 SITE = Path(__file__).resolve().parents[1]
 MANUSCRIPT = 'docs/research/book/THE_SECRETS_OF_TERMS_MATTHEW_EFFECT_EN.md'
 STATE = 'data/editorial/workbench/state.json'
 POSTER = 'outputs/research-catalog/matthew-effect-credit-plate'
+PORTRAIT_PLATE = 'assets/illustrations/fieser-portraits'
+PORTRAIT_PATH = 'assets/fieser-portraits.jpg'
 PUBLIC_HOSTS = {
     'books.google.com', 'doi.org', 'en.wikipedia.org', 'garfield.library.upenn.edu', 'github.com',
     'history.aip.org', 'repo.library.stonybrook.edu', 'wellcomecollection.org', 'www.jstor.org',
@@ -34,11 +36,15 @@ PUBLIC_HOSTS = {
     'cran.r-project.org', 'journals.plos.org', 'research.chalmers.se',
     'www.nationalacademies.org', 'www.federalreserve.gov', 'catalog.libraries.vsc.edu',
     'merton.org', 'www.nber.org', 'link.springer.com', 'www.nesacs.org', 'nesacs.org',
-    'www.strevens.org', 'epub.ub.uni-muenchen.de',
+    'www.strevens.org', 'epub.ub.uni-muenchen.de', 'www.orgsyn.org', 'www.sciencehistory.org',
 }
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
-    'assets/matthew-effect-poster.pdf', 'assets/matthew-effect-poster.svg',
+    'assets/matthew-effect-poster.pdf', 'assets/matthew-effect-poster.svg', PORTRAIT_PATH,
+}
+MANUSCRIPT_FIGURES = {
+    f'../../../outputs/matthew-matilda/{name}.svg': f'matthew-matilda/{name}.svg'
+    for name in ('english-name-usage', 'testimony-pairs')
 }
 POSTER_FIGURE = """<figure class="reader-figure" aria-labelledby="poster-caption">
   <a href="assets/matthew-effect-poster.svg" target="_blank" rel="noopener"
@@ -113,6 +119,34 @@ def recorded_poster(root, manuscript_hash):
                     and not value.startswith(('#', 'data:image/png;base64,', 'data:image/jpeg;base64,'))):
                 raise ValueError('An active or external reference appears in the poster SVG')
     return result, raw_receipt
+
+
+def recorded_portraits(root):
+    receipt = json.loads(source(root, PORTRAIT_PLATE + '.json', 262_144))
+    plate = source(root, PORTRAIT_PLATE + '.jpg', 12_000_000)
+    if not plate.startswith(b'\xff\xd8\xff') or digest(plate) != receipt['sha256']:
+        raise ValueError('The portrait plate differs from its recorded JPEG')
+    return {PORTRAIT_PATH: plate}
+
+
+def recorded_people(root):
+    directory = 'outputs/people/'
+    receipt = json.loads(source(root, directory + 'edition.json', 262_144))['artifacts']
+    page = source(root, directory + 'people.html', 1_048_576)
+    paths = PeoplePortraits(page.decode('utf-8')).paths | {'people.html'}
+    if set(receipt) != paths:
+        raise ValueError('The people edition differs from the approved list of public files')
+    files = {}
+    for name in sorted(paths):
+        raw = page if name == 'people.html' else source(root, directory + name, 12_000_000)
+        if digest(raw) != receipt[name]['sha256']:
+            raise ValueError(f'The people edition failed its receipt check: {name}')
+        if name.endswith('.webp') and not (raw.startswith(b'RIFF') and raw[8:12] == b'WEBP'):
+            raise ValueError(f'Expected a WebP portrait: {name}')
+        files[name] = raw
+    PublicMarkup(page.decode('utf-8'), local_links=LOCAL_LINKS | paths | {'manuscript.html'},
+                 public_hosts=PUBLIC_HOSTS | {'c250.columbia.edu', 'hollisarchives.lib.harvard.edu', 'digital.sciencehistory.org'})
+    return files
 
 
 def public_source_notes(notes):
@@ -330,9 +364,10 @@ def experiment_reader(body, title, *, independent=False):
 class PublicMarkup(HTMLParser):
     """Keep local links limited to the static portfolio, plus approved public sites."""
 
-    def __init__(self, markup, local_links=LOCAL_LINKS):
+    def __init__(self, markup, local_links=LOCAL_LINKS, public_hosts=PUBLIC_HOSTS):
         super().__init__()
         self.local_links = local_links
+        self.public_hosts = public_hosts
         self.anchors = set()
         self.targets = set()
         self.feed(markup)
@@ -353,8 +388,95 @@ class PublicMarkup(HTMLParser):
                 self.targets.add(value[1:])
                 continue
             url = urlsplit(value)
-            if url.scheme != 'https' or url.netloc not in PUBLIC_HOSTS:
+            if url.scheme != 'https' or url.netloc not in self.public_hosts:
                 raise ValueError(f'An unapproved link appears in the public reader: {value}')
+
+
+def contents_links(headings):
+    sections = []
+    for level, ident, title in headings:
+        link = f'<a href="#{ident}">{escape(title)}</a>'
+        if level == 'h3' and sections:
+            sections[-1][1].append(link)
+        else:
+            sections.append((link, []))
+    items = []
+    for link, children in sections:
+        sublist = '<ul>' + ''.join(f'<li>{child}</li>' for child in children) + '</ul>' if children else ''
+        items.append(f'<li>{link}{sublist}</li>')
+    items.append('<li><a href="#sources">Sources and evidence notes</a></li>')
+    return '<ul>' + '\n'.join(items) + '</ul>'
+
+
+def manuscript_caption(tokens, index, kind):
+    if index + 2 >= len(tokens) or tokens[index].type != 'paragraph_open':
+        return None
+    inline = tokens[index + 1]
+    if kind == 'Portraits' and inline.content.startswith('**Portraits.'):
+        return 'fieser-portraits-caption', inline.children
+    match = re.match(rf'^\*\*{kind} ([1-9]\d*)\.', inline.content)
+    if match:
+        return f'{kind.lower()}-{match[1]}-caption', inline.children
+
+
+def render_manuscript_article(markdown, tokens):
+    article = []
+    def append_markup(content):
+        html = Token('html_block', '', 0)
+        html.content = content
+        article.append(html)
+
+    index = 0
+    while index < len(tokens):
+        current = tokens[index]
+        if current.type == 'paragraph_open':
+            inline = tokens[index + 1]
+            children = inline.children or []
+            if len(children) == 1 and children[0].type == 'image':
+                image = children[0]
+                source_path = image.attrGet('src')
+                portrait = source_path == f'../../../{PORTRAIT_PLATE}.jpg'
+                public_path = PORTRAIT_PATH if portrait else MANUSCRIPT_FIGURES.get(source_path)
+                if public_path:
+                    caption = manuscript_caption(tokens, index + 3, 'Portraits' if portrait else 'Figure')
+                    if not caption or not image.content.strip():
+                        raise ValueError(f'Missing manuscript figure caption or alternative text: {public_path}')
+                    ident, caption_tokens = caption
+                    description = markdown.renderer.renderInline(caption_tokens, markdown.options, {})
+                    image.attrSet('src', public_path)
+                    image.attrSet('loading', 'lazy')
+                    image_markup = markdown.renderer.renderInline(children, markdown.options, {})
+                    stem = public_path.removesuffix('.svg')
+                    downloads = ''
+                    if not portrait:
+                        formats = ' · '.join(f'<a href="{stem}.{ext}" download>{ext.upper()}</a>'
+                                             for ext in ('svg', 'png', 'jpg'))
+                        downloads = (f'<div class="figure-downloads" role="group" aria-label="Download figure">'
+                                     f'{formats}</div>')
+                    append_markup(f'<figure class="reader-figure research-figure" aria-labelledby="{ident}">'
+                                  f'<a class="research-figure-image" href="{public_path}" '
+                                  f'aria-label="Open full-size image" aria-describedby="{ident}">{image_markup}</a>'
+                                  f'<figcaption id="{ident}">{description}</figcaption>'
+                                  f'{downloads}</figure>\n')
+                    index += 6
+                    continue
+        caption = manuscript_caption(tokens, index, 'Table')
+        if caption and index + 3 < len(tokens) and tokens[index + 3].type == 'table_open':
+            ident, caption_tokens = caption
+            label = markdown.renderer.renderInline(caption_tokens, markdown.options, {})
+            append_markup(f'<div class="table-wrap manuscript-table" tabindex="0" role="region" '
+                          f'aria-labelledby="{ident}"><table><caption id="{ident}">{label}</caption>\n')
+            index += 4
+            continue
+        if current.type == 'table_open':
+            append_markup('<div class="table-wrap" tabindex="0" role="region" '
+                          'aria-label="Evidence table"><table>\n')
+        elif current.type == 'table_close':
+            append_markup('</table></div>\n')
+        else:
+            article.append(current)
+        index += 1
+    return markdown.renderer.render(article, markdown.options, {})
 
 
 def render(manuscript, revision_date):
@@ -381,7 +503,8 @@ def render(manuscript, revision_date):
             current.attrSet('id', ident)
             if current.tag == 'h1':
                 current.tag = tokens[index + 2].tag = 'h2'
-            navigation.append(f'<a href="#{ident}">{escape(title)}</a>')
+            if current.tag in {'h2', 'h3'}:
+                navigation.append((current.tag, ident, title))
             if ident == 'one-byline-more-than-one-contribution':
                 figure_position = index + 3
                 if figure_position < len(tokens) and tokens[figure_position].type == 'paragraph_open':
@@ -389,14 +512,12 @@ def render(manuscript, revision_date):
     figure = Token('html_block', '', 0)
     figure.content = POSTER_FIGURE
     tokens.insert(figure_position, figure)
-    article = markdown.renderer.render(tokens, markdown.options, {})
-    article = article.replace('<table>', '<div class="table-wrap" tabindex="0" role="region" aria-label="Evidence table"><table>')
-    article = article.replace('</table>', '</table></div>')
+    article = render_manuscript_article(markdown, tokens)
     sources = ''.join(
         f'<li id="source-{number}" value="{number}">{markdown.renderInline(text)}</li>\n'
         for number, text in notes.items()
     )
-    links = '\n'.join(navigation)
+    links = contents_links(navigation)
     markup = f"""<!doctype html>
 <html lang="en">
 <head>
@@ -430,7 +551,6 @@ def render(manuscript, revision_date):
       <nav class="reader-contents" aria-label="Manuscript contents">
         <h2>Contents</h2>
         {links}
-        <a href="#sources">Sources and evidence notes</a>
       </nav>
       <article class="reader-text" aria-label="The Matthew Effect working manuscript">
         {article}
@@ -449,7 +569,9 @@ def render(manuscript, revision_date):
 </body>
 </html>
 """
-    PublicMarkup(markup)
+    figure_downloads = {f'{path.removesuffix(".svg")}.{ext}'
+                        for path in MANUSCRIPT_FIGURES.values() for ext in ('svg', 'png', 'jpg')}
+    PublicMarkup(markup, local_links=LOCAL_LINKS | figure_downloads)
     if re.search(r'<code>(?:passage:|evt-)|127\.0\.0\.1|localhost|file://|(?<![\w:])[A-Z]:[/\\]|scientific_acceptance|\bdata/(?:editorial|intake)\b',
                  markup, re.IGNORECASE):
         raise ValueError('Internal material appears in the public manuscript')
@@ -467,6 +589,8 @@ def main():
     files = {'.nojekyll': b'', 'manuscript.html': render(manuscript, revision_date)}
     files.update({f'assets/matthew-effect-poster.{ext}': raw for ext, raw in posters.items()})
     files.update(experiment_figures(root))
+    files.update(recorded_portraits(root))
+    files.update(recorded_people(root))
     targets = {name: SITE / name for name in files}
     if any(not target.resolve().is_relative_to(SITE) for target in targets.values()):
         raise ValueError('An export target resolves outside the portfolio')
