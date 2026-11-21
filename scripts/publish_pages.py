@@ -36,12 +36,16 @@ EVIDENCE_FIGURE_PAGES = tuple(
     f"matthew-matilda/{name}" for files in EVIDENCE_FIGURES.values() for name in files
 )
 TESTIMONY_SCORES_PAGE = "matthew-matilda/testimony-scores.csv"
+WORD_BUDGET_PAGE = "matthew-matilda/word-budget-scores.csv"
+WINDOW_SENSITIVITY_PAGE = "matthew-matilda/window-sensitivity.csv"
+WINDOW_REPLAY_PAGE = "matthew-matilda/reproduce-windows.py"
 PAGE_FILES = (
     "index.html", "manuscript.html", "historical-fame.html", "people.html",
     "assets/matthew-effect-poster.pdf", "assets/matthew-effect-poster.svg", "assets/fieser-portraits.jpg",
     *(f"matthew-matilda/{file}" for file in EXPERIMENT_FILES),
     *EVIDENCE_FIGURE_PAGES,
     TESTIMONY_SCORES_PAGE,
+    WORD_BUDGET_PAGE, WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
     "matthew-matilda/name-usage-view.html", "matthew-matilda/testimony-pairs-view.html",
     "matthew-matilda/report.html", "matthew-matilda/annual.csv",
     "matthew-matilda/method.html", "matthew-matilda/name-queries.csv", "matthew-matilda/witness-panel.csv",
@@ -130,7 +134,10 @@ def local_edition():
             checked.add((path, oid))
             if int(git("cat-file", "-s", oid).stdout) > MAX_FILE_BYTES:
                 raise PublishError(f"{path} exceeds the public file size limit.")
-            if path.endswith((".html", ".svg", ".css")) and INTERNAL.search(git("cat-file", "blob", oid).stdout):
+            inspect_text = path.endswith((".html", ".svg", ".css")) or path in {
+                WORD_BUDGET_PAGE, WINDOW_SENSITIVITY_PAGE, WINDOW_REPLAY_PAGE,
+            }
+            if inspect_text and INTERNAL.search(git("cat-file", "blob", oid).stdout):
                 raise PublishError(f"{path} has a private workspace reference in Git history.")
     return head
 

@@ -11,6 +11,8 @@ from importlib.util import module_from_spec, spec_from_file_location
 import json
 from pathlib import Path
 import re
+import subprocess
+import sys
 from tempfile import NamedTemporaryFile
 from urllib.parse import urlsplit
 from xml.etree import ElementTree
@@ -20,7 +22,8 @@ from markdown_it.token import Token
 import pymupdf
 from publish_pages import (
     EVIDENCE_FIGURES, EVIDENCE_FIGURE_PAGES, EXPERIMENT_FILES, PORTRAIT_PATH as PEOPLE_PORTRAIT_PATH,
-    TESTIMONY_SCORES_PAGE, PeoplePortraits,
+    INTERNAL, TESTIMONY_SCORES_PAGE, WINDOW_REPLAY_PAGE, WINDOW_SENSITIVITY_PAGE,
+    WORD_BUDGET_PAGE, PeoplePortraits,
 )
 
 
@@ -203,6 +206,67 @@ def testimony_scores(root, receipt, charts):
     return charts.testimony_csv(bound_input('scores.json'), sources, receipt['pairs'])
 
 
+def word_budget_scores(root):
+    directory = 'data/research/replication/ex04-review-scope/origin-testimony/word-budget/'
+    seal = json.loads(source(root, directory + 'seal.json', 32768))
+    if seal['model'] != 'gpt-6-luna' or not seal['files'] or any(
+        digest(source(root, path, 262144)) != expected for path, expected in seal['files'].items()
+    ):
+        raise ValueError('Word-budget trial inputs differ from the frozen design')
+    results = json.loads(source(root, directory + 'results.json', 16384))
+    fields = ('block', 'budget_words', 'delivered', 'scientific_elite', 'interviewing_an_ultra_elite',
+              'both_titles', 'word_count', 'within_limit')
+    rows = results['rows']
+    design = [(block, budget) for block in range(1, 5) for budget in (65, 100)]
+    if (results['assigned_per_budget'] != 4
+            or [(row['block'], row['budget_words']) for row in rows] != design
+            or sorted((row['block'], row['budget']) for row in seal['prompts']) != design):
+        raise ValueError('Word-budget rows do not cover the assigned pairs')
+    for row in rows:
+        if set(row) != set(fields) or any(type(row[key]) is not int or row[key] not in (0, 1)
+                                        for key in fields[2:6]):
+            raise ValueError('Word-budget rows do not match the public scoring schema')
+        count, budget = row['word_count'], row['budget_words']
+        if (row['both_titles'] != row['scientific_elite'] * row['interviewing_an_ultra_elite']
+                or type(count) is not int or count < 0
+                or (row['delivered'] and (count == 0 or type(row['within_limit']) is not int
+                                         or row['within_limit'] != int(count <= budget)))
+                or (not row['delivered'] and (count or row['scientific_elite'] or row['interviewing_an_ultra_elite']
+                                              or row['within_limit'] is not None))):
+            raise ValueError('Inconsistent word-budget score')
+    buffer = StringIO(newline='')
+    writer = csv.DictWriter(buffer, fieldnames=fields, lineterminator='\n')
+    writer.writeheader()
+    writer.writerows(rows)
+    data = source(root, directory + 'word-budget-scores.csv', 8192)
+    if data != buffer.getvalue().encode():
+        raise ValueError('Word-budget CSV differs from the scored trial')
+    return data
+
+
+def window_sensitivity(root, annual_path, annual):
+    directory = 'data/research/replication/matthew-matilda/window-sensitivity/'
+    script_path = 'scripts/research_matthew_window_sensitivity.py'
+    receipt = json.loads(source(root, directory + 'receipt.json', 8192))
+    data = source(root, directory + 'widths.csv', 32768)
+    script = source(root, script_path, 16384)
+    if (receipt['execution'] != 'PASS' or receipt['annual_sha256'] != digest(annual)
+            or receipt['table_sha256'] != digest(data) or receipt['script_sha256'] != digest(script)
+            or INTERNAL.search(script)):
+        raise ValueError('The window analysis differs from its verified inputs or uses a private path')
+    reader = csv.DictReader(StringIO(data.decode('utf-8')))
+    rows = list(reader)
+    if (receipt['rows'] != 15 or receipt['columns'] != 21 or len(reader.fieldnames or ()) != 21
+            or [int(row['width_years']) for row in rows] != list(range(1, 16))):
+        raise ValueError('Window sensitivity must show the complete 1–15-year sweep')
+    replay = subprocess.run((sys.executable, '-I', '-B', str(root / script_path), str(root / annual_path)),
+                            capture_output=True, timeout=10, check=True)
+    if (replay.stdout != data or replay.stderr or source(root, script_path, 16384) != script
+            or source(root, annual_path, 1_000_000) != annual):
+        raise ValueError('Independent offline window replay differs from the verified table')
+    return {WINDOW_SENSITIVITY_PAGE: data, WINDOW_REPLAY_PAGE: script}
+
+
 def evidence_figures(root, directory, charts):
     result = {}
     for stem, files in EVIDENCE_FIGURES.items():
@@ -243,6 +307,8 @@ def experiment_figures(root, charts):
     if digest(annual) != receipt['recipe'][annual_path]:
         raise ValueError('Annual frequencies do not match the illustrated data')
     result['matthew-matilda/annual.csv'] = annual
+    result[WORD_BUDGET_PAGE] = word_budget_scores(root)
+    result.update(window_sensitivity(root, annual_path, annual))
     report = source(root, directory + 'REPORT.md', 262144).decode('utf-8')
     result['matthew-matilda/report.html'] = public_experiment_report(report)
     query_path = 'data/research/replication/scientist-fame/query-annual.csv'
