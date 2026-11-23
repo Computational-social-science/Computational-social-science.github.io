@@ -49,6 +49,15 @@ PUBLIC_HOSTS = {
     'www.strevens.org', 'epub.ub.uni-muenchen.de', 'www.orgsyn.org', 'www.sciencehistory.org',
     'eusp.org', 'c250.columbia.edu', 'hollisarchives.lib.harvard.edu', 'digital.sciencehistory.org',
 }
+PUBLIC_SOURCE_URLS = {
+    'https://huggingface.co/OpenSciLM/OpenScholar_Reranker/tree/f371d9d9a5c47d5b89dfa130d8d6fa303f27126e',
+    'https://static1.squarespace.com/static/5877ca6986e6c00f05f58f84/t/60d3564b307f7864ab0773dd/'
+    '1624462927039/part-2-the-science-of-collaboration.pdf#page=62',
+    'https://fever.ai/2018/task.html#scoring',
+    'https://research.google/pubs/sufficient-context-a-new-lens-on-retrieval-augmented-generation-systems-2/',
+    'https://aclanthology.org/2026.nllp-1.22/',
+    'https://aclanthology.org/2026.findings-emnlp.343/',
+}
 LOCAL_LINKS = {
     'index.html', 'style.css', 'reader.css',
     'assets/matthew-effect-poster.pdf', 'assets/matthew-effect-poster.svg', PORTRAIT_PATH,
@@ -628,10 +637,7 @@ class PublicMarkup(HTMLParser):
             if value.startswith('#'):
                 self.targets.add(value[1:])
                 continue
-            if tag == 'a' and key == 'href' and value == (
-                'https://huggingface.co/OpenSciLM/OpenScholar_Reranker/'
-                'tree/f371d9d9a5c47d5b89dfa130d8d6fa303f27126e'
-            ):
+            if tag == 'a' and key == 'href' and value in PUBLIC_SOURCE_URLS:
                 continue
             url = urlsplit(value)
             if url.scheme != 'https' or url.netloc not in self.public_hosts:
