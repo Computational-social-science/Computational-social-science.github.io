@@ -628,6 +628,11 @@ class PublicMarkup(HTMLParser):
             if value.startswith('#'):
                 self.targets.add(value[1:])
                 continue
+            if tag == 'a' and key == 'href' and value == (
+                'https://huggingface.co/OpenSciLM/OpenScholar_Reranker/'
+                'tree/f371d9d9a5c47d5b89dfa130d8d6fa303f27126e'
+            ):
+                continue
             url = urlsplit(value)
             if url.scheme != 'https' or url.netloc not in self.public_hosts:
                 raise ValueError(f'An unapproved link appears in the public reader: {value}')

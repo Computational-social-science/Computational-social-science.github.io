@@ -34,7 +34,7 @@
 <li><a href="#the-evidence-changes-the-starting-point">The evidence changes the starting point</a><ul><li><a href="#a-programme-is-not-a-clock-recording-a-talk">A programme is not a clock recording a talk</a></li><li><a href="#one-byline-more-than-one-contribution">One byline, more than one contribution</a></li><li><a href="#the-later-acknowledgment">The later acknowledgment</a></li><li><a href="#why-were-the-fiesers-proposed">Why were the Fiesers proposed?</a></li></ul></li>
 <li><a href="#what-is-the-scientific-question">What is the scientific question?</a></li>
 <li><a href="#measuring-recognition-in-books">Measuring recognition in books</a><ul><li><a href="#what-the-exploratory-data-show">What the exploratory data show</a></li><li><a href="#can-two-name-histories-identify-a-matilda-effect">Can two name histories identify a Matilda effect?</a></li></ul></li>
-<li><a href="#how-does-credit-travel-between-accounts">How does credit travel between accounts?</a><ul><li><a href="#what-did-early-citing-passages-actually-credit">What did early citing passages actually credit?</a></li><li><a href="#where-can-an-account-lose-track-of-who-did-the-work">Where can an account lose track of who did the work?</a></li><li><a href="#can-a-summary-follow-a-change-of-footnote">Can a summary follow a change of footnote?</a></li><li><a href="#does-a-larger-word-budget-recover-the-missing-titles">Does a larger word budget recover the missing titles?</a></li><li><a href="#can-a-status-label-change-who-gets-credit">Can a status label change who gets credit?</a></li><li><a href="#when-can-context-identify-the-researcher">When can context identify the researcher?</a></li><li><a href="#does-a-note-about-standing-change-whom-the-model-selects">Does a note about standing change whom the model selects?</a></li><li><a href="#can-a-reader-distinguish-a-dated-use-from-a-claim-of-naming">Can a reader distinguish a dated use from a claim of naming?</a></li><li><a href="#can-a-search-return-the-right-quotation-from-the-wrong-author">Can a search return the right quotation from the wrong author?</a></li></ul></li>
+<li><a href="#how-does-credit-travel-between-accounts">How does credit travel between accounts?</a><ul><li><a href="#what-did-early-citing-passages-actually-credit">What did early citing passages actually credit?</a></li><li><a href="#where-can-an-account-lose-track-of-who-did-the-work">Where can an account lose track of who did the work?</a></li><li><a href="#can-a-summary-follow-a-change-of-footnote">Can a summary follow a change of footnote?</a></li><li><a href="#does-a-larger-word-budget-recover-the-missing-titles">Does a larger word budget recover the missing titles?</a></li><li><a href="#can-a-status-label-change-who-gets-credit">Can a status label change who gets credit?</a></li><li><a href="#when-can-context-identify-the-researcher">When can context identify the researcher?</a></li><li><a href="#does-a-note-about-standing-change-whom-the-model-selects">Does a note about standing change whom the model selects?</a></li><li><a href="#can-a-reader-distinguish-a-dated-use-from-a-claim-of-naming">Can a reader distinguish a dated use from a claim of naming?</a></li><li><a href="#can-a-search-return-the-right-quotation-from-the-wrong-author">Can a search return the right quotation from the wrong author?</a></li><li><a href="#what-happens-when-a-claim-needs-two-passages">What happens when a claim needs two passages?</a></li></ul></li>
 <li><a href="#four-conclusions-from-the-examined-materials">Four conclusions from the examined materials</a></li>
 <li><a href="#sources">Sources and evidence notes</a></li></ul>
       </nav>
@@ -455,6 +455,47 @@ U(q,W)=\frac{10^9}{|W|}\sum_{t\in W} f(q,t), \qquad |W|=5.
 </table></div>
 <p>We tested whether rewriting the three research questions helped recover these passages. At each of two output limits (384 and 1,024 tokens), a local 4B generator produced no usable search question for any work with either the original OpenScholar feedback interface or a freely decoded JSON instruction. Constraining decoding to a JSON schema yielded usable questions for all three. Those rewrites and the original research questions each ranked the target first for two of three questions across works and for all three within the named work. Direct search incurred no query-generation cost. On the three within-work passages the reader recovered the reported roles. Removing the identifying excerpts led it to withhold all three assignments.<a href="#source-40">40</a></p>
 <p>We then crossed the three attribution statements with the three works and two evidence conditions, giving eighteen distinct judgments. Three combinations had explicit support. At each of two excerpt orders, a direct reader endorsed all three supported statements and none of the fifteen unsupported ones. A reader asked to cite a specific excerpt obtained the same counts. The first presentation placed all three supporting excerpts in position B. Swapping the excerpts moved each to A, and the reader followed all three. Requiring a locator made these successes inspectable. It yielded no additional correct judgments on these materials. Both tests use provisional readings of the same three works about one term.<a href="#source-40">40</a></p>
+<h3 id="what-happens-when-a-claim-needs-two-passages">What happens when a claim needs two passages?</h3>
+<p>One January 2005 reply leaves open whether the <strong>Fiesers</strong> anticipated <strong>Robert K. Merton</strong>. In April, <strong>N. David Mermin</strong> rejects that priority claim after distinguishing a chemical analogy from a claim about scientific behaviour. A reader given the January exchange alone can describe Mermin’s uncertainty at the time. To describe his change of judgment, the reader needs the April correction as well.<a href="#source-25">25</a></p>
+<p>We asked ten questions without telling the search system which work to consult. The archive contained 687 passages from nine source records. Five questions needed one passage, three needed two, and two asked for evidence absent from this archive. We fixed the required witnesses before inspecting the rankings. Each search could pass two excerpts to the same reader. A supported answer had to cite the entire registered set.<a href="#source-41">41</a></p>
+<div class="table-wrap manuscript-table" tabindex="0" role="region" id="table-8" aria-labelledby="table-8-caption"><table><caption id="table-8-caption"><strong>Table 8. Recovery and citation of the required evidence.</strong> Counts are questions correctly answered with the required references. Time is mean warm search time across ten questions. The common two-second search allowance excludes the final reading.</caption>
+<thead>
+<tr>
+<th>Search policy</th>
+<th>One passage</th>
+<th>Two passages</th>
+<th>Search time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direct lexical search</td>
+<td>5/5</td>
+<td>0/3</td>
+<td>12 ms</td>
+</tr>
+<tr>
+<td>Learned reranking of 16 candidates</td>
+<td>5/5</td>
+<td>0/3</td>
+<td>79 ms</td>
+</tr>
+<tr>
+<td>Fixed supplementary search</td>
+<td>4/5</td>
+<td>0/3</td>
+<td>23 ms</td>
+</tr>
+<tr>
+<td>Adaptive supplementary search</td>
+<td>4/5</td>
+<td>0/3</td>
+<td>156 ms</td>
+</tr>
+</tbody>
+</table></div>
+<p>All four policies left the two unsupported questions open. In each two-passage question, one required witness ranked outside the first 16 lexical results, at position 18, 122 or 143. In an exploratory follow-up, scoring all 687 passages increased mean search time from 78 to 2,147 ms. The final two still failed to include a complete pair on all three questions. On the question about the textbook editions, the learned model moved the two required passages to ranks two and three. Keeping only the top two discarded one. When supplied with the complete evidence, the same reader correctly cited both witnesses on all three questions.<a href="#source-41">41</a></p>
+<p>Source identity presents a second difficulty. On two passages reproduced by later authors, both local readers correctly identified the originating author’s work, the later work and a version with authorship hidden, in either option order. Yet both accepted a pair in which statements from two different articles had been offered to support a claim about what appeared together in <strong>one</strong> article. Both also accepted two January excerpts as evidence of the subsequent change in Mermin’s position. These comparisons identify concrete errors in assembling historical evidence. The ten questions concern one term and have provisional reference judgments. They do not estimate the frequency of miscredit among scientists.<a href="#source-23">23</a> <a href="#source-25">25</a> <a href="#source-41">41</a></p>
 <h2 id="four-conclusions-from-the-examined-materials">Four conclusions from the examined materials</h2>
 <ol>
 <li><strong>Naming.</strong> By 19 May 1964 a contemporary newspaper had used <em>Matthew effect</em> in the scientific-credit sense and attributed the naming to <strong>Robert K. Merton</strong>. The precise day he proposed it remains open. The earlier biblical parallel attributed to <strong>Louis F. Fieser</strong> and <strong>Mary Fieser</strong> concerns a chemical rule. Locating the term on an earlier page in the scientific-credit sense would change the print chronology.<a href="#source-3">3</a> <a href="#source-6">6</a> <a href="#source-25">25</a></li>
@@ -504,6 +545,8 @@ U(q,W)=\frac{10^9}{|W|}\sum_{t\in W} f(q,t), \qquad |W|=5.
 <li id="source-38" value="38">The six passage readings use the contemporary newspaper account, the ASA programme, the opening of the 1968 paper, two editions of Wrightslaw, and the 1970 Russian translation of <a href="https://doi.org/10.1038/224318a0">J. M. Ziman’s 1969 paper</a>, printed p. 64, paragraph 2 in translation. The last passage applies the effect to journal prestige. Each passage had a neutral version, a standing cue with the full wording, and a version with the identifying clause removed. The question asked what the passage ascribed to the nominated person. Each of the two model configurations received the same 36 presentations. An explicit judgment of insufficient evidence was scored separately from declining to answer.</li>
 <li id="source-39" value="39">The six receiving works occupied ranks 7–12 in the frozen 1968–1979 frame. The two passage inputs came from the <a href="https://doi.org/10.3367/UFNr.0101.197005c.0053">1970 translation of Ziman</a>, printed p. 64, paragraph 2, and the <a href="https://doi.org/10.1126/science.159.3810.56">opening of Merton’s 1968 article</a>, printed p. 56. The six judgments per model comprised a shared bibliographic control and two additions, each with reversed option order. The primary descriptive outcome required both a correct initial judgment and a correct judgment with the passage. Two of four pairs met that criterion for the journal passage and four of four for the interview sentence. Repeated presentations share the same source and support no sampling interval across works.</li>
 <li id="source-40" value="40">The three diagnostic passages are in <a href="https://doi.org/10.1515/9786155053429-014">Zuckerman’s chapter</a>, printed p. 131, <a href="https://doi.org/10.1126/science.ade8714">Brainard’s news report</a>, printed p. 1251, and <a href="https://doi.org/10.31235/osf.io/qaewz_v1">Pooley’s preprint</a>, printed p. 4. The same works supplied the control passages. The local search used BM25 and the sorting function, feedback prompt and parser from <a href="https://github.com/AkariAsai/OpenScholar/tree/0e9b8fb912273d3dae39e593da86e4f6d3bf8de1">OpenScholar’s pinned inference code</a>. Eighteen query generations used Qwen3 4B on CPU. StartLux 4B AutoThink Q8 supplied the passage readings. Identical reading inputs were reused in the search study. All 72 calls in the separate citation and position experiment were fresh.</li>
+<li id="source-41" value="41">The search comparison used the five complete PDF files and four correspondence or control records specified in the experiment. The letter witnesses are identified in [25]. The later article and its footnote are identified in [23]. Eight questions had provisional minimum witness sets; two required evidence absent from the frame. The exact-set endpoint can leave other plausible evidence unverified. Candidate generation used BM25. The learned component used the <a href="https://huggingface.co/OpenSciLM/OpenScholar_Reranker/tree/f371d9d9a5c47d5b89dfa130d8d6fa303f27126e">released OpenScholar reranker</a>. The direct and adaptive policies shared a two-excerpt final allowance and the StartLux 4B AutoThink Q8 reader. StartLux and Piccolo were compared separately on controls for reporting voice. Repeated quotations and repeated presentations belong to the same witness families. Independent historical adjudication and replication beyond this development case remain open.
+</li>
 </ol>
         </section>
       </article>
