@@ -43,7 +43,7 @@ PUBLIC_HOSTS = {
     'kops.uni-konstanz.de', 'www.jci.org', 'pmc.ncbi.nlm.nih.gov',
     'www.columbia.edu', 'www.nobelprize.org', 'rpc.cfainstitute.org', 'www.asanet.org',
     'openlibrary.org', 'archive.org', 'bookworm-project.github.io', 'www.hathitrust.org',
-    'cran.r-project.org', 'journals.plos.org', 'research.chalmers.se',
+    'cran.r-project.org', 'journals.plos.org', 'research.chalmers.se', 'www.scimath.net',
     'www.nationalacademies.org', 'www.federalreserve.gov', 'catalog.libraries.vsc.edu',
     'merton.org', 'www.nber.org', 'link.springer.com', 'www.nesacs.org', 'nesacs.org',
     'www.strevens.org', 'epub.ub.uni-muenchen.de', 'www.orgsyn.org', 'www.sciencehistory.org',
