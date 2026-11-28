@@ -363,6 +363,34 @@ U(q,W)=\frac{10^9}{|W|}\sum_{t\in W} f(q,t), \qquad |W|=5.
 <p>We next tested the standing cue in free prose on four new, fictional tasks: transcribing interviews, tabulating responses about recognition, comparing bylines, and applying an existing term to reading. Each task left a signed code. A partial register either linked that code to a researcher or left it unmapped. We asked for the actor in one sentence, with no list of possible answers. When the link was available, the model identified the actor in all eight answers. Without the link, all four answers with the neutral roster and three of four with a colleague described as senior explicitly left the actor open. The fourth credited the unmarked researcher for comparing the bylines. That answer was an unsupported attribution, yet it provides no evidence that the model followed the senior label. Across the four tasks the paired effect on choosing the designated colleague was zero in both evidence conditions. These invented records test a narrow form of inference through an identifier. How published accounts allocate credit requires observations of those works.<a href="#source-37">37</a></p>
 <h3 id="can-a-reader-distinguish-a-dated-use-from-a-claim-of-naming">Can a reader distinguish a dated use from a claim of naming?</h3>
 <p>On p. 70 of their study of how students organize their knowledge of the history of science, <strong>Ismo Koponen</strong> and <strong>Maija Nousiainen</strong> cite <strong>Robert K. Merton</strong> and <strong>D. J. de Solla Price</strong> together when they introduce the Matthew effect. That sentence leaves open which researcher they credit with naming it. On p. 78 they write that Merton named the effect and Price discussed it. Koponen and Nousiainen themselves apply the idea to the concentration of attention on a few historical figures. The two passages document how one work assigned credit in 2018.<a href="#source-55">55</a></p>
+<p>Could a reader withdraw one attribution while preserving the other? We presented the complete pages in three separate requests to the same local model, Inkling-2-mini. In each request it had to identify whom the page credited with naming and with discussion, and quote the words supporting each definite assignment. We made one change to the third input. In the naming clause on p. 78 we replaced the name and its identifying citation with the visible omission mark <code>[…]</code>. The discussion clause stayed intact.<a href="#source-56">56</a></p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Evidence table"><table>
+<thead>
+<tr>
+<th>Page supplied</th>
+<th>Reader’s answer for naming</th>
+<th>Reader’s answer for discussion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>70, original</td>
+<td>Merton, from the joint citation</td>
+<td>Börner and Scharnhorst, from a citation supporting the observation about scientific fame</td>
+</tr>
+<tr>
+<td>78, original</td>
+<td>Merton, with the naming clause</td>
+<td>Price, with the discussion clause</td>
+</tr>
+<tr>
+<td>78, naming agent concealed</td>
+<td><code>[…]</code> entered as the person credited</td>
+<td><code>Price, 1976</code>, with the same discussion clause</td>
+</tr>
+</tbody>
+</table></div>
+<p>On p. 70 both quotations were genuine, but neither assigned the requested role. On the altered p. 78 the reader located the gap yet entered the omission mark as a name. It preserved the passage crediting Price and included the citation year in his name field. Only the two answers on the intact p. 78 met all three prespecified requirements for attribution status, identity and quotation. These six judgments come from one previously examined work. They expose separate errors in reading a citation, recognizing an unknown actor and formatting an identifiable name.<a href="#source-56">56</a></p>
 <p>A conference programme lists <strong>Robert K. Merton</strong> beside a presentation whose title contains <em>Matthew effect</em>. The line establishes that the expression appeared in the programme. A newspaper account does something further when it says that he names the phenomenon. We asked two locally run models which act each passage ascribed to a named person. Six English paraphrases represented five documentary families. The two versions of the Wrightslaw account belonged to one family, even though one credited <strong>Keith Stanovich</strong> with coining the term and the other with applying it to education. We presented each passage twice, reversing the order of the six substantive answers. Both models could also decline a judgment.<a href="#source-38">38</a></p>
 <div class="table-wrap" tabindex="0" role="region" aria-label="Evidence table"><table>
 <thead>
@@ -730,6 +758,8 @@ U(q,W)=\frac{10^9}{|W|}\sum_{t\in W} f(q,t), \qquad |W|=5.
 <li id="source-54" value="54">The two development witnesses were the first Introduction paragraphs of <a href="https://doi.org/10.1371/journal.pone.0265831">the citation study</a> and <a href="https://doi.org/10.1073/pnas.2205779119">the peer-review study</a>. We compared the original literal check, citation masking alone, the longer nominal construction alone and both changes together. Only numeric bibliography cross-references marked in the source XML entered the mask. Its positions were filled with spaces, so the endpoints and displayed citations still referred to the original paragraph. The six adverse controls included a bare lookalike citation, a figure cross-reference, negation, disconnected fragments, a different label and a different actor.
 </li>
 <li id="source-55" value="55">I. Koponen and M. Nousiainen (2018), “University students’ associative knowledge of history of science: Matthew effect in action?”, <em>European Journal of Science and Mathematics Education</em> 6(2), 69–81. Compare the joint citation on <a href="https://www.scimath.net/download/university-students-associative-knowledge-of-history-of-science-matthew-effect-in-action-9524.pdf#page=2">printed p. 70</a> with <a href="https://www.scimath.net/download/university-students-associative-knowledge-of-history-of-science-matthew-effect-in-action-9524.pdf#page=10">printed p. 78, under “Fame gathers fame”</a>. The naming clause cites Merton (1968) and the discussion clause cites Price (1976).
+</li>
+<li id="source-56" value="56">Each request supplied the whitespace-normalized text of a complete printed page from <a href="https://doi.org/10.30935/scimath/9524">the publisher edition</a>, with the same two role questions and no previous answers. On the altered page both occurrences of Merton and the identifying year were removed from the first agent phrase. The visible omission signaled the intervention. Inkling-2-mini ran locally at temperature 0 with seed 1711. The frozen scoring rule distinguished a role left unstated from an explicit act with an unidentified actor. It accepted “Price” as a name and excluded “Price, 1976” from the accepted name forms. The recorded answers were replayed without further inference.
 </li>
 </ol>
         </section>
