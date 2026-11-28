@@ -50,6 +50,8 @@ PUBLIC_HOSTS = {
     'eusp.org', 'c250.columbia.edu', 'hollisarchives.lib.harvard.edu', 'digital.sciencehistory.org',
 }
 PUBLIC_SOURCE_URLS = {
+    'https://www.smithsonianmag.com/science-nature/unheralded-women-scientists-finally-getting-their-due-180973082/',
+    'https://research-repository.st-andrews.ac.uk/handle/10023/28846',
     'https://huggingface.co/OpenSciLM/OpenScholar_Retriever/tree/ef4f3120d33b3ca57e12fce2b369f5982a7bb929',
     'https://huggingface.co/OpenSciLM/OpenScholar_Reranker/tree/f371d9d9a5c47d5b89dfa130d8d6fa303f27126e',
     'https://static1.squarespace.com/static/5877ca6986e6c00f05f58f84/t/60d3564b307f7864ab0773dd/'
